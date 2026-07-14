@@ -22,7 +22,6 @@
                 <div class="bg-indigo-600 px-2 py-1 rounded-lg text-white font-bold tracking-wider text-xs sm:text-sm shadow-md shadow-indigo-200 shrink-0">
                     CBT
                 </div>
-                <!-- Judul adaptif: pendek di HP, lengkap di laptop -->
                 <span class="font-bold text-sm sm:text-lg text-slate-900 tracking-tight truncate">
                     <span class="inline sm:hidden">Portal Ujian</span>
                     <span class="hidden sm:inline">Portal Asesmen Digital Cloud</span>
@@ -36,7 +35,7 @@
         </div>
     </nav>
 
-    <!-- MAIN WRAPPER (PADDING DISESUAIKAN UNTUK LAYAR HP) -->
+    <!-- MAIN WRAPPER -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 flex items-center justify-center">
 
         <!-- 1. VIEW: MENU UTAMA -->
@@ -72,7 +71,6 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-slate-700 text-xs font-semibold uppercase tracking-wider mb-2">Password Akses</label>
-                    <!-- text-base mencegah zoom otomatis di browser HP -->
                     <input type="password" id="input-pass-guru" class="w-full border border-slate-200 rounded-xl py-3 px-4 text-base text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" placeholder="Default: guru123">
                 </div>
                 <p id="error-guru" class="text-rose-500 text-xs hidden flex items-center space-x-1">⚠ <span>Password salah.</span></p>
@@ -94,7 +92,7 @@
                 </button>
             </div>
 
-            <!-- TAB CONTROLS (SWIPEABLE DI HP) -->
+            <!-- TAB CONTROLS -->
             <div class="flex border-b border-slate-200 mb-6 overflow-x-auto whitespace-nowrap scrollbar-none">
                 <button onclick="setTabGuru('hasil')" id="tab-btn-hasil" class="py-3 px-4 sm:px-6 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition focus:outline-none">
                     Hasil Ujian Siswa
@@ -121,7 +119,6 @@
                     </div>
                 </div>
 
-                <!-- RESPONSIVE TABLE FOR ANDROID -->
                 <div class="overflow-x-auto border border-slate-100 rounded-xl shadow-sm bg-white">
                     <table class="min-w-full divide-y divide-slate-100 min-w-[500px]">
                         <thead class="bg-slate-50">
@@ -216,9 +213,8 @@
             </div>
         </div>
 
-        <!-- 5. VIEW: MAIN EXAM (OPTIMAL DI LAYAR HP) -->
+        <!-- 5. VIEW: MAIN EXAM -->
         <div id="view-ujian" class="w-full flex flex-col lg:grid lg:grid-cols-3 gap-4 items-start hidden">
-            
             <!-- Lembar Soal -->
             <div class="w-full lg:col-span-2 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 sm:p-8 order-2 lg:order-1">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
@@ -226,7 +222,6 @@
                         <span class="text-[10px] font-bold text-indigo-600 uppercase bg-indigo-50 px-2 py-0.5 rounded">Lembar Soal</span>
                         <h3 id="display-nama-siswa" class="font-bold text-sm sm:text-base text-slate-900 mt-1 truncate">-</h3>
                     </div>
-                    <!-- Timer yang menonjol di HP -->
                     <div class="bg-rose-50 border border-rose-100 px-3 py-1.5 rounded-xl text-center shrink-0">
                         <span class="text-[8px] sm:text-[10px] text-rose-400 font-bold uppercase tracking-wider block">Sisa Waktu</span>
                         <div id="timer" class="text-base sm:text-xl font-mono font-bold text-rose-600 tracking-tight">30:00</div>
@@ -237,7 +232,6 @@
                     <!-- Rendered by JS -->
                 </div>
 
-                <!-- Tombol Navigasi Bawah Mudah Dijangkau Ibu Jari -->
                 <div class="flex justify-between items-center gap-2 mt-6 border-t border-slate-100 pt-4">
                     <div class="flex space-x-2">
                         <button onclick="soalSebelumnya()" id="btn-prev" class="px-3 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium bg-white active:bg-slate-100 disabled:opacity-40">Kembali</button>
@@ -250,7 +244,6 @@
             <!-- Panel Navigasi Nomor Soal -->
             <div class="w-full lg:col-span-1 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 order-1 lg:order-2">
                 <h4 class="font-bold text-xs text-slate-400 uppercase tracking-wider mb-3 text-center lg:text-left border-b border-slate-50 pb-1.5">Peta Navigasi Soal</h4>
-                <!-- Responsive Grid: menyesuaikan ukuran layar HP secara dinamis -->
                 <div id="grid-nomor-soal" class="grid grid-cols-5 xs:grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-5 gap-2">
                     <!-- Rendered by JS -->
                 </div>
@@ -277,7 +270,6 @@
                 Keluar Sesi
             </button>
         </div>
-
     </main>
 
     <!-- FOOTER -->
@@ -285,7 +277,7 @@
         &copy; 2026 CBT Premium Engine. Connected to Enterprise Cloud Database.
     </footer>
 
-    <!-- INTERFACE MODAL DIALOG KUSTOM (RESPONSIF HP) -->
+    <!-- INTERFACE MODAL -->
     <div id="custom-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-xs sm:max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-100 transition-all transform scale-95 opacity-0 duration-200" id="modal-content">
             <h3 id="modal-title" class="text-base sm:text-lg font-bold text-slate-900">Judul</h3>
@@ -299,42 +291,37 @@
 
     <!-- APP LOGIC JAVASCRIPT -->
     <script>
-        // ==========================================
-        // 🔑 MASUKKAN KREDENSIAL SUPABASE ANDA DI SINI
-        // ==========================================
         const SUPABASE_URL = ""; 
         const SUPABASE_ANON_KEY = "";
-        // ==========================================
 
         const defaultSoal = [
-    { id: 1, tanya: "Sebuah toko memberikan diskon 20% untuk semua jenis jaket. Jika harga sebuah jaket adalah Rp 150.000, berapa uang yang harus dibayarkan setelah diskon?", opsi: ["A. Rp 110.000", "B. Rp 120.000", "C. Rp 130.000", "D. Rp 140.000"], kunci: 1 },
-    { id: 2, tanya: "Perhatikan pola bilangan berikut: 3, 7, 11, 15, ... Angka berapakah yang tepat untuk mengisi suku berikutnya?", opsi: ["A. 17", "B. 18", "C. 19", "D. 20"], kunci: 2 },
-    { id: 3, tanya: "Ibu membeli 2,5 kg tepung terigu. Sebanyak 1 1/4 kg digunakan untuk membuat kue. Berapa sisa tepung terigu Ibu sekarang?", opsi: ["A. 1,25 kg", "B. 1,50 kg", "C. 1,75 kg", "D. 2,00 kg"], kunci: 0 },
-    { id: 4, tanya: "Sebuah mobil menghabiskan 4 liter bensin untuk menempuh jarak 60 km. Berapa liter bensin yang diperlukan untuk menempuh jarak 150 km?", opsi: ["A. 8 liter", "B. 10 liter", "C. 12 liter", "D. 14 liter"], kunci: 1 },
-    { id: 5, tanya: "Hasil dari perhitungan pecahan 2/3 + 1/4 adalah...", opsi: ["A. 3/7", "B. 5/12", "C. 8/12", "D. 11/12"], kunci: 3 },
-    { id: 6, tanya: "Skala pada peta adalah 1 : 500.000. Jika jarak dua kota pada peta adalah 8 cm, maka jarak sebenarnya kedua kota tersebut adalah...", opsi: ["A. 4 km", "B. 40 km", "C. 400 km", "D. 4.000 km"], kunci: 1 },
-    { id: 7, tanya: "Sebuah bak mandi berbentuk kubus dengan panjang rusuk bagian dalam 80 cm. Berapa liter volume air maksimal yang dapat ditampung bak tersebut?", opsi: ["A. 512 liter", "B. 51,2 liter", "C. 6.400 liter", "D. 640 liter"], kunci: 0 },
-    { id: 8, tanya: "Pola angka: 2, 4, 8, 16, ... Tentukan angka pada suku ke-6 dari pola tersebut!", opsi: ["A. 32", "B. 48", "C. 64", "D. 128"], kunci: 2 },
-    { id: 9, tanya: "Dalam sebuah kelas terdapat 40 siswa. Jika 60% dari total siswa adalah perempuan, berapakah jumlah siswa laki-laki di kelas tersebut?", opsi: ["A. 16 siswa", "B. 24 siswa", "C. 18 siswa", "D. 20 siswa"], kunci: 0 },
-    { id: 10, tanya: "Seorang pekerja bangunan dibayar Rp 600.000 untuk 4 hari kerja. Berapa upah yang diterima pekerja tersebut jika ia bekerja selama 10 hari?", opsi: ["A. Rp 1.200.000", "B. Rp 1.500.000", "C. Rp 1.800.000", "D. Rp 2.000.000"], kunci: 1 },
-    { id: 11, tanya: "Budi mengendarai sepeda motor dengan kecepatan rata-rata 60 km/jam. Jika ia berangkat pukul 07.00 dan tiba pukul 09.30, berapakah jarak yang ditempuh Budi?", opsi: ["A. 120 km", "B. 140 km", "C. 150 km", "D. 160 km"], kunci: 2 },
-    { id: 12, tanya: "Rata-rata nilai ujian matematika dari 5 orang siswa adalah 80. Jika ditambah nilai siswa ke-6, rata-ratanya menjadi 82. Berapakah nilai siswa ke-6 tersebut?", opsi: ["A. 84", "B. 88", "C. 90", "D. 92"], kunci: 3 },
-    { id: 13, tanya: "Sebuah taman berbentuk lingkaran memiliki diameter 14 meter. Berapakah luas dari taman tersebut? (Gunakan pi = 22/7)", opsi: ["A. 154 meter persegi", "B. 616 meter persegi", "C. 44 meter persegi", "D. 88 meter persegi"], kunci: 0 },
-    { id: 14, tanya: "Perbandingan uang Andi dan uang Boni adalah 3 : 5. Jika total uang mereka berdua adalah Rp 400.000, berapakah selisih uang mereka?", opsi: ["A. Rp 50.000", "B. Rp 100.000", "C. Rp 150.000", "D. Rp 200.000"], kunci: 1 },
-    { id: 15, tanya: "Hasil dari operasi campuran (48 - 12) : 4 + 6 x 3 adalah...", opsi: ["A. 27", "B. 36", "C. 45", "D. 54"], kunci: 0 },
-    { id: 16, tanya: "Sebuah produk dijual dengan harga Rp 80.000 dan toko mendapatkan keuntungan sebesar 25% dari harga beli. Berapakah harga beli awal produk tersebut?", opsi: ["A. Rp 60.000", "B. Rp 64.000", "C. Rp 70.000", "D. Rp 75.000"], kunci: 1 },
-    { id: 17, tanya: "Pola deret angka bertingkat: 1, 3, 6, 10, 15, ... Suku ke-7 dari deret tersebut adalah...", opsi: ["A. 21", "B. 25", "C. 28", "D. 32"], kunci: 2 },
-    { id: 18, tanya: "Denah sebidang tanah berbentuk persegi panjang memiliki ukuran 10 cm x 6 cm. Jika skala denah adalah 1 : 200, berapakah keliling sebenarnya tanah tersebut?", opsi: ["A. 32 meter", "B. 64 meter", "C. 120 meter", "D. 240 meter"], kunci: 1 },
-    { id: 19, tanya: "Tiga buah lampu hias menyala berurutan. Lampu merah menyala setiap 4 detik, lampu kuning setiap 6 detik, dan lampu hijau setiap 8 detik. Pada detik keberapa ketiga lampu akan menyala bersamaan untuk pertama kalinya?", opsi: ["A. Detik ke-12", "B. Detik ke-18", "C. Detik ke-24", "D. Detik ke-48"], kunci: 2 },
-    { id: 20, tanya: "Sebuah proyek jembatan dapat diselesaikan oleh 12 pekerja dalam waktu 20 hari. Jika pekerja ditambah menjadi 15 orang, berapa hari waktu yang diperlukan untuk menyelesaikan jembatan tersebut?", opsi: ["A. 14 hari", "B. 15 hari", "C. 16 hari", "D. 18 hari"], kunci: 2 }
-];
+            { id: 1, tanya: "Sebuah toko memberikan diskon 20% untuk semua jenis jaket. Jika harga sebuah jaket adalah Rp 150.000, berapa uang yang harus dibayarkan setelah diskon?", opsi: ["A. Rp 110.000", "B. Rp 120.000", "C. Rp 130.000", "D. Rp 140.000"], kunci: 1 },
+            { id: 2, tanya: "Perhatikan pola bilangan berikut: 3, 7, 11, 15, ... Angka berapakah yang tepat untuk mengisi suku berikutnya?", opsi: ["A. 17", "B. 18", "C. 19", "D. 20"], kunci: 2 },
+            { id: 3, tanya: "Ibu membeli 2,5 kg tepung terigu. Sebanyak 1 1/4 kg digunakan untuk membuat kue. Berapa sisa tepung terigu Ibu sekarang?", opsi: ["A. 1,25 kg", "B. 1,50 kg", "C. 1,75 kg", "D. 2,00 kg"], kunci: 0 },
+            { id: 4, tanya: "Sebuah mobil menghabiskan 4 liter bensin untuk menempuh jarak 60 km. Berapa liter bensin yang diperlukan untuk menempuh jarak 150 km?", opsi: ["A. 8 liter", "B. 10 liter", "C. 12 liter", "D. 14 liter"], kunci: 1 },
+            { id: 5, tanya: "Hasil dari perhitungan pecahan 2/3 + 1/4 adalah...", opsi: ["A. 3/7", "B. 5/12", "C. 8/12", "D. 11/12"], kunci: 3 },
+            { id: 6, tanya: "Skala pada peta adalah 1 : 500.000. Jika jarak dua kota pada peta adalah 8 cm, maka jarak sebenarnya kedua kota tersebut adalah...", opsi: ["A. 4 km", "B. 40 km", "C. 400 km", "D. 4.000 km"], kunci: 1 },
+            { id: 7, tanya: "Sebuah bak mandi berbentuk kubus dengan panjang rusuk bagian dalam 80 cm. Berapa liter volume air maksimal yang dapat ditampung bak tersebut?", opsi: ["A. 512 liter", "B. 51,2 liter", "C. 6.400 liter", "D. 640 liter"], kunci: 0 },
+            { id: 8, tanya: "Pola angka: 2, 4, 8, 16, ... Tentukan angka pada suku ke-6 dari pola tersebut!", opsi: ["A. 32", "B. 48", "C. 64", "D. 128"], kunci: 2 },
+            { id: 9, tanya: "Dalam sebuah kelas terdapat 40 siswa. Jika 60% dari total siswa adalah perempuan, berapakah jumlah siswa laki-laki di kelas tersebut?", opsi: ["A. 16 siswa", "B. 24 siswa", "C. 18 siswa", "D. 20 siswa"], kunci: 0 },
+            { id: 10, tanya: "Seorang pekerja bangunan dibayar Rp 600.000 untuk 4 hari kerja. Berapa upah yang diterima pekerja tersebut jika ia bekerja selama 10 hari?", opsi: ["A. Rp 1.200.000", "B. Rp 1.500.000", "C. Rp 1.800.000", "D. Rp 2.000.000"], kunci: 1 },
+            { id: 11, tanya: "Budi mengendarai sepeda motor dengan kecepatan rata-rata 60 km/jam. Jika ia berangkat pukul 07.00 dan tiba pukul 09.30, berapakah jarak yang ditempuh Budi?", opsi: ["A. 120 km", "B. 140 km", "C. 150 km", "D. 160 km"], kunci: 2 },
+            { id: 12, tanya: "Rata-rata nilai ujian matematika dari 5 orang siswa adalah 80. Jika ditambah nilai siswa ke-6, rata-ratanya menjadi 82. Berapakah nilai siswa ke-6 tersebut?", opsi: ["A. 84", "B. 88", "C. 90", "D. 92"], kunci: 3 },
+            { id: 13, tanya: "Sebuah taman berbentuk lingkaran memiliki diameter 14 meter. Berapakah luas dari taman tersebut? (Gunakan pi = 22/7)", opsi: ["A. 154 meter persegi", "B. 616 meter persegi", "C. 44 meter persegi", "D. 88 meter persegi"], kunci: 0 },
+            { id: 14, tanya: "Perbandingan uang Andi dan uang Boni adalah 3 : 5. Jika total uang mereka berdua adalah Rp 400.000, berapakah selisih uang mereka?", opsi: ["A. Rp 50.000", "B. Rp 100.000", "C. Rp 150.000", "D. Rp 200.000"], kunci: 1 },
+            { id: 15, tanya: "Hasil dari operasi campuran (48 - 12) : 4 + 6 x 3 adalah...", opsi: ["A. 27", "B. 36", "C. 45", "D. 54"], kunci: 0 },
+            { id: 16, tanya: "Sebuah produk dijual dengan harga Rp 80.000 dan toko mendapatkan keuntungan sebesar 25% dari harga beli. Berapakah harga beli awal produk tersebut?", opsi: ["A. Rp 60.000", "B. Rp 64.000", "C. Rp 70.000", "D. Rp 75.000"], kunci: 1 },
+            { id: 17, tanya: "Pola deret angka bertingkat: 1, 3, 6, 10, 15, ... Suku ke-7 dari deret tersebut adalah...", opsi: ["A. 21", "B. 25", "C. 28", "D. 32"], kunci: 2 },
+            { id: 18, tanya: "Denah sebidang tanah berbentuk persegi panjang memiliki ukuran 10 cm x 6 cm. Jika skala denah adalah 1 : 200, berapakah keliling sebenarnya tanah tersebut?", opsi: ["A. 32 meter", "B. 64 meter", "C. 120 meter", "D. 240 meter"], kunci: 1 },
+            { id: 19, tanya: "Tiga buah lampu hias menyala berurutan. Lampu merah menyala setiap 4 detik, lampu kuning setiap 6 detik, dan lampu hijau setiap 8 detik. Pada detik keberapa ketiga lampu akan menyala bersamaan untuk pertama kalinya?", opsi: ["A. Detik ke-12", "B. Detik ke-18", "C. Detik ke-24", "D. Detik ke-48"], kunci: 2 },
+            { id: 20, tanya: "Sebuah proyek jembatan dapat diselesaikan oleh 12 pekerja dalam waktu 20 hari. Jika pekerja ditambah menjadi 15 orang, berapa hari waktu yang diperlukan untuk menyelesaikan jembatan tersebut?", opsi: ["A. 14 hari", "B. 15 hari", "C. 16 hari", "D. 18 hari"], kunci: 2 }
+        ];
 
         let bankSoal = [];
         let dbActive = false;
         let supabaseClient = null;
 
-        // Inisialisasi Database Cloud
-        if (SUPABASE_URL !== "MASUKKAN_PROJECT_URL_ANDA" && SUPABASE_ANON_KEY !== "MASUKKAN_ANON_KEY_ANDA") {
+        if (SUPABASE_URL && SUPABASE_ANON_KEY) {
             try {
                 supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 dbActive = true;
@@ -428,7 +415,8 @@
 
         function loginGuru() {
             const passInput = document.getElementById('input-pass-guru').value;
-            if(passInput === 'zayy123') {
+            // Disesuaikan agar match dengan placeholder HTML yaitu 'guru123'
+            if(passInput === 'guru123') {
                 document.getElementById('error-guru').classList.add('hidden');
                 document.getElementById('input-pass-guru').value = '';
                 gantiHalaman('view-guru-dashboard');
@@ -605,7 +593,8 @@
                         await sinkronisasiSoal();
                     } catch (err) { alert("Gagal reset."); }
                 } else {
-                    bankSoal = [...defaultSoal];
+                    // deep clone array defaultSoal agar object di dalamnya tidak termutasi
+                    bankSoal = defaultSoal.map(s => ({...s}));
                     localStorage.setItem('local_bank_soal', JSON.stringify(bankSoal));
                 }
                 muatDaftarSoalGuru();
@@ -648,6 +637,9 @@
 
             renderUjian();
             waktuUjian = 30 * 60; 
+            
+            // Bersihkan timer lama jika ada sebelum menjalankan timer baru
+            clearInterval(intervalTimer); 
             jalankanTimer();
             gantiHalaman('view-ujian');
         }
