@@ -8,10 +8,19 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * { -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
-        .hidden { display: none !important; }
-        .card-hover:active { transform: scale(0.97); }
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .card-hover:active {
+            transform: scale(0.97);
+        }
 
         .logo-artha {
             display: inline-flex;
@@ -39,8 +48,14 @@
             text-transform: uppercase;
             border-top: 1.5px solid #6d28d9;
         }
-        .school-name { font-weight: 800; font-size: 14px; color: #1e1b4b; }
-        .school-name span { color: #4f46e5; }
+        .school-name {
+            font-weight: 800;
+            font-size: 14px;
+            color: #1e1b4b;
+        }
+        .school-name span {
+            color: #4f46e5;
+        }
 
         .btn {
             display: inline-flex;
@@ -56,21 +71,61 @@
             font-size: 13px;
             width: 100%;
         }
-        .btn:active { transform: scale(0.96); }
-        .btn-primary { background: #4f46e5; color: white; }
-        .btn-primary:hover { background: #4338ca; }
-        .btn-success { background: #10b981; color: white; }
-        .btn-success:hover { background: #059669; }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-danger:hover { background: #dc2626; }
-        .btn-outline { background: transparent; color: #4f46e5; border: 2px solid #4f46e5; }
-        .btn-sm { padding: 6px 12px; font-size: 11px; width: auto; }
-        .btn-guru { background: #2563eb; color: white; }
-        .btn-guru:hover { background: #1d4ed8; }
-        .btn-admin { background: #7c3aed; color: white; }
-        .btn-admin:hover { background: #6d28d9; }
-        .btn-warning { background: #f59e0b; color: white; }
-        .btn-warning:hover { background: #d97706; }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #4338ca;
+        }
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #059669;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 11px;
+            width: auto;
+        }
+        .btn-guru {
+            background: #2563eb;
+            color: white;
+        }
+        .btn-guru:hover {
+            background: #1d4ed8;
+        }
+        .btn-admin {
+            background: #7c3aed;
+            color: white;
+        }
+        .btn-admin:hover {
+            background: #6d28d9;
+        }
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+        .btn-warning:hover {
+            background: #d97706;
+        }
 
         .stat-card {
             background: white;
@@ -79,18 +134,68 @@
             border: 1px solid #e2e8f0;
             text-align: center;
         }
-        .stat-card .label { font-size: 9px; font-weight: 600; text-transform: uppercase; color: #94a3b8; display: block; }
-        .stat-card .value { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1.2; margin-top: 2px; }
+        .stat-card .label {
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #94a3b8;
+            display: block;
+        }
+        .stat-card .value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+            margin-top: 2px;
+        }
 
-        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .table-wrap table { min-width: 500px; width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; }
-        .table-wrap th { background: #f8fafc; font-size: 9px; font-weight: 700; text-transform: uppercase; color: #64748b; padding: 8px 10px; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
-        .table-wrap td { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; color: #1e293b; vertical-align: middle; }
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .table-wrap table {
+            min-width: 500px;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 12px;
+        }
+        .table-wrap th {
+            background: #f8fafc;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #64748b;
+            padding: 8px 10px;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+        .table-wrap td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+            vertical-align: middle;
+        }
 
-        .badge-role { font-size: 9px; padding: 2px 10px; border-radius: 20px; font-weight: 600; display: inline-block; }
-        .badge-role.admin { background: #ede9fe; color: #6d28d9; }
-        .badge-role.guru { background: #dbeafe; color: #1d4ed8; }
-        .badge-role.siswa { background: #d1fae5; color: #065f46; }
+        .badge-role {
+            font-size: 9px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .badge-role.admin {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+        .badge-role.guru {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        .badge-role.siswa {
+            background: #d1fae5;
+            color: #065f46;
+        }
 
         .navbar {
             background: white;
@@ -104,8 +209,18 @@
             top: 0;
             z-index: 40;
         }
-        .navbar .left { display: flex; align-items: center; gap: 8px; min-width: 0; }
-        .navbar .right { flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+        .navbar .left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+        .navbar .right {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .user-badge {
             font-size: 10px;
             font-weight: 600;
@@ -117,64 +232,282 @@
             align-items: center;
             gap: 6px;
         }
-        .user-badge .role { text-transform: uppercase; font-size: 8px; padding: 1px 6px; border-radius: 10px; font-weight: 700; }
-        .user-badge .role.admin { background: #ede9fe; color: #6d28d9; }
-        .user-badge .role.guru { background: #dbeafe; color: #1d4ed8; }
-        .user-badge .role.siswa { background: #d1fae5; color: #065f46; }
-        .user-badge .logout-btn { font-size: 10px; color: #ef4444; cursor: pointer; background: none; border: none; padding: 0 4px; }
-        .user-badge .logout-btn:hover { color: #dc2626; }
+        .user-badge .role {
+            text-transform: uppercase;
+            font-size: 8px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+        .user-badge .role.admin {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+        .user-badge .role.guru {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        .user-badge .role.siswa {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .user-badge .logout-btn {
+            font-size: 10px;
+            color: #ef4444;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0 4px;
+        }
+        .user-badge .logout-btn:hover {
+            color: #dc2626;
+        }
 
         @media (min-width: 640px) {
-            .navbar { height: 64px; padding: 0 24px; }
-            .logo-artha .brand { font-size: 20px; }
-            .logo-artha .tagline { font-size: 8px; letter-spacing: 3px; }
-            .school-name { font-size: 18px; }
-            .stat-card .value { font-size: 28px; }
-            .btn { width: auto; padding: 12px 24px; font-size: 14px; }
+            .navbar {
+                height: 64px;
+                padding: 0 24px;
+            }
+            .logo-artha .brand {
+                font-size: 20px;
+            }
+            .logo-artha .tagline {
+                font-size: 8px;
+                letter-spacing: 3px;
+            }
+            .school-name {
+                font-size: 18px;
+            }
+            .stat-card .value {
+                font-size: 28px;
+            }
+            .btn {
+                width: auto;
+                padding: 12px 24px;
+                font-size: 14px;
+            }
         }
         @media (max-width: 480px) {
-            .logo-artha .brand { font-size: 12px; }
-            .school-name { font-size: 11px; }
-            .stat-card .value { font-size: 18px; }
-            .stat-card { padding: 8px 6px; }
-            .table-wrap table { font-size: 10px; min-width: 360px; }
-            .table-wrap th, .table-wrap td { padding: 5px 6px; }
-            .btn { font-size: 12px; padding: 8px 14px; }
-            .user-badge { font-size: 9px; padding: 3px 8px; }
+            .logo-artha .brand {
+                font-size: 12px;
+            }
+            .school-name {
+                font-size: 11px;
+            }
+            .stat-card .value {
+                font-size: 18px;
+            }
+            .stat-card {
+                padding: 8px 6px;
+            }
+            .table-wrap table {
+                font-size: 10px;
+                min-width: 360px;
+            }
+            .table-wrap th,
+            .table-wrap td {
+                padding: 5px 6px;
+            }
+            .btn {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+            .user-badge {
+                font-size: 9px;
+                padding: 3px 8px;
+            }
         }
 
-        .login-card { max-width: 380px; margin: 0 auto; }
-        .login-card input { width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; font-size: 16px; background: white; transition: all 0.15s; font-family: inherit; text-align: center; }
-        .login-card input:focus { outline: none; ring: 2px solid #4f46e5; border-color: transparent; }
-        .login-card label { font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 6px; letter-spacing: 0.5px; text-align: center; }
-        .login-card .error-msg { color: #ef4444; font-size: 13px; margin-top: 6px; display: none; text-align: center; background: #fef2f2; padding: 8px 12px; border-radius: 8px; }
-        .login-card .hint { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 4px; }
-        .login-icon { font-size: 48px; display: block; text-align: center; margin-bottom: 4px; }
-        .login-title { font-size: 20px; font-weight: 700; color: #0f172a; text-align: center; }
-        .login-sub { font-size: 13px; color: #64748b; text-align: center; margin-bottom: 20px; }
+        .login-card {
+            max-width: 380px;
+            margin: 0 auto;
+        }
+        .login-card input {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 16px;
+            background: white;
+            transition: all 0.15s;
+            font-family: inherit;
+            text-align: center;
+        }
+        .login-card input:focus {
+            outline: none;
+            ring: 2px solid #4f46e5;
+            border-color: transparent;
+        }
+        .login-card label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            display: block;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+        .login-card .error-msg {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+            text-align: center;
+            background: #fef2f2;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        .login-card .hint {
+            font-size: 11px;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 4px;
+        }
+        .login-icon {
+            font-size: 48px;
+            display: block;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .login-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            text-align: center;
+        }
+        .login-sub {
+            font-size: 13px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-        .page-header { display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px; }
-        @media (min-width: 640px) { .page-header { flex-direction: row; align-items: center; justify-content: space-between; } }
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        @media (min-width: 640px) {
+            .page-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
 
-        .timer-box { background: #fef2f2; border: 1px solid #fca5a5; padding: 8px 16px; border-radius: 12px; text-align: center; min-width: 80px; }
-        .timer-box .label { font-size: 8px; text-transform: uppercase; color: #ef4444; font-weight: 700; letter-spacing: 0.5px; display: block; }
-        .timer-box .time { font-size: 20px; font-weight: 800; color: #dc2626; font-family: monospace; }
+        .timer-box {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            padding: 8px 16px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 80px;
+        }
+        .timer-box .label {
+            font-size: 8px;
+            text-transform: uppercase;
+            color: #ef4444;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+        .timer-box .time {
+            font-size: 20px;
+            font-weight: 800;
+            color: #dc2626;
+            font-family: monospace;
+        }
 
-        .soal-item { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
-        .soal-item .nomor { font-size: 11px; font-weight: 700; color: #4f46e5; background: #eef2ff; padding: 2px 10px; border-radius: 10px; display: inline-block; }
-        .soal-item .pertanyaan { font-weight: 600; font-size: 14px; margin: 8px 0; color: #0f172a; }
-        .soal-item .opsi { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 6px; cursor: pointer; transition: all 0.15s; }
-        .soal-item .opsi:active { transform: scale(0.98); }
-        .soal-item .opsi.selected { border-color: #4f46e5; background: #eef2ff; }
-        .soal-item .opsi input[type="radio"] { width: 16px; height: 16px; accent-color: #4f46e5; flex-shrink: 0; }
-        .soal-item .opsi .teks { font-size: 13px; color: #1e293b; }
+        .soal-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .soal-item .nomor {
+            font-size: 11px;
+            font-weight: 700;
+            color: #4f46e5;
+            background: #eef2ff;
+            padding: 2px 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .soal-item .pertanyaan {
+            font-weight: 600;
+            font-size: 14px;
+            margin: 8px 0;
+            color: #0f172a;
+        }
+        .soal-item .opsi {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .soal-item .opsi:active {
+            transform: scale(0.98);
+        }
+        .soal-item .opsi.selected {
+            border-color: #4f46e5;
+            background: #eef2ff;
+        }
+        .soal-item .opsi input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4f46e5;
+            flex-shrink: 0;
+        }
+        .soal-item .opsi .teks {
+            font-size: 13px;
+            color: #1e293b;
+        }
 
-        .nav-soal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-        .nav-soal button { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 12px; font-weight: 600; border: 1px solid #e2e8f0; background: white; cursor: pointer; transition: all 0.15s; }
-        .nav-soal button:active { transform: scale(0.92); }
-        .nav-soal button.aktif { background: #4f46e5; color: white; border-color: #4f46e5; }
-        .nav-soal button.dijawab { background: #10b981; color: white; border-color: #10b981; }
-        .nav-soal button.ragu { background: #f59e0b; color: white; border-color: #f59e0b; }
+        .nav-soal {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+        .nav-soal button {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .nav-soal button:active {
+            transform: scale(0.92);
+        }
+        .nav-soal button.aktif {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        .nav-soal button.dijawab {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        .nav-soal button.ragu {
+            background: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
+        }
 
         .mapel-card {
             background: white;
@@ -186,20 +519,76 @@
             transition: all 0.2s;
             position: relative;
         }
-        .mapel-card:active { transform: scale(0.96); }
-        .mapel-card:hover { border-color: #4f46e5; box-shadow: 0 4px 12px rgba(79,70,229,0.1); }
-        .mapel-card.disabled { opacity: 0.7; cursor: not-allowed; filter: grayscale(0.3); border-color: #e2e8f0; }
-        .mapel-card.disabled:hover { border-color: #e2e8f0; box-shadow: none; }
-        .mapel-card .icon { font-size: 32px; display: block; margin-bottom: 8px; }
-        .mapel-card .nama { font-weight: 700; font-size: 16px; color: #0f172a; }
-        .mapel-card .kode { font-size: 12px; color: #94a3b8; }
-        .mapel-card .soal-count { font-size: 11px; color: #64748b; margin-top: 4px; }
-        .mapel-card .status { font-size: 11px; font-weight: 600; margin-top: 6px; padding: 2px 12px; border-radius: 20px; display: inline-block; }
-        .mapel-card .status.tersedia { background: #d1fae5; color: #065f46; }
-        .mapel-card .status.kosong { background: #fef2f2; color: #991b1b; }
-        .mapel-card .status.selesai { background: #fef3c7; color: #92400e; }
-        .mapel-card .nilai-badge { position: absolute; top: 8px; right: 8px; background: #4f46e5; color: white; font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 20px; }
-        .mapel-card .nilai-badge.skor { background: #10b981; }
+        .mapel-card:active {
+            transform: scale(0.96);
+        }
+        .mapel-card:hover {
+            border-color: #4f46e5;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+        }
+        .mapel-card.disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            filter: grayscale(0.3);
+            border-color: #e2e8f0;
+        }
+        .mapel-card.disabled:hover {
+            border-color: #e2e8f0;
+            box-shadow: none;
+        }
+        .mapel-card .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .mapel-card .nama {
+            font-weight: 700;
+            font-size: 16px;
+            color: #0f172a;
+        }
+        .mapel-card .kode {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .mapel-card .soal-count {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .mapel-card .status {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 6px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .mapel-card .status.tersedia {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .mapel-card .status.kosong {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+        .mapel-card .status.selesai {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .mapel-card .nilai-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #4f46e5;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+        .mapel-card .nilai-badge.skor {
+            background: #10b981;
+        }
 
         #toast-warning {
             position: fixed;
@@ -220,13 +609,26 @@
             display: none;
             animation: slideDown 0.3s ease;
         }
-        #toast-warning.warning { background: #f59e0b; border-color: #fcd34d; }
-        #toast-warning.danger { background: #dc2626; border-color: #fca5a5; }
+        #toast-warning.warning {
+            background: #f59e0b;
+            border-color: #fcd34d;
+        }
+        #toast-warning.danger {
+            background: #dc2626;
+            border-color: #fca5a5;
+        }
         @keyframes slideDown {
-            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
         }
 
+        /* Modal */
         .modal-edit {
             position: fixed;
             inset: 0;
@@ -235,7 +637,7 @@
             align-items: center;
             justify-content: center;
             padding: 16px;
-            background: rgba(15,23,42,0.5);
+            background: rgba(15, 23, 42, 0.5);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
         }
@@ -245,13 +647,28 @@
             max-width: 500px;
             width: 100%;
             padding: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             max-height: 90vh;
             overflow-y: auto;
         }
-        .modal-edit .modal-box h3 { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 16px; }
-        .modal-edit .modal-box label { font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px; text-align: left; }
-        .modal-edit .modal-box input, .modal-edit .modal-box select, .modal-edit .modal-box textarea {
+        .modal-edit .modal-box h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .modal-edit .modal-box label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            display: block;
+            margin-bottom: 4px;
+            text-align: left;
+        }
+        .modal-edit .modal-box input,
+        .modal-edit .modal-box select,
+        .modal-edit .modal-box textarea {
             width: 100%;
             border: 1px solid #e2e8f0;
             border-radius: 10px;
@@ -260,13 +677,50 @@
             margin-bottom: 12px;
             font-family: inherit;
         }
-        .modal-edit .modal-box input:focus, .modal-edit .modal-box select:focus, .modal-edit .modal-box textarea:focus {
+        .modal-edit .modal-box input:focus,
+        .modal-edit .modal-box select:focus,
+        .modal-edit .modal-box textarea:focus {
             outline: none;
             ring: 2px solid #4f46e5;
             border-color: transparent;
         }
-        .modal-edit .modal-box .btn-group { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
-        .modal-edit .modal-box .btn-group .btn { width: auto; }
+        .modal-edit .modal-box .btn-group {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+        .modal-edit .modal-box .btn-group .btn {
+            width: auto;
+        }
+        .modal-edit .modal-box .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 6px;
+        }
+        .modal-edit .modal-box .history-item .info {
+            font-size: 13px;
+        }
+        .modal-edit .modal-box .history-item .info .mapel {
+            font-weight: 600;
+        }
+        .modal-edit .modal-box .history-item .info .nilai {
+            font-weight: 700;
+            color: #4f46e5;
+        }
+        .modal-edit .modal-box .history-item .info .tgl {
+            font-size: 10px;
+            color: #94a3b8;
+        }
+        .modal-edit .modal-box .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            padding: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -458,7 +912,7 @@
             </div>
         </div>
 
-        <!-- DASHBOARD ADMIN (tanpa Tambah Soal) -->
+        <!-- DASHBOARD ADMIN -->
         <div id="view-admin-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="page-header">
                 <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
@@ -473,7 +927,7 @@
                 </div>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
-                <div class="stat-card"><span class="label">User</span><span class="value" id="admin-stat-users">15</span></div>
+                <div class="stat-card"><span class="label">User</span><span class="value" id="admin-stat-users">0</span></div>
                 <div class="stat-card"><span class="label">Mapel</span><span class="value" id="admin-stat-mapel">0</span></div>
                 <div class="stat-card"><span class="label">Soal</span><span class="value" id="admin-stat-soal">0</span></div>
                 <div class="stat-card"><span class="label">Ujian</span><span class="value" id="admin-stat-ujian">0</span></div>
@@ -482,10 +936,10 @@
             <div class="flex flex-wrap gap-2 mt-4">
                 <button onclick="gantiHalaman('view-admin-tambah-user')" class="btn btn-success btn-sm">➕ Tambah User</button>
                 <button onclick="gantiHalaman('view-admin-kelola-mapel')" class="btn btn-primary btn-sm">📚 Kelola Mapel</button>
+                <button onclick="gantiHalaman('view-admin-kelola-siswa')" class="btn btn-warning btn-sm">👥 Kelola Siswa</button>
                 <button onclick="if(confirm('⚠️ Reset semua data sistem?')) alert('Data berhasil direset')" class="btn btn-danger btn-sm">🗑️ Reset Semua</button>
             </div>
 
-            <!-- Stat tambahan: daftar mapel di dashboard admin -->
             <div class="mt-4 border-t border-slate-100 pt-4">
                 <h3 class="font-bold text-sm mb-2">📚 Daftar Mata Pelajaran</h3>
                 <div id="admin-daftar-mapel" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -537,7 +991,7 @@
                 </h2>
                 <button onclick="gantiHalaman('view-guru-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
             </div>
-            <form onsubmit="event.preventDefault(); guruTambahSoal();" class="space-y-4" id="form-tambah-soal-guru">
+            <form onsubmit="event.preventDefault(); guruTambahSoal();" class="space-y-4">
                 <div>
                     <label>Mata Pelajaran</label>
                     <select id="guru-input-mapel" class="border border-slate-200 rounded-lg p-2 w-full">
@@ -576,7 +1030,6 @@
                 </h2>
                 <button onclick="gantiHalaman('view-guru-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
             </div>
-
             <div class="flex flex-wrap gap-2 mb-4">
                 <select id="guru-filter-kelola" class="border border-slate-200 rounded-lg px-3 py-1.5 text-sm">
                     <option value="">Semua Mapel</option>
@@ -584,7 +1037,6 @@
                 <button onclick="renderKelolaSoal()" class="btn btn-primary btn-sm">Filter</button>
                 <button onclick="gantiHalaman('view-guru-tambah-soal')" class="btn btn-success btn-sm">+ Tambah Soal</button>
             </div>
-
             <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                 <table>
                     <thead><tr><th>ID</th><th>Mapel</th><th>Pertanyaan</th><th class="text-center">Kunci</th><th class="text-center">Aksi</th></tr></thead>
@@ -606,12 +1058,10 @@
                     <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
                 </div>
             </div>
-
             <div class="flex flex-wrap gap-2 mb-4">
                 <button onclick="bukaModalTambahMapel()" class="btn btn-success btn-sm">➕ Tambah Mapel</button>
                 <button onclick="renderKelolaMapel()" class="btn btn-primary btn-sm">↻ Refresh</button>
             </div>
-
             <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                 <table>
                     <thead><tr><th>ID</th><th>Nama Mapel</th><th>Kode</th><th>Icon</th><th>Jumlah Soal</th><th class="text-center">Aksi</th></tr></thead>
@@ -632,12 +1082,73 @@
                 </h2>
                 <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
             </div>
-            <form onsubmit="event.preventDefault(); alert('User berhasil ditambahkan!');" class="space-y-4">
-                <div><label>Nama Lengkap</label><input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Nama user"></div>
-                <div><label>Role</label><select class="border border-slate-200 rounded-lg p-2 w-full"><option value="siswa">Siswa</option><option value="guru">Guru</option><option value="admin">Admin</option></select></div>
-                <div><label>Password</label><input type="password" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Password (kosongkan jika siswa)"></div>
+            <form onsubmit="event.preventDefault(); adminTambahUser();" class="space-y-4">
+                <div>
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="admin-user-nama" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Nama user" required>
+                </div>
+                <div>
+                    <label>Role</label>
+                    <select id="admin-user-role" class="border border-slate-200 rounded-lg p-2 w-full">
+                        <option value="siswa">Siswa</option>
+                        <option value="guru">Guru</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" id="admin-user-pass" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Password (kosongkan jika siswa)">
+                </div>
                 <button type="submit" class="btn btn-success">➕ Tambah User</button>
             </form>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ADMIN: KELOLA SISWA (RESET ASESMEN) -->
+        <!-- ============================================================ -->
+        <div id="view-admin-kelola-siswa" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
+            <div class="page-header">
+                <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full">ADMIN</span>
+                    Kelola Siswa & Reset Ujian
+                </h2>
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
+                    <button onclick="renderKelolaSiswa()" class="btn btn-primary btn-sm">↻ Refresh</button>
+                </div>
+            </div>
+
+            <p class="text-sm text-slate-500 mb-4">Kelola data siswa dan reset riwayat ujian mereka agar dapat mengulang asesmen.</p>
+
+            <div class="table-wrap border border-slate-100 rounded-xl bg-white">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Siswa</th>
+                            <th class="text-center">Total Ujian</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-tabel-siswa">
+                        <tr><td colspan="4" class="text-center py-4 text-slate-400 text-xs">Memuat data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MODAL DETAIL SISWA (Riwayat & Reset) -->
+        <div id="modal-detail-siswa" class="modal-edit hidden">
+            <div class="modal-box">
+                <h3 id="modal-siswa-nama">Riwayat Ujian</h3>
+                <div id="modal-siswa-content" class="space-y-2">
+                    <!-- Akan diisi JS -->
+                </div>
+                <div class="btn-group mt-4 border-t border-slate-100 pt-4">
+                    <button onclick="tutupModalDetailSiswa()" class="btn btn-outline btn-sm">Tutup</button>
+                    <button id="btn-reset-all-siswa" class="btn btn-danger btn-sm">🗑️ Reset Semua Ujian</button>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -651,7 +1162,7 @@
             </span>
             <span>SMK Prama Artha · CBT</span>
             <span class="text-slate-300">|</span>
-            <span>Admin: Mapel & User | Guru: Soal</span>
+            <span>Admin: Kelola Siswa & Reset</span>
         </div>
     </footer>
 
@@ -666,7 +1177,70 @@
         const DATA = { guru: { nama: 'Budi Santoso' }, admin: { nama: 'Admin Utama' } };
 
         // ================================================================
-        // DEFAULT DATA MAPEL
+        // DEFAULT USERS
+        // ================================================================
+        const DEFAULT_USERS = [
+            { id: 1, nama: 'Admin Utama', role: 'admin', password: 'Admin123' },
+            { id: 2, nama: 'Budi Santoso', role: 'guru', password: 'Guru123' },
+            { id: 3, nama: 'Siti Rahayu', role: 'guru', password: 'Guru123' },
+            { id: 4, nama: 'Andi Wijaya', role: 'siswa', password: '' },
+            { id: 5, nama: 'Dewi Lestari', role: 'siswa', password: '' },
+        ];
+
+        // ================================================================
+        // DATA USERS (localStorage)
+        // ================================================================
+        let users = [];
+
+        function loadUsersFromStorage() {
+            const stored = localStorage.getItem('cbt_users');
+            if (stored) {
+                try {
+                    users = JSON.parse(stored);
+                    return;
+                } catch (e) { /* fallback */ }
+            }
+            users = JSON.parse(JSON.stringify(DEFAULT_USERS));
+            localStorage.setItem('cbt_users', JSON.stringify(users));
+        }
+
+        function saveUsersToStorage() {
+            localStorage.setItem('cbt_users', JSON.stringify(users));
+        }
+
+        function getNextUserId() {
+            if (users.length === 0) return 1;
+            return Math.max(...users.map(u => u.id)) + 1;
+        }
+
+        function adminTambahUser() {
+            const nama = document.getElementById('admin-user-nama').value.trim();
+            const role = document.getElementById('admin-user-role').value;
+            const pass = document.getElementById('admin-user-pass').value.trim();
+
+            if (!nama) { alert('Nama tidak boleh kosong!'); return; }
+
+            const newId = getNextUserId();
+            users.push({
+                id: newId,
+                nama: nama,
+                role: role,
+                password: pass || ''
+            });
+            saveUsersToStorage();
+            alert('✅ User berhasil ditambahkan!');
+            document.getElementById('admin-user-nama').value = '';
+            document.getElementById('admin-user-pass').value = '';
+            adminMuatStats();
+            renderKelolaSiswa();
+        }
+
+        function getSiswa() {
+            return users.filter(u => u.role === 'siswa');
+        }
+
+        // ================================================================
+        // DEFAULT MAPEL & SOAL
         // ================================================================
         const DEFAULT_MAPEL = [
             { id: 1, nama: 'Matematika', kode: 'MTK', icon: '📐' },
@@ -676,18 +1250,12 @@
             { id: 5, nama: 'IPS', kode: 'IPS', icon: '🏛️' },
         ];
 
-        // ================================================================
-        // DATA MAPEL (dinamis dari localStorage)
-        // ================================================================
         let DATA_MAPEL = [];
 
         function loadMapelFromStorage() {
             const stored = localStorage.getItem('cbt_mapel');
             if (stored) {
-                try {
-                    DATA_MAPEL = JSON.parse(stored);
-                    return;
-                } catch (e) { /* fallback */ }
+                try { DATA_MAPEL = JSON.parse(stored); return; } catch (e) {}
             }
             DATA_MAPEL = JSON.parse(JSON.stringify(DEFAULT_MAPEL));
             localStorage.setItem('cbt_mapel', JSON.stringify(DATA_MAPEL));
@@ -791,7 +1359,7 @@
                         if (!DATA_SOAL[m.id]) DATA_SOAL[m.id] = [];
                     });
                     return;
-                } catch (e) { /* fallback */ }
+                } catch (e) {}
             }
             DATA_SOAL = JSON.parse(JSON.stringify(DEFAULT_SOAL));
             localStorage.setItem('cbt_soal_guru', JSON.stringify(DATA_SOAL));
@@ -886,7 +1454,7 @@
             const protectedPages = [
                 'view-siswa-dashboard', 'view-guru-dashboard', 'view-admin-dashboard',
                 'view-ujian', 'view-guru-tambah-soal', 'view-guru-kelola-soal',
-                'view-admin-kelola-mapel', 'view-admin-tambah-user'
+                'view-admin-kelola-mapel', 'view-admin-tambah-user', 'view-admin-kelola-siswa'
             ];
             const user = getSession();
 
@@ -927,6 +1495,9 @@
             if (id === 'view-admin-kelola-mapel') {
                 renderKelolaMapel();
             }
+            if (id === 'view-admin-kelola-siswa') {
+                renderKelolaSiswa();
+            }
             if (id === 'view-ujian') {
                 initAntiTab();
             } else {
@@ -954,13 +1525,21 @@
         }
 
         // ================================================================
-        // LOGIN
+        // LOGIN (menggunakan users dari localStorage)
         // ================================================================
         function loginSiswa() {
             const nama = document.getElementById('siswa-nama-input').value.trim();
             const errorEl = document.getElementById('siswa-error');
             if (nama === '') { errorEl.style.display = 'block';
                 document.getElementById('siswa-nama-input').focus(); return; }
+            // Cek apakah siswa terdaftar (opsional)
+            const exists = users.some(u => u.role === 'siswa' && u.nama.toLowerCase() === nama.toLowerCase());
+            if (!exists) {
+                // Jika tidak ditemukan, tetap bisa lanjut (atau bisa ditambahkan otomatis)
+                // Tapi untuk demo, kita izinkan semua nama.
+                // Tapi kalau mau lebih ketat, kita cek.
+                // Kita biarkan fleksibel.
+            }
             errorEl.style.display = 'none';
             setSession('siswa', nama);
             document.getElementById('siswa-nama-display').textContent = nama;
@@ -970,10 +1549,11 @@
         function loginGuru() {
             const pass = document.getElementById('guru-password').value.trim();
             const errorEl = document.getElementById('guru-error');
-            if (pass === PASSWORDS.guru) {
+            const user = users.find(u => u.role === 'guru' && u.password === pass);
+            if (user || pass === PASSWORDS.guru) {
                 errorEl.style.display = 'none';
-                setSession('guru');
-                document.getElementById('guru-nama').textContent = DATA.guru.nama;
+                setSession('guru', user ? user.nama : 'Budi Santoso');
+                document.getElementById('guru-nama').textContent = user ? user.nama : 'Budi Santoso';
                 gantiHalaman('view-guru-dashboard');
             } else {
                 errorEl.style.display = 'block';
@@ -985,10 +1565,11 @@
         function loginAdmin() {
             const pass = document.getElementById('admin-password').value.trim();
             const errorEl = document.getElementById('admin-error');
-            if (pass === PASSWORDS.admin) {
+            const user = users.find(u => u.role === 'admin' && u.password === pass);
+            if (user || pass === PASSWORDS.admin) {
                 errorEl.style.display = 'none';
-                setSession('admin');
-                document.getElementById('admin-nama').textContent = DATA.admin.nama;
+                setSession('admin', user ? user.nama : 'Admin Utama');
+                document.getElementById('admin-nama').textContent = user ? user.nama : 'Admin Utama';
                 gantiHalaman('view-admin-dashboard');
             } else {
                 errorEl.style.display = 'block';
@@ -1023,6 +1604,22 @@
             const data = getHasilSiswa(nama);
             if (data[mapelId]) return data[mapelId].nilai;
             return null;
+        }
+
+        function resetSiswaMapel(nama, mapelId) {
+            const key = 'cbt_hasil_' + nama;
+            const data = getHasilSiswa(nama);
+            if (data[mapelId]) {
+                delete data[mapelId];
+                localStorage.setItem(key, JSON.stringify(data));
+                return true;
+            }
+            return false;
+        }
+
+        function resetSiswaAll(nama) {
+            const key = 'cbt_hasil_' + nama;
+            localStorage.removeItem(key);
         }
 
         // ================================================================
@@ -1096,7 +1693,7 @@
         }
 
         // ================================================================
-        // SISWA: PILIH MAPEL → UJIAN
+        // SISWA: UJIAN
         // ================================================================
         let ujianSiswa = {
             nama: '',
@@ -1110,9 +1707,7 @@
         };
         let ujianTimerInterval = null;
 
-        // ================================================================
-        // ANTI-TAB SWITCHING
-        // ================================================================
+        // ANTI-TAB
         let tabViolationStart = null;
         let tabViolationCount = 0;
         let isTabVisible = true;
@@ -1188,9 +1783,6 @@
             document.getElementById('tab-warning').classList.add('hidden');
         }
 
-        // ================================================================
-        // UJIAN: RENDER SOAL
-        // ================================================================
         function renderSoal() {
             const idx = ujianSiswa.indeks;
             const soal = ujianSiswa.soal[idx];
@@ -1305,9 +1897,6 @@
             gantiHalaman('view-ujian');
         }
 
-        // ================================================================
-        // UJIAN: TIMER & KUMPULKAN
-        // ================================================================
         function startTimer() {
             if (ujianTimerInterval) clearInterval(ujianTimerInterval);
             const timerEl = document.getElementById('ujian-timer');
@@ -1351,7 +1940,7 @@
         }
 
         // ================================================================
-        // GURU: TAMBAH SOAL
+        // GURU: TAMBAH SOAL & KELOLA
         // ================================================================
         function guruTambahSoal() {
             const mapelId = parseInt(document.getElementById('guru-input-mapel').value);
@@ -1380,9 +1969,6 @@
             renderHasilGuru();
         }
 
-        // ================================================================
-        // GURU: RENDER HASIL DI DASHBOARD
-        // ================================================================
         function renderHasilGuru() {
             const tbody = document.getElementById('guru-tabel-hasil');
             const data = [
@@ -1406,9 +1992,6 @@
             });
         }
 
-        // ================================================================
-        // GURU: KELOLA SOAL (EDIT & HAPUS)
-        // ================================================================
         function renderKelolaSoal() {
             loadSoalFromStorage();
             const filter = document.getElementById('guru-filter-kelola').value;
@@ -1504,12 +2087,13 @@
         }
 
         // ================================================================
-        // ADMIN: STATISTIK & PREVIEW MAPEL
+        // ADMIN: STATISTIK & MAPEL
         // ================================================================
         function adminMuatStats() {
             loadMapelFromStorage();
             loadSoalFromStorage();
 
+            document.getElementById('admin-stat-users').innerText = users.length;
             document.getElementById('admin-stat-mapel').innerText = DATA_MAPEL.length;
 
             let totalSoal = 0;
@@ -1540,7 +2124,7 @@
         }
 
         // ================================================================
-        // ADMIN: KELOLA MAPEL (TAMBAH, EDIT, HAPUS)
+        // ADMIN: KELOLA MAPEL
         // ================================================================
         function renderKelolaMapel() {
             loadMapelFromStorage();
@@ -1623,9 +2207,6 @@
             }
         }
 
-        // ================================================================
-        // DROPDOWN MAPEL (Guru)
-        // ================================================================
         function populateMapelDropdowns() {
             const select = document.getElementById('guru-input-mapel');
             if (!select) return;
@@ -1636,7 +2217,101 @@
         }
 
         // ================================================================
-        // ENTER KEY SUPPORT
+        // ADMIN: KELOLA SISWA (RESET ASESMEN)
+        // ================================================================
+        function renderKelolaSiswa() {
+            loadUsersFromStorage();
+            const siswa = getSiswa();
+            const tbody = document.getElementById('admin-tabel-siswa');
+            tbody.innerHTML = '';
+
+            if (siswa.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-slate-400 text-xs">Belum ada siswa terdaftar.</td></tr>';
+                return;
+            }
+
+            siswa.forEach((s, idx) => {
+                const hasil = getHasilSiswa(s.nama);
+                const totalUjian = Object.keys(hasil).length;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td class="font-semibold">${s.nama}</td>
+                        <td class="text-center">${totalUjian}</td>
+                        <td class="text-center">
+                            <button onclick="bukaDetailSiswa('${s.nama}')" class="btn btn-primary btn-sm">📋 Detail</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function bukaDetailSiswa(nama) {
+            const hasil = getHasilSiswa(nama);
+            const keys = Object.keys(hasil);
+
+            document.getElementById('modal-siswa-nama').textContent = `📋 Riwayat Ujian - ${nama}`;
+            const content = document.getElementById('modal-siswa-content');
+            content.innerHTML = '';
+
+            if (keys.length === 0) {
+                content.innerHTML = `<div class="empty-state">Belum ada ujian yang dikerjakan.</div>`;
+            } else {
+                keys.forEach(mapelId => {
+                    const mapel = DATA_MAPEL.find(m => m.id == mapelId);
+                    const namaMapel = mapel ? mapel.nama : 'Mapel ' + mapelId;
+                    const entry = hasil[mapelId];
+                    content.innerHTML += `
+                        <div class="history-item">
+                            <div class="info">
+                                <div class="mapel">${namaMapel}</div>
+                                <div class="nilai">Nilai: ${entry.nilai}</div>
+                                <div class="tgl">${entry.tanggal}</div>
+                            </div>
+                            <button onclick="resetSiswaMapelHandler('${nama}', ${mapelId})" class="btn btn-danger btn-sm" style="width:auto;">🔄 Reset</button>
+                        </div>
+                    `;
+                });
+            }
+
+            // Set tombol reset all
+            const btnResetAll = document.getElementById('btn-reset-all-siswa');
+            btnResetAll.onclick = function() {
+                if (confirm(`⚠️ Yakin ingin mereset SEMUA ujian untuk siswa "${nama}"? Siswa akan dapat mengulang semua mapel.`)) {
+                    resetSiswaAll(nama);
+                    alert('✅ Semua ujian untuk siswa "' + nama + '" telah direset.');
+                    tutupModalDetailSiswa();
+                    renderKelolaSiswa();
+                    renderDaftarMapel(); // refresh siswa dashboard jika sedang login
+                }
+            };
+
+            document.getElementById('modal-detail-siswa').classList.remove('hidden');
+        }
+
+        function resetSiswaMapelHandler(nama, mapelId) {
+            const mapel = DATA_MAPEL.find(m => m.id == mapelId);
+            const namaMapel = mapel ? mapel.nama : 'Mapel ini';
+            if (confirm(`Yakin ingin mereset ujian "${namaMapel}" untuk siswa "${nama}"? Siswa dapat mengulang ujian ini.`)) {
+                if (resetSiswaMapel(nama, mapelId)) {
+                    alert('✅ Ujian "' + namaMapel + '" untuk siswa "' + nama + '" telah direset.');
+                    // Refresh modal
+                    bukaDetailSiswa(nama);
+                    renderKelolaSiswa();
+                    renderDaftarMapel();
+                } else {
+                    alert('❌ Gagal mereset ujian.');
+                }
+            }
+        }
+
+        function tutupModalDetailSiswa() {
+            document.getElementById('modal-detail-siswa').classList.add('hidden');
+        }
+
+        // ================================================================
+        // ENTER & ESC SUPPORT
         // ================================================================
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
@@ -1645,12 +2320,16 @@
                 if (active && active.id === 'guru-password') loginGuru();
                 if (active && active.id === 'admin-password') loginAdmin();
             }
+            if (e.key === 'Escape') {
+                tutupModalDetailSiswa();
+            }
         });
 
         // ================================================================
         // INISIALISASI
         // ================================================================
         window.onload = function() {
+            loadUsersFromStorage();
             loadMapelFromStorage();
             loadSoalFromStorage();
 
@@ -1661,11 +2340,11 @@
                     gantiHalaman('view-siswa-dashboard');
                     return;
                 } else if (user.role === 'guru') {
-                    document.getElementById('guru-nama').textContent = DATA.guru.nama;
+                    document.getElementById('guru-nama').textContent = user.nama || 'Budi Santoso';
                     gantiHalaman('view-guru-dashboard');
                     return;
                 } else if (user.role === 'admin') {
-                    document.getElementById('admin-nama').textContent = DATA.admin.nama;
+                    document.getElementById('admin-nama').textContent = user.nama || 'Admin Utama';
                     gantiHalaman('view-admin-dashboard');
                     return;
                 }
