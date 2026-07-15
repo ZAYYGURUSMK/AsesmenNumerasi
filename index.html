@@ -119,13 +119,6 @@
         .btn-admin:hover {
             background: #6d28d9;
         }
-        .btn-warning {
-            background: #f59e0b;
-            color: white;
-        }
-        .btn-warning:hover {
-            background: #d97706;
-        }
 
         .stat-card {
             background: white;
@@ -322,32 +315,30 @@
             max-width: 380px;
             margin: 0 auto;
         }
-        .login-card input,
-        .login-card select,
-        .login-card textarea {
+        .login-card input {
             width: 100%;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 10px 14px;
-            font-size: 14px;
+            padding: 12px 16px;
+            font-size: 16px;
             background: white;
             transition: all 0.15s;
             font-family: inherit;
+            text-align: center;
         }
-        .login-card input:focus,
-        .login-card select:focus,
-        .login-card textarea:focus {
+        .login-card input:focus {
             outline: none;
             ring: 2px solid #4f46e5;
             border-color: transparent;
         }
         .login-card label {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #475569;
             display: block;
-            margin-bottom: 4px;
-            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-align: center;
         }
         .login-card .error-msg {
             color: #ef4444;
@@ -400,7 +391,6 @@
             }
         }
 
-        /* Timer Ujian */
         .timer-box {
             background: #fef2f2;
             border: 1px solid #fca5a5;
@@ -424,7 +414,6 @@
             font-family: monospace;
         }
 
-        /* Soal */
         .soal-item {
             background: white;
             border: 1px solid #e2e8f0;
@@ -512,6 +501,59 @@
             color: white;
             border-color: #f59e0b;
         }
+
+        /* Mapel card di halaman siswa */
+        .mapel-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mapel-card:active {
+            transform: scale(0.96);
+        }
+        .mapel-card:hover {
+            border-color: #4f46e5;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+        }
+        .mapel-card .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .mapel-card .nama {
+            font-weight: 700;
+            font-size: 16px;
+            color: #0f172a;
+        }
+        .mapel-card .kode {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .mapel-card .soal-count {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .mapel-card .status {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 6px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .mapel-card .status.tersedia {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .mapel-card .status.kosong {
+            background: #fef2f2;
+            color: #991b1b;
+        }
     </style>
 </head>
 <body>
@@ -564,7 +606,7 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-base sm:text-lg text-slate-800">Siswa</h3>
-                        <p class="text-slate-400 text-xs">Masukkan nama</p>
+                        <p class="text-slate-400 text-xs">Pilih mapel ujian</p>
                     </div>
                 </button>
 
@@ -648,13 +690,13 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 5. DASHBOARD SISWA -->
+        <!-- 5. DASHBOARD SISWA (PILIHAN MAPEL) -->
         <!-- ============================================================ -->
         <div id="view-siswa-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="page-header">
                 <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
                     <span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full">SISWA</span>
-                    Dashboard Peserta
+                    Pilih Mata Pelajaran
                 </h2>
                 <div class="flex gap-2 flex-wrap">
                     <span class="text-xs text-slate-500 bg-slate-100 px-3 py-1 rounded-full flex items-center gap-1">
@@ -664,25 +706,11 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                <div class="stat-card"><span class="label">Nama</span><span class="value text-base" id="siswa-nama-card">-</span></div>
-                <div class="stat-card"><span class="label">Kelas</span><span class="value text-base">XII RPL 1</span></div>
-                <div class="stat-card"><span class="label">Rata-rata</span><span class="value">85</span></div>
-            </div>
+            <p class="text-sm text-slate-500 mb-4">Silakan pilih mata pelajaran yang akan Anda ujikan:</p>
 
-            <h3 class="font-bold text-sm mb-2">📋 Riwayat Ujian</h3>
-            <div class="table-wrap border border-slate-100 rounded-xl bg-white">
-                <table>
-                    <thead><tr><th>No</th><th>Mapel</th><th class="text-center">Nilai</th><th class="text-center">Tanggal</th></tr></thead>
-                    <tbody>
-                        <tr><td>1</td><td>Matematika</td><td class="text-center">90</td><td class="text-center">12/04/2026</td></tr>
-                        <tr><td>2</td><td>Bahasa Indonesia</td><td class="text-center">85</td><td class="text-center">10/04/2026</td></tr>
-                        <tr><td>3</td><td>Bahasa Inggris</td><td class="text-center">78</td><td class="text-center">08/04/2026</td></tr>
-                        <tr><td>4</td><td>IPA</td><td class="text-center">92</td><td class="text-center">06/04/2026</td></tr>
-                    </tbody>
-                </table>
+            <div id="siswa-daftar-mapel" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Akan di-render oleh JS -->
             </div>
-            <button onclick="gantiHalaman('view-ujian')" class="btn btn-success mt-4">🚀 Mulai Ujian Baru</button>
         </div>
 
         <!-- ============================================================ -->
@@ -725,7 +753,6 @@
             <div class="flex flex-wrap gap-2 mt-4">
                 <button onclick="gantiHalaman('view-guru-tambah-soal')" class="btn btn-primary btn-sm">➕ Tambah Soal</button>
                 <button onclick="gantiHalaman('view-guru-kelola-soal')" class="btn btn-outline btn-sm">📝 Kelola Soal</button>
-                <button onclick="alert('📊 Export data nilai ke Excel')" class="btn btn-success btn-sm">📊 Export Nilai</button>
             </div>
         </div>
 
@@ -768,10 +795,10 @@
             </div>
 
             <div class="flex flex-wrap gap-2 mt-4">
-                <button onclick="gantiHalaman('view-admin-tambah-user')" class="btn btn-success btn-sm">➕ Tambah User</button>
-                <button onclick="gantiHalaman('view-admin-tambah-mapel')" class="btn btn-primary btn-sm">📚 Tambah Mapel</button>
-                <button onclick="gantiHalaman('view-admin-tambah-soal')" class="btn btn-guru btn-sm">📝 Tambah Soal</button>
-                <button onclick="gantiHalaman('view-admin-reset')" class="btn btn-danger btn-sm">🗑️ Reset Semua</button>
+                <button onclick="alert('Tambah user baru')" class="btn btn-success btn-sm">➕ Tambah User</button>
+                <button onclick="alert('Tambah mata pelajaran')" class="btn btn-primary btn-sm">📚 Tambah Mapel</button>
+                <button onclick="alert('Tambah soal baru')" class="btn btn-guru btn-sm">📝 Tambah Soal</button>
+                <button onclick="if(confirm('⚠️ Reset semua data sistem?')) alert('Data berhasil direset')" class="btn btn-danger btn-sm">🗑️ Reset Semua</button>
             </div>
         </div>
 
@@ -783,7 +810,7 @@
                 <div>
                     <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
                         <span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full">UJIAN</span>
-                        <span id="ujian-mapel">Matematika</span>
+                        <span id="ujian-mapel">-</span>
                     </h2>
                     <p class="text-xs text-slate-500">Peserta: <span id="ujian-nama">-</span></p>
                 </div>
@@ -794,27 +821,20 @@
             </div>
 
             <div class="flex flex-col lg:grid lg:grid-cols-4 gap-4">
-                <!-- Daftar Soal -->
                 <div class="lg:col-span-3">
-                    <div id="ujian-soal-container">
-                        <!-- Soal akan dirender oleh JS -->
-                    </div>
+                    <div id="ujian-soal-container"></div>
                     <div class="flex justify-between items-center gap-2 mt-4 pt-3 border-t border-slate-100">
                         <button onclick="soalPrev()" id="btn-soal-prev" class="btn btn-outline btn-sm">⬅ Sebelumnya</button>
                         <button onclick="soalNext()" id="btn-soal-next" class="btn btn-primary btn-sm">Berikutnya ➡</button>
                     </div>
                 </div>
-
-                <!-- Navigasi Soal -->
                 <div class="lg:col-span-1 bg-slate-50 rounded-xl p-4">
-                    <h4 class="font-bold text-xs text-slate-400 uppercase tracking-wider mb-3 text-center">Navigasi Soal</h4>
-                    <div id="ujian-nav-soal" class="nav-soal">
-                        <!-- JS akan render -->
-                    </div>
-                    <button onclick="kumpulkanUjian()" class="btn btn-danger mt-4">📤 Kumpulkan Ujian</button>
+                    <h4 class="font-bold text-xs text-slate-400 uppercase tracking-wider mb-3 text-center">Navigasi</h4>
+                    <div id="ujian-nav-soal" class="nav-soal"></div>
+                    <button onclick="kumpulkanUjian()" class="btn btn-danger mt-4">📤 Kumpulkan</button>
                 </div>
             </div>
-            <button onclick="gantiHalaman('view-siswa-dashboard')" class="btn btn-outline btn-sm mt-4">← Kembali ke Dashboard</button>
+            <button onclick="gantiHalaman('view-siswa-dashboard')" class="btn btn-outline btn-sm mt-4">← Kembali ke Pilihan Mapel</button>
         </div>
 
         <!-- ============================================================ -->
@@ -828,7 +848,6 @@
                 </h2>
                 <button onclick="gantiHalaman('view-guru-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
             </div>
-
             <form onsubmit="event.preventDefault(); alert('Soal berhasil ditambahkan!');" class="space-y-4">
                 <div>
                     <label>Mata Pelajaran</label>
@@ -842,7 +861,7 @@
                 </div>
                 <div>
                     <label>Pertanyaan</label>
-                    <textarea rows="3" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Tulis pertanyaan di sini..."></textarea>
+                    <textarea rows="3" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Tulis pertanyaan..."></textarea>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div><label>Opsi A</label><input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Opsi A"></div>
@@ -874,18 +893,6 @@
                 </h2>
                 <button onclick="gantiHalaman('view-guru-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
             </div>
-
-            <div class="flex flex-wrap gap-2 mb-4">
-                <select class="border border-slate-200 rounded-lg px-3 py-1.5 text-sm">
-                    <option>Semua Mapel</option>
-                    <option>Matematika</option>
-                    <option>Bahasa Indonesia</option>
-                    <option>Bahasa Inggris</option>
-                </select>
-                <button class="btn btn-primary btn-sm">Filter</button>
-                <button class="btn btn-success btn-sm">+ Tambah Soal</button>
-            </div>
-
             <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                 <table>
                     <thead><tr><th>ID</th><th>Mapel</th><th>Pertanyaan</th><th class="text-center">Kunci</th><th class="text-center">Aksi</th></tr></thead>
@@ -896,133 +903,6 @@
                         <tr><td>4</td><td>Bahasa Inggris</td><td>What is the meaning of 'book'?</td><td class="text-center">B</td><td class="text-center"><button class="text-blue-500 text-xs">Edit</button> <button class="text-rose-500 text-xs">Hapus</button></td></tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- 11. ADMIN: TAMBAH USER -->
-        <!-- ============================================================ -->
-        <div id="view-admin-tambah-user" class="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
-            <div class="page-header">
-                <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
-                    <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full">ADMIN</span>
-                    Tambah User
-                </h2>
-                <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
-            </div>
-
-            <form onsubmit="event.preventDefault(); alert('User berhasil ditambahkan!');" class="space-y-4">
-                <div>
-                    <label>Nama Lengkap</label>
-                    <input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Nama user">
-                </div>
-                <div>
-                    <label>Role</label>
-                    <select class="border border-slate-200 rounded-lg p-2 w-full">
-                        <option value="siswa">Siswa</option>
-                        <option value="guru">Guru</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Password (kosongkan jika siswa)">
-                    <div class="hint text-left text-xs text-slate-400">Kosongkan jika untuk siswa</div>
-                </div>
-                <button type="submit" class="btn btn-success">➕ Tambah User</button>
-            </form>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- 12. ADMIN: TAMBAH MAPEL -->
-        <!-- ============================================================ -->
-        <div id="view-admin-tambah-mapel" class="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
-            <div class="page-header">
-                <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
-                    <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full">ADMIN</span>
-                    Tambah Mapel
-                </h2>
-                <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
-            </div>
-
-            <form onsubmit="event.preventDefault(); alert('Mata pelajaran berhasil ditambahkan!');" class="space-y-4">
-                <div>
-                    <label>Nama Mata Pelajaran</label>
-                    <input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Contoh: Pemrograman Web">
-                </div>
-                <div>
-                    <label>Kode Mapel</label>
-                    <input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Contoh: PW">
-                    <div class="hint text-left text-xs text-slate-400">Kode singkatan untuk identifikasi</div>
-                </div>
-                <button type="submit" class="btn btn-primary">📚 Tambah Mapel</button>
-            </form>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- 13. ADMIN: TAMBAH SOAL -->
-        <!-- ============================================================ -->
-        <div id="view-admin-tambah-soal" class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
-            <div class="page-header">
-                <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
-                    <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full">ADMIN</span>
-                    Tambah Soal
-                </h2>
-                <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
-            </div>
-
-            <form onsubmit="event.preventDefault(); alert('Soal berhasil ditambahkan!');" class="space-y-4">
-                <div>
-                    <label>Mata Pelajaran</label>
-                    <select class="border border-slate-200 rounded-lg p-2 w-full">
-                        <option>Matematika</option>
-                        <option>Bahasa Indonesia</option>
-                        <option>Bahasa Inggris</option>
-                        <option>IPA</option>
-                        <option>IPS</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Pertanyaan</label>
-                    <textarea rows="3" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Tulis pertanyaan di sini..."></textarea>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label>Opsi A</label><input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Opsi A"></div>
-                    <div><label>Opsi B</label><input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Opsi B"></div>
-                    <div><label>Opsi C</label><input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Opsi C"></div>
-                    <div><label>Opsi D</label><input type="text" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Opsi D"></div>
-                </div>
-                <div>
-                    <label>Kunci Jawaban</label>
-                    <select class="border border-slate-200 rounded-lg p-2 w-full">
-                        <option value="0">A</option>
-                        <option value="1">B</option>
-                        <option value="2">C</option>
-                        <option value="3">D</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-admin">💾 Simpan Soal</button>
-            </form>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- 14. ADMIN: RESET KONFIRMASI -->
-        <!-- ============================================================ -->
-        <div id="view-admin-reset" class="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8 hidden text-center">
-            <div class="text-5xl mb-4">⚠️</div>
-            <h2 class="text-xl font-bold text-slate-900">Reset Semua Data?</h2>
-            <p class="text-sm text-slate-500 mt-2">Tindakan ini akan menghapus <strong>semua data</strong> sistem secara permanen, termasuk:</p>
-            <ul class="text-left text-sm text-slate-600 bg-slate-50 rounded-xl p-4 my-4 space-y-1">
-                <li>• Semua soal</li>
-                <li>• Hasil ujian siswa</li>
-                <li>• Data user (siswa, guru, admin)</li>
-                <li>• Mata pelajaran</li>
-                <li>• Log aktivitas</li>
-            </ul>
-            <p class="text-sm text-rose-500 font-semibold">⚠️ Tindakan ini TIDAK bisa dibatalkan!</p>
-            <div class="flex gap-3 mt-4">
-                <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline">Batal</button>
-                <button onclick="if(confirm('Yakin ingin mereset semua data?')){alert('Semua data berhasil direset!');gantiHalaman('view-admin-dashboard');}" class="btn btn-danger">Reset Sekarang</button>
             </div>
         </div>
 
@@ -1037,7 +917,7 @@
             </span>
             <span>SMK Prama Artha · CBT</span>
             <span class="text-slate-300">|</span>
-            <span>Siswa: Nama | Guru/Admin: Password</span>
+            <span>Siswa: Pilih Mapel</span>
         </div>
     </footer>
 
@@ -1058,27 +938,58 @@
             admin: { nama: 'Admin Utama' }
         };
 
-        // Data soal dummy untuk ujian
-        const SOAL_UJIAN = [
-            { id: 1, mapel: 'Matematika', tanya: 'Hasil dari 2 + 3 adalah?', opsi: ['A. 4', 'B. 5', 'C. 6', 'D. 7'],
-            kunci: 1 },
-            { id: 2, mapel: 'Matematika', tanya: 'Akar kuadrat dari 81 adalah?', opsi: ['A. 7', 'B. 8', 'C. 9', 'D. 10'],
-                kunci: 2 },
-            { id: 3, mapel: 'Matematika', tanya: 'Berapakah 10 x 10?', opsi: ['A. 50', 'B. 100', 'C. 150', 'D. 200'],
-                kunci: 1 },
-            { id: 4, mapel: 'Matematika', tanya: 'Hasil dari 15 : 3 adalah?', opsi: ['A. 3', 'B. 4', 'C. 5', 'D. 6'],
-                kunci: 2 },
-            { id: 5, mapel: 'Matematika', tanya: 'Berapakah 7 x 8?', opsi: ['A. 48', 'B. 54', 'C. 56', 'D. 62'], kunci: 2 },
+        // ================================================================
+        // DATA MAPEL & SOAL
+        // ================================================================
+        const DATA_MAPEL = [
+            { id: 1, nama: 'Matematika', kode: 'MTK', icon: '📐' },
+            { id: 2, nama: 'Bahasa Indonesia', kode: 'BIN', icon: '📖' },
+            { id: 3, nama: 'Bahasa Inggris', kode: 'BIG', icon: '🌍' },
+            { id: 4, nama: 'IPA', kode: 'IPA', icon: '🔬' },
+            { id: 5, nama: 'IPS', kode: 'IPS', icon: '🏛️' },
         ];
 
-        let ujianSiswa = {
-            nama: '',
-            jawaban: {},
-            ragu: {},
-            indeks: 0,
-            timer: 30 * 60
+        // Soal dikelompokkan berdasarkan mapel_id
+        const DATA_SOAL = {
+            1: [ // Matematika
+                { id: 1, tanya: 'Hasil dari 2 + 3 adalah?', opsi: ['A. 4', 'B. 5', 'C. 6', 'D. 7'], kunci: 1 },
+                { id: 2, tanya: 'Akar kuadrat dari 81 adalah?', opsi: ['A. 7', 'B. 8', 'C. 9', 'D. 10'], kunci: 2 },
+                { id: 3, tanya: 'Berapakah 10 x 10?', opsi: ['A. 50', 'B. 100', 'C. 150', 'D. 200'], kunci: 1 },
+                { id: 4, tanya: 'Hasil dari 15 : 3 adalah?', opsi: ['A. 3', 'B. 4', 'C. 5', 'D. 6'], kunci: 2 },
+                { id: 5, tanya: 'Berapakah 7 x 8?', opsi: ['A. 48', 'B. 54', 'C. 56', 'D. 62'], kunci: 2 },
+            ],
+            2: [ // Bahasa Indonesia
+                { id: 10, tanya: 'Sinonim dari "cepat" adalah?', opsi: ['A. Lambat', 'B. Kilat', 'C. Pelan', 'D. Lama'],
+                kunci: 1 },
+                { id: 11, tanya: 'Kalimat baku adalah kalimat yang ...', opsi: ['A. Mengandung slang', 'B. Sesuai EYD',
+                        'C. Tidak logis', 'D. Bertele-tele'
+                    ], kunci: 1 },
+                { id: 12, tanya: 'Antonim dari "besar" adalah?', opsi: ['A. Kecil', 'B. Tinggi', 'C. Luas', 'D. Panjang'],
+                    kunci: 0 },
+            ],
+            3: [ // Bahasa Inggris
+                { id: 20, tanya: 'What is the meaning of "book"?', opsi: ['A. Pensil', 'B. Buku', 'C. Meja', 'D. Kursi'],
+                    kunci: 1 },
+                { id: 21, tanya: 'She ... to school every day.', opsi: ['A. go', 'B. goes', 'C. going', 'D. gone'],
+                    kunci: 1 },
+            ],
+            4: [ // IPA
+                { id: 30, tanya: 'Planet terbesar di tata surya adalah?', opsi: ['A. Bumi', 'B. Jupiter', 'C. Saturnus',
+                        'D. Mars'
+                    ], kunci: 1 },
+                { id: 31, tanya: 'Bagian sel yang berfungsi sebagai pusat kendali adalah?', opsi: ['A. Membran sel',
+                        'B. Sitoplasma', 'C. Nukleus', 'D. Mitokondria'
+                    ], kunci: 2 },
+            ],
+            5: [ // IPS
+                { id: 40, tanya: 'Ibu kota Indonesia adalah?', opsi: ['A. Jakarta', 'B. Surabaya', 'C. Bandung',
+                        'D. Medan'
+                    ], kunci: 0 },
+                { id: 41, tanya: 'Gunung tertinggi di Indonesia adalah?', opsi: ['A. Krakatau', 'B. Merapi', 'C. Semeru',
+                        'D. Rinjani'
+                    ], kunci: 2 },
+            ],
         };
-        let ujianTimerInterval = null;
 
         // ================================================================
         // SESSION MANAGEMENT
@@ -1134,9 +1045,7 @@
         function gantiHalaman(id) {
             const protectedPages = [
                 'view-siswa-dashboard', 'view-guru-dashboard', 'view-admin-dashboard',
-                'view-ujian', 'view-guru-tambah-soal', 'view-guru-kelola-soal',
-                'view-admin-tambah-user', 'view-admin-tambah-mapel',
-                'view-admin-tambah-soal', 'view-admin-reset'
+                'view-ujian', 'view-guru-tambah-soal', 'view-guru-kelola-soal'
             ];
             const user = getSession();
 
@@ -1146,14 +1055,8 @@
                     kembaliKeMenuUtama();
                     return;
                 }
-                // Cek role untuk halaman tertentu
                 if (id.startsWith('view-guru-') && user.role !== 'guru') {
                     alert('Akses ditolak! Hanya untuk Guru.');
-                    kembaliKeMenuUtama();
-                    return;
-                }
-                if (id.startsWith('view-admin-') && user.role !== 'admin') {
-                    alert('Akses ditolak! Hanya untuk Admin.');
                     kembaliKeMenuUtama();
                     return;
                 }
@@ -1173,16 +1076,15 @@
             const target = document.getElementById(id);
             if (target) target.classList.remove('hidden');
 
-            // Jika masuk ke ujian, inisialisasi
-            if (id === 'view-ujian') {
-                initUjian();
+            // Jika masuk ke dashboard siswa, render daftar mapel
+            if (id === 'view-siswa-dashboard') {
+                renderDaftarMapel();
             }
 
             updateUI();
         }
 
         function kembaliKeMenuUtama() {
-            // Hentikan timer ujian jika sedang berjalan
             if (ujianTimerInterval) {
                 clearInterval(ujianTimerInterval);
                 ujianTimerInterval = null;
@@ -1217,7 +1119,6 @@
             errorEl.style.display = 'none';
             setSession('siswa', nama);
             document.getElementById('siswa-nama-display').textContent = nama;
-            document.getElementById('siswa-nama-card').textContent = nama;
             gantiHalaman('view-siswa-dashboard');
         }
 
@@ -1254,29 +1155,84 @@
         }
 
         // ================================================================
-        // UJIAN
+        // SISWA: RENDER DAFTAR MAPEL
         // ================================================================
-        function initUjian() {
+        function renderDaftarMapel() {
+            const container = document.getElementById('siswa-daftar-mapel');
+            container.innerHTML = '';
+
+            DATA_MAPEL.forEach(mapel => {
+                const soal = DATA_SOAL[mapel.id] || [];
+                const jumlah = soal.length;
+                const status = jumlah > 0 ? 'tersedia' : 'kosong';
+                const statusText = jumlah > 0 ? `${jumlah} soal tersedia` : 'Belum ada soal';
+
+                container.innerHTML += `
+                    <div class="mapel-card" onclick="pilihMapel(${mapel.id})">
+                        <span class="icon">${mapel.icon}</span>
+                        <div class="nama">${mapel.nama}</div>
+                        <div class="kode">${mapel.kode}</div>
+                        <div class="soal-count">${statusText}</div>
+                        <span class="status ${status}">${status === 'tersedia' ? '✅ Tersedia' : '❌ Kosong'}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // ================================================================
+        // SISWA: PILIH MAPEL → MULAI UJIAN
+        // ================================================================
+        let ujianSiswa = {
+            nama: '',
+            mapelId: null,
+            mapelNama: '',
+            soal: [],
+            jawaban: {},
+            ragu: {},
+            indeks: 0,
+            timer: 30 * 60
+        };
+        let ujianTimerInterval = null;
+
+        function pilihMapel(mapelId) {
             const user = getSession();
             if (!user) return;
 
+            const mapel = DATA_MAPEL.find(m => m.id === mapelId);
+            if (!mapel) return;
+
+            const soal = DATA_SOAL[mapelId] || [];
+            if (soal.length === 0) {
+                alert('❌ Belum ada soal untuk mapel ini. Silakan pilih mapel lain.');
+                return;
+            }
+
+            // Inisialisasi ujian
             ujianSiswa.nama = user.nama;
+            ujianSiswa.mapelId = mapelId;
+            ujianSiswa.mapelNama = mapel.nama;
+            ujianSiswa.soal = soal;
             ujianSiswa.jawaban = {};
             ujianSiswa.ragu = {};
             ujianSiswa.indeks = 0;
             ujianSiswa.timer = 30 * 60;
 
+            // Set header ujian
             document.getElementById('ujian-nama').textContent = user.nama;
-            document.getElementById('ujian-mapel').textContent = 'Matematika';
+            document.getElementById('ujian-mapel').textContent = mapel.nama;
 
             renderSoal();
             renderNavSoal();
             startTimer();
+            gantiHalaman('view-ujian');
         }
 
+        // ================================================================
+        // UJIAN: RENDER SOAL
+        // ================================================================
         function renderSoal() {
             const idx = ujianSiswa.indeks;
-            const soal = SOAL_UJIAN[idx];
+            const soal = ujianSiswa.soal[idx];
             if (!soal) return;
 
             const container = document.getElementById('ujian-soal-container');
@@ -1293,20 +1249,20 @@
 
             container.innerHTML = `
                 <div class="soal-item">
-                    <span class="nomor">Soal ${idx + 1} dari ${SOAL_UJIAN.length}</span>
+                    <span class="nomor">Soal ${idx + 1} dari ${ujianSiswa.soal.length}</span>
                     <div class="pertanyaan">${soal.tanya}</div>
                     ${opsiHtml}
                 </div>
             `;
 
             document.getElementById('btn-soal-prev').disabled = idx === 0;
-            document.getElementById('btn-soal-next').textContent = idx === SOAL_UJIAN.length - 1 ? 'Selesai ➡' : 'Berikutnya ➡';
+            document.getElementById('btn-soal-next').textContent = idx === ujianSiswa.soal.length - 1 ? 'Selesai ➡' : 'Berikutnya ➡';
         }
 
         function renderNavSoal() {
             const container = document.getElementById('ujian-nav-soal');
             container.innerHTML = '';
-            SOAL_UJIAN.forEach((soal, idx) => {
+            ujianSiswa.soal.forEach((soal, idx) => {
                 const btn = document.createElement('button');
                 btn.textContent = idx + 1;
                 if (idx === ujianSiswa.indeks) btn.classList.add('aktif');
@@ -1338,7 +1294,7 @@
         }
 
         function soalNext() {
-            if (ujianSiswa.indeks < SOAL_UJIAN.length - 1) {
+            if (ujianSiswa.indeks < ujianSiswa.soal.length - 1) {
                 ujianSiswa.indeks++;
                 renderSoal();
                 renderNavSoal();
@@ -1347,6 +1303,9 @@
             }
         }
 
+        // ================================================================
+        // UJIAN: TIMER
+        // ================================================================
         function startTimer() {
             if (ujianTimerInterval) clearInterval(ujianTimerInterval);
             const timerEl = document.getElementById('ujian-timer');
@@ -1368,6 +1327,9 @@
             }, 1000);
         }
 
+        // ================================================================
+        // UJIAN: KUMPULKAN
+        // ================================================================
         function kumpulkanUjian() {
             if (ujianTimerInterval) {
                 clearInterval(ujianTimerInterval);
@@ -1375,13 +1337,13 @@
             }
 
             let benar = 0;
-            SOAL_UJIAN.forEach(soal => {
+            ujianSiswa.soal.forEach(soal => {
                 if (ujianSiswa.jawaban[soal.id] === soal.kunci) benar++;
             });
-            const total = SOAL_UJIAN.length;
+            const total = ujianSiswa.soal.length;
             const nilai = Math.round((benar / total) * 100);
 
-            alert(`📊 Ujian Selesai!\nBenar: ${benar}/${total}\nNilai: ${nilai}`);
+            alert(`📊 Ujian Selesai!\nMapel: ${ujianSiswa.mapelNama}\nBenar: ${benar}/${total}\nNilai: ${nilai}`);
             gantiHalaman('view-siswa-dashboard');
         }
 
@@ -1405,7 +1367,6 @@
             if (user) {
                 if (user.role === 'siswa') {
                     document.getElementById('siswa-nama-display').textContent = user.nama;
-                    document.getElementById('siswa-nama-card').textContent = user.nama;
                     gantiHalaman('view-siswa-dashboard');
                     return;
                 } else if (user.role === 'guru') {
