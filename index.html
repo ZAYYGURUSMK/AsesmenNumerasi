@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SMK Prama Artha - CBT Mobile</title>
+    <title>SMK Prama Artha - CBT Anti-Cheat</title>
     <script src="https://cdn.tailwindcss.com">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
@@ -34,7 +34,52 @@
             scrollbar-width: none;
         }
 
-        /* ===== MOBILE-FIRST CARD ===== */
+        /* ===== ANTI-CHEAT: Non-seleksi di area ujian ===== */
+        .exam-container {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        .exam-container input[type="radio"],
+        .exam-container input[type="text"],
+        .exam-container textarea {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        /* ===== TOAST WARNING ===== */
+        #toast-warning {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #dc2626;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 9999;
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
+            border: 1px solid #fca5a5;
+            text-align: center;
+            max-width: 90%;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* ===== CARD ===== */
         .card {
             background: white;
             border-radius: 16px;
@@ -46,7 +91,6 @@
             transform: scale(0.97);
         }
 
-        /* ===== BADGE ===== */
         .badge-role {
             font-size: 9px;
             padding: 2px 10px;
@@ -68,7 +112,6 @@
             color: #065f46;
         }
 
-        /* ===== MAPEL BADGE ===== */
         .mapel-badge {
             background: #e0e7ff;
             color: #3730a3;
@@ -88,7 +131,6 @@
             color: #5b21b6;
         }
 
-        /* ===== TABEL WRAP ===== */
         .table-wrap {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -123,7 +165,6 @@
             background: #f8fafc;
         }
 
-        /* ===== LOGO ===== */
         .logo-artha {
             display: inline-flex;
             flex-direction: column;
@@ -165,7 +206,6 @@
             color: #4f46e5;
         }
 
-        /* ===== FORM ===== */
         input,
         select,
         textarea {
@@ -198,7 +238,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* ===== BUTTONS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -255,7 +294,6 @@
             width: auto;
         }
 
-        /* ===== STAT CARD ===== */
         .stat-card {
             background: white;
             border-radius: 14px;
@@ -279,7 +317,6 @@
             margin-top: 2px;
         }
 
-        /* ===== NAVBAR MOBILE ===== */
         .navbar {
             background: white;
             border-bottom: 1px solid #e2e8f0;
@@ -303,7 +340,6 @@
             flex-shrink: 0;
         }
 
-        /* ===== MODAL ===== */
         .modal-backdrop {
             background: rgba(15, 23, 42, 0.5);
             backdrop-filter: blur(4px);
@@ -341,7 +377,6 @@
             line-height: 1.5;
         }
 
-        /* ===== UTILITY ===== */
         .gap-2 {
             gap: 8px;
         }
@@ -370,7 +405,6 @@
             font-size: 24px;
         }
 
-        /* ===== RESPONSIVE TWEAKS ===== */
         @media (min-width: 640px) {
             .navbar {
                 height: 64px;
@@ -438,6 +472,9 @@
     </style>
 </head>
 <body>
+
+    <!-- ========== TOAST WARNING (Anti-Cheat) ========== -->
+    <div id="toast-warning"></div>
 
     <!-- ========== NAVBAR ========== -->
     <nav class="navbar" id="mainNav">
@@ -550,7 +587,6 @@
         <!-- 4. DASHBOARD GURU -->
         <!-- ============================================================ -->
         <div id="view-guru-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden fade-in">
-            <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
                 <div>
                     <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
@@ -564,30 +600,23 @@
                 </div>
             </div>
 
-            <!-- TABS -->
             <div class="flex border-b border-slate-200 mb-4 overflow-x-auto scrollbar-none">
                 <button onclick="setTabGuru('hasil')" id="guru-tab-hasil" class="py-2 px-3 sm:px-5 text-xs sm:text-sm font-bold border-b-2 border-blue-600 text-blue-600 transition whitespace-nowrap">📊 Hasil</button>
                 <button onclick="setTabGuru('soal')" id="guru-tab-soal" class="py-2 px-3 sm:px-5 text-xs sm:text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-blue-600 transition whitespace-nowrap">📝 Bank Soal</button>
             </div>
 
-            <!-- TAB HASIL -->
             <div id="guru-content-hasil" class="space-y-3">
-                <!-- Filter -->
                 <div class="flex flex-wrap items-center gap-2">
                     <select id="guru-filter-mapel" class="flex-1 min-w-[120px] text-xs py-1.5 px-3 rounded-lg border-slate-200">
                         <option value="">Semua Mapel</option>
                     </select>
                     <button onclick="guruFilterMapel()" class="btn btn-primary btn-sm flex-1 sm:flex-none">Filter</button>
                 </div>
-
-                <!-- Stat -->
                 <div class="grid grid-cols-3 gap-2">
                     <div class="stat-card"><span class="label">Total</span><span id="guru-stat-total" class="value">0</span></div>
                     <div class="stat-card"><span class="label">Rata-rata</span><span id="guru-stat-rata" class="value">0</span></div>
                     <div class="stat-card"><span class="label">Tertinggi</span><span id="guru-stat-tinggi" class="value">0</span></div>
                 </div>
-
-                <!-- Tabel -->
                 <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                     <table>
                         <thead><tr><th>No</th><th>Nama</th><th class="text-center">Mapel</th><th class="text-center">Nilai</th><th class="text-center">Waktu</th></tr></thead>
@@ -596,10 +625,8 @@
                 </div>
             </div>
 
-            <!-- TAB SOAL -->
             <div id="guru-content-soal" class="hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                    <!-- Form -->
                     <div class="lg:col-span-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
                         <h3 class="font-bold text-sm mb-3">➕ Tambah Soal</h3>
                         <div class="space-y-3">
@@ -622,7 +649,6 @@
                             <button onclick="guruTambahSoal()" class="btn btn-primary">Simpan</button>
                         </div>
                     </div>
-                    <!-- Daftar -->
                     <div class="lg:col-span-7 border border-slate-100 rounded-xl p-3 bg-white">
                         <div class="flex justify-between items-center mb-3">
                             <h3 class="font-bold text-sm">Daftar Soal (<span id="guru-count-soal">0</span>)</h3>
@@ -638,7 +664,6 @@
         <!-- 5. DASHBOARD ADMIN -->
         <!-- ============================================================ -->
         <div id="view-admin-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden fade-in">
-            <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
                 <div>
                     <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
@@ -654,7 +679,6 @@
                 </div>
             </div>
 
-            <!-- Stat -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
                 <div class="stat-card"><span class="label">User</span><span id="admin-stat-users" class="value">0</span></div>
                 <div class="stat-card"><span class="label">Soal</span><span id="admin-stat-soal" class="value">0</span></div>
@@ -662,7 +686,6 @@
                 <div class="stat-card"><span class="label">Rata-rata</span><span id="admin-stat-rata" class="value">0</span></div>
             </div>
 
-            <!-- TABS -->
             <div class="flex border-b border-slate-200 mb-4 overflow-x-auto scrollbar-none">
                 <button onclick="setTabAdmin('mapel')" id="admin-tab-mapel" class="py-2 px-3 sm:px-5 text-xs sm:text-sm font-bold border-b-2 border-purple-600 text-purple-600 transition whitespace-nowrap">📚 Mapel</button>
                 <button onclick="setTabAdmin('users')" id="admin-tab-users" class="py-2 px-3 sm:px-5 text-xs sm:text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-purple-600 transition whitespace-nowrap">👤 User</button>
@@ -671,7 +694,6 @@
                 <button onclick="setTabAdmin('logs')" id="admin-tab-logs" class="py-2 px-3 sm:px-5 text-xs sm:text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-purple-600 transition whitespace-nowrap">📋 Logs</button>
             </div>
 
-            <!-- TAB MAPEL -->
             <div id="admin-content-mapel" class="space-y-3">
                 <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                     <table>
@@ -681,7 +703,6 @@
                 </div>
             </div>
 
-            <!-- TAB USERS -->
             <div id="admin-content-users" class="hidden space-y-3">
                 <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                     <table>
@@ -691,7 +712,6 @@
                 </div>
             </div>
 
-            <!-- TAB SOAL ADMIN -->
             <div id="admin-content-soal" class="hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
                     <div class="lg:col-span-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
@@ -726,7 +746,6 @@
                 </div>
             </div>
 
-            <!-- TAB HASIL ADMIN -->
             <div id="admin-content-hasil" class="hidden">
                 <div class="flex flex-wrap items-center gap-2 mb-3">
                     <select id="admin-filter-mapel" class="flex-1 min-w-[100px] text-xs py-1.5 px-3 rounded-lg border-slate-200"><option value="">Semua Mapel</option></select>
@@ -742,7 +761,6 @@
                 </div>
             </div>
 
-            <!-- TAB LOGS -->
             <div id="admin-content-logs" class="hidden">
                 <div class="border border-slate-100 rounded-xl p-3 bg-slate-50 max-h-[250px] overflow-y-auto">
                     <div id="admin-log-list" class="space-y-1 text-xs text-slate-600"></div>
@@ -774,9 +792,9 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 7. UJIAN -->
+        <!-- 7. UJIAN (dengan proteksi anti-curang) -->
         <!-- ============================================================ -->
-        <div id="view-ujian" class="w-full flex flex-col lg:grid lg:grid-cols-3 gap-4 items-start hidden">
+        <div id="view-ujian" class="w-full flex flex-col lg:grid lg:grid-cols-3 gap-4 items-start hidden exam-container">
             <div class="w-full lg:col-span-2 bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-6 order-2 lg:order-1">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-2 mb-3">
                     <div class="min-w-0 pr-2">
@@ -848,7 +866,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- JAVASCRIPT (dengan fitur lengkap, tapi dipotong agar ringkas) -->
+    <!-- JAVASCRIPT (dengan fitur Anti-Cheat) -->
     <!-- ============================================================ -->
     <script>
         // ================================================================
@@ -870,6 +888,12 @@
             mapelPesertaAktif = null;
         let jawabanSiswa = {},
             raguRaguSiswa = {};
+
+        // ===== ANTI-CHEATING VARIABLES =====
+        let violationCount = 0;
+        const MAX_VIOLATIONS = 3;
+        let isExamActive = false;
+        let antiCheatListeners = [];
 
         // ================================================================
         // INISIALISASI
@@ -904,10 +928,19 @@
         // FUNGSI NAVIGASI
         // ================================================================
         function gantiHalaman(id) {
+            // Jika keluar dari ujian, bersihkan anti-cheat
+            if (id !== 'view-ujian' && isExamActive) {
+                clearAntiCheating();
+            }
             document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
-            if (id === 'view-ujian') document.getElementById('btn-home').classList.add('hidden');
-            else document.getElementById('btn-home').classList.remove('hidden');
+            if (id === 'view-ujian') {
+                document.getElementById('btn-home').classList.add('hidden');
+                // Aktifkan anti-cheat saat masuk ujian
+                setupAntiCheating();
+            } else {
+                document.getElementById('btn-home').classList.remove('hidden');
+            }
             if (id === 'view-guru-dashboard') { setTabGuru('hasil');
                 populateMapelDropdowns(); }
             if (id === 'view-admin-dashboard') { setTabAdmin('mapel');
@@ -923,7 +956,167 @@
 
         function kembaliKeMenuUtama() {
             clearInterval(intervalTimer);
+            clearAntiCheating();
             gantiHalaman('view-menu');
+        }
+
+        // ================================================================
+        // ===== ANTI-CHEATING SYSTEM =====
+        // ================================================================
+        function showToast(message, isWarning = true) {
+            const toast = document.getElementById('toast-warning');
+            toast.innerText = message;
+            toast.style.display = 'block';
+            toast.style.background = isWarning ? '#dc2626' : '#f59e0b';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 4000);
+        }
+
+        function handleViolation(type) {
+            if (!isExamActive) return;
+            violationCount++;
+            const remaining = MAX_VIOLATIONS - violationCount;
+            let message =
+                `⚠️ Peringatan! Deteksi pelanggaran: ${type}. Sisa kesempatan: ${remaining} kali. Jika mencapai ${MAX_VIOLATIONS} kali, ujian akan otomatis dikumpulkan.`;
+
+            // Log pelanggaran ke konsol dan database
+            console.warn(`[ANTI-CHEAT] Pelanggaran #${violationCount}: ${type}`);
+            tambahLog(`[ANTI-CHEAT] Siswa "${namaPesertaAktif}" melanggar: ${type} (${violationCount}/${MAX_VIOLATIONS})`);
+
+            showToast(message, true);
+
+            if (violationCount >= MAX_VIOLATIONS) {
+                showToast('🚨 Batas pelanggaran terlampaui! Ujian akan otomatis dikumpulkan.', true);
+                // Force submit after 1.5 seconds
+                setTimeout(() => {
+                    if (isExamActive) {
+                        alert('⚠️ Anda telah melakukan 3 kali pelanggaran. Ujian otomatis dikumpulkan.');
+                        kumpulkanHasilAkhirMapel();
+                    }
+                }, 1500);
+            }
+        }
+
+        function setupAntiCheating() {
+            if (isExamActive) return;
+            isExamActive = true;
+            violationCount = 0;
+
+            // 1. Fullscreen Lock
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(() => {
+                    // User might block fullscreen, but we try.
+                });
+            }
+
+            // 2. Visibility API (Tab Switch)
+            const visibilityHandler = () => {
+                if (document.hidden && isExamActive) {
+                    handleViolation('Pindah Tab / Keluar Aplikasi');
+                }
+            };
+            document.addEventListener('visibilitychange', visibilityHandler);
+            antiCheatListeners.push({ element: document, event: 'visibilitychange', handler: visibilityHandler });
+
+            // 3. Fullscreen Change
+            const fullscreenHandler = () => {
+                if (!document.fullscreenElement && isExamActive) {
+                    handleViolation('Keluar dari Layar Penuh');
+                    // Try to force fullscreen again
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen().catch(() => {});
+                    }
+                }
+            };
+            document.addEventListener('fullscreenchange', fullscreenHandler);
+            antiCheatListeners.push({ element: document, event: 'fullscreenchange', handler: fullscreenHandler });
+
+            // 4. Block Right Click
+            const contextHandler = (e) => {
+                if (isExamActive) {
+                    e.preventDefault();
+                    handleViolation('Klik Kanan (Inspect)');
+                    return false;
+                }
+            };
+            document.addEventListener('contextmenu', contextHandler);
+            antiCheatListeners.push({ element: document, event: 'contextmenu', handler: contextHandler });
+
+            // 5. Block Keyboard Shortcuts (F12, Ctrl+Shift+I, Ctrl+U, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+S)
+            const keyHandler = (e) => {
+                if (!isExamActive) return;
+                const ctrl = e.ctrlKey || e.metaKey;
+                const shift = e.shiftKey;
+                const key = e.key.toLowerCase();
+
+                // F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
+                if (e.key === 'F12' ||
+                    (ctrl && shift && (key === 'i' || key === 'j' || key === 'c')) ||
+                    (ctrl && key === 'u') ||
+                    (ctrl && key === 's') ||
+                    (ctrl && key === 'p') ||
+                    (ctrl && key === 'c') ||
+                    (ctrl && key === 'v') ||
+                    (ctrl && key === 'x') ||
+                    (ctrl && key === 'a')) {
+                    e.preventDefault();
+                    handleViolation('Shortcut Keyboard (Copy/Paste/Inspect)');
+                    return false;
+                }
+            };
+            document.addEventListener('keydown', keyHandler);
+            antiCheatListeners.push({ element: document, event: 'keydown', handler: keyHandler });
+
+            // 6. Block Text Selection (already handled by CSS, but double down with JS)
+            const selectHandler = (e) => {
+                if (isExamActive && e.target.closest('.exam-container')) {
+                    // Allow selection in inputs/textarea
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                    e.preventDefault();
+                }
+            };
+            document.addEventListener('selectstart', selectHandler);
+            antiCheatListeners.push({ element: document, event: 'selectstart', handler: selectHandler });
+
+            // 7. Block Paste
+            const pasteHandler = (e) => {
+                if (isExamActive) {
+                    e.preventDefault();
+                    handleViolation('Mencoba Paste (Tempel)');
+                    return false;
+                }
+            };
+            document.addEventListener('paste', pasteHandler);
+            antiCheatListeners.push({ element: document, event: 'paste', handler: pasteHandler });
+
+            // 8. Block Copy
+            const copyHandler = (e) => {
+                if (isExamActive) {
+                    e.preventDefault();
+                    handleViolation('Mencoba Copy (Salin)');
+                    return false;
+                }
+            };
+            document.addEventListener('copy', copyHandler);
+            antiCheatListeners.push({ element: document, event: 'copy', handler: copyHandler });
+
+            console.log('[ANTI-CHEAT] Sistem proteksi aktif.');
+        }
+
+        function clearAntiCheating() {
+            isExamActive = false;
+            // Remove all listeners
+            antiCheatListeners.forEach(({ element, event, handler }) => {
+                element.removeEventListener(event, handler);
+            });
+            antiCheatListeners = [];
+
+            // Exit fullscreen if active
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {});
+            }
+            console.log('[ANTI-CHEAT] Sistem proteksi dinonaktifkan.');
         }
 
         // ================================================================
@@ -1438,7 +1631,7 @@
         }
 
         // ================================================================
-        // ADMIN: SOAL (mirip guru, tapi terpisah)
+        // ADMIN: SOAL
         // ================================================================
         function adminMuatSoal() {
             const container = document.getElementById('admin-list-soal');
@@ -1637,7 +1830,6 @@
         // ================================================================
         function bukaModalResetAdmin() {
             if (!confirm('⚠️ Reset total sistem? Semua data akan hilang!')) return;
-            // Hapus semua data
             if (dbActive && supabaseClient) {
                 Promise.all([
                     supabaseClient.from('bank_soal').delete().neq('id', 0),
@@ -1646,7 +1838,6 @@
                     supabaseClient.from('logs').delete().neq('id', 0),
                     supabaseClient.from('mata_pelajaran').delete().neq('id', 0)
                 ]).then(() => {
-                    // Seed ulang
                     defaultMapel.forEach(m => supabaseClient.from('mata_pelajaran').insert([m]));
                     defaultSoal.forEach(s => supabaseClient.from('bank_soal').insert([{ mapel_id: s.mapel_id, tanya: s
                             .tanya, opsi_a: s.opsi[0], opsi_b: s.opsi[1], opsi_c: s.opsi[2], opsi_d: s.opsi[3],
@@ -1690,7 +1881,7 @@
         }
 
         // ================================================================
-        // UJIAN SISWA
+        // UJIAN SISWA (dengan anti-cheat)
         // ================================================================
         async function mulaiUjian() {
             await sinkronisasiSoal();
@@ -1711,6 +1902,9 @@
             window.indeksSoalUjian = 0;
             jawabanSiswa = {};
             raguRaguSiswa = {};
+
+            // Reset violation counter sebelum ujian baru
+            violationCount = 0;
 
             renderUjianMapel();
             waktuUjian = 30 * 60;
@@ -1744,7 +1938,6 @@
                 </div>
             `;
 
-            // Grid navigasi
             const grid = document.getElementById('grid-nomor-soal');
             grid.innerHTML = '';
             window.soalUjian.forEach((s, idx) => {
@@ -1807,13 +2000,16 @@
         }
 
         async function kumpulkanHasilAkhirMapel() {
+            // Matikan anti-cheat agar tidak mengganggu proses submit
+            clearAntiCheating();
             clearInterval(intervalTimer);
-            const soal = window.soalUjian;
+
+            const soal = window.soalUjian || [];
             let benar = 0;
             soal.forEach(s => {
                 if (jawabanSiswa[s.id] !== undefined && jawabanSiswa[s.id] === s.kunci) benar++;
             });
-            const nilai = Math.round((benar / soal.length) * 100);
+            const nilai = soal.length > 0 ? Math.round((benar / soal.length) * 100) : 0;
             const waktu = new Date().toLocaleString('id-ID');
 
             if (dbActive && supabaseClient) {
@@ -1851,16 +2047,38 @@
                 m = m < 10 ? '0' + m : m;
                 s = s < 10 ? '0' + s : s;
                 el.innerText = `${m}:${s}`;
-                if (waktuUjian <= 0) { clearInterval(intervalTimer);
-                    kumpulkanHasilAkhirMapel(); }
+                if (waktuUjian <= 0) {
+                    clearInterval(intervalTimer);
+                    if (isExamActive) {
+                        alert('⏰ Waktu habis! Ujian otomatis dikumpulkan.');
+                        kumpulkanHasilAkhirMapel();
+                    }
+                }
                 waktuUjian--;
             }, 1000);
         }
 
         // ================================================================
-        // MODAL (untuk konfirmasi via modal, tapi kita pakai confirm native agar ringkas)
+        // MODAL
         // ================================================================
-        // Karena kita menggunakan confirm(), fungsi modal tidak dipakai, tapi tetap ada untuk keperluan jika diperlukan.
+        function tampilkanModal(judul, deskripsi, aksiKonfirmasi) {
+            document.getElementById('modal-title').innerText = judul;
+            document.getElementById('modal-desc').innerText = deskripsi;
+            document.getElementById('modal-confirm-btn').onclick = aksiKonfirmasi;
+            const modal = document.getElementById('custom-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.add('open');
+            }, 50);
+        }
+
+        function tutupModal() {
+            const modal = document.getElementById('custom-modal');
+            const content = document.getElementById('modal-content');
+            content.classList.remove('open');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
 
         // ================================================================
         // DEFAULT DATA
