@@ -9,16 +9,18 @@
     <style>
         * {
             -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
         }
         body {
             font-family: 'Inter', sans-serif;
             background: #f1f5f9;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .hidden {
             display: none !important;
-        }
-        .card-hover:active {
-            transform: scale(0.97);
         }
 
         /* LOGO */
@@ -284,12 +286,19 @@
             }
         }
 
-        /* FORM LOGIN */
-        .login-card {
-            max-width: 380px;
+        /* LOGIN FORM */
+        .login-container {
+            max-width: 400px;
+            width: 100%;
             margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 32px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
         }
-        .login-card input {
+        .login-container input,
+        .login-container select {
             width: 100%;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
@@ -298,13 +307,15 @@
             background: white;
             transition: all 0.15s;
             font-family: inherit;
+            appearance: auto;
         }
-        .login-card input:focus {
+        .login-container input:focus,
+        .login-container select:focus {
             outline: none;
             ring: 2px solid #4f46e5;
             border-color: transparent;
         }
-        .login-card label {
+        .login-container label {
             font-size: 11px;
             font-weight: 600;
             color: #475569;
@@ -312,11 +323,44 @@
             margin-bottom: 4px;
             letter-spacing: 0.3px;
         }
-        .login-card .error-msg {
+        .login-container .error-msg {
             color: #ef4444;
             font-size: 12px;
             margin-top: 4px;
             display: none;
+        }
+        .login-container .form-group {
+            margin-bottom: 16px;
+        }
+        .login-container .role-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .login-container .role-selector button {
+            flex: 1;
+            padding: 8px 4px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .login-container .role-selector button.active {
+            border-color: #4f46e5;
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+        .login-container .role-selector button:active {
+            transform: scale(0.96);
+        }
+        .login-container .role-selector button .icon {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 2px;
         }
     </style>
 </head>
@@ -333,7 +377,6 @@
             <span id="db-status" class="text-[8px] sm:text-[10px] px-1.5 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800 shrink-0">Online</span>
         </div>
         <div class="right">
-            <!-- User Badge (muncul saat login) -->
             <div id="user-badge" class="user-badge hidden">
                 <span id="user-name">User</span>
                 <span id="user-role" class="role">role</span>
@@ -352,128 +395,61 @@
     <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6 flex items-center justify-center">
 
         <!-- ============================================================ -->
-        <!-- 1. MENU UTAMA (Halaman Awal) -->
+        <!-- 1. HALAMAN LOGIN (utama) -->
         <!-- ============================================================ -->
-        <div id="view-menu" class="w-full max-w-3xl bg-white rounded-2xl shadow-lg border border-slate-100 p-5 sm:p-10 text-center">
-            <div class="flex flex-col items-center gap-2 mb-3">
-                <div class="logo-artha bg-indigo-50 px-4 py-2 rounded-2xl border-2 border-indigo-200 shadow-md">
-                    <span class="brand text-2xl sm:text-4xl">ARTHA JAYA</span>
-                    <span class="tagline text-xs sm:text-sm tracking-[4px] sm:tracking-[8px]">BERKARYA</span>
+        <div id="view-login" class="w-full flex justify-center">
+            <div class="login-container">
+                <div class="text-center mb-6">
+                    <div class="logo-artha bg-indigo-50 px-4 py-2 rounded-2xl border-2 border-indigo-200 shadow-md inline-flex">
+                        <span class="brand text-2xl">ARTHA JAYA</span>
+                        <span class="tagline text-xs tracking-[4px]">BERKARYA</span>
+                    </div>
+                    <h2 class="text-xl font-bold text-slate-900 mt-3">SMK Prama Artha</h2>
+                    <p class="text-xs text-slate-500">Sistem Computer Based Test</p>
                 </div>
-                <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900">SMK <span class="text-indigo-600">Prama Artha</span></h2>
-                <p class="text-xs sm:text-sm text-slate-500 max-w-xs">Silakan pilih peran Anda untuk masuk ke sistem</p>
-            </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
-                <!-- SISWA -->
-                <button onclick="gantiHalaman('view-siswa-login')" class="card-hover bg-white border-2 border-slate-100 hover:border-emerald-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
-                    <div class="bg-emerald-50 text-emerald-600 p-3 rounded-xl shrink-0">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                <form onsubmit="event.preventDefault(); login();" class="space-y-4">
+                    <!-- Pilihan Role -->
+                    <div>
+                        <label>Pilih Peran</label>
+                        <div class="role-selector" id="roleSelector">
+                            <button type="button" class="active" data-role="siswa" onclick="pilihRole('siswa')">
+                                <span class="icon">🧑‍🎓</span>
+                                Siswa
+                            </button>
+                            <button type="button" data-role="guru" onclick="pilihRole('guru')">
+                                <span class="icon">👨‍🏫</span>
+                                Guru
+                            </button>
+                            <button type="button" data-role="admin" onclick="pilihRole('admin')">
+                                <span class="icon">🛡️</span>
+                                Admin
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Username / NIS / NIP</label>
+                        <input type="text" id="login-username" placeholder="Masukkan username" value="siswa1">
                     </div>
                     <div>
-                        <h3 class="font-bold text-base sm:text-lg text-slate-800">Siswa</h3>
-                        <p class="text-slate-400 text-xs">Login &amp; ujian</p>
+                        <label>Password</label>
+                        <input type="password" id="login-password" placeholder="Masukkan password" value="siswa123">
                     </div>
-                </button>
 
-                <!-- GURU -->
-                <button onclick="gantiHalaman('view-guru-login')" class="card-hover bg-white border-2 border-slate-100 hover:border-blue-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
-                    <div class="bg-blue-50 text-blue-600 p-3 rounded-xl shrink-0">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-base sm:text-lg text-slate-800">Guru</h3>
-                        <p class="text-slate-400 text-xs">Login &amp; kelola</p>
-                    </div>
-                </button>
+                    <div id="login-error" class="error-msg">⚠️ Username atau password salah</div>
 
-                <!-- ADMIN -->
-                <button onclick="gantiHalaman('view-admin-login')" class="card-hover bg-white border-2 border-slate-100 hover:border-purple-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
-                    <div class="bg-purple-50 text-purple-600 p-3 rounded-xl shrink-0">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <button type="submit" class="btn btn-primary">Masuk</button>
+
+                    <div class="text-center text-xs text-slate-400 mt-2">
+                        <span>Demo: siswa1/siswa123, guru1/guru123, admin/admin123</span>
                     </div>
-                    <div>
-                        <h3 class="font-bold text-base sm:text-lg text-slate-800">Admin</h3>
-                        <p class="text-slate-400 text-xs">Login &amp; kendali</p>
-                    </div>
-                </button>
+                </form>
             </div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 2. LOGIN SISWA -->
-        <!-- ============================================================ -->
-        <div id="view-siswa-login" class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8 hidden">
-            <div class="text-center mb-6">
-                <span class="text-3xl">🧑‍🎓</span>
-                <h2 class="text-xl font-bold text-slate-900 mt-1">Login Siswa</h2>
-                <p class="text-xs text-slate-500">Masukkan NIS dan password</p>
-            </div>
-            <form onsubmit="event.preventDefault(); loginSiswa();" class="space-y-4">
-                <div>
-                    <label>NIS / Nama</label>
-                    <input type="text" id="siswa-username" placeholder="Contoh: 12345" value="siswa1">
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" id="siswa-password" placeholder="Password" value="siswa123">
-                </div>
-                <div id="siswa-error" class="error-msg">⚠️ Username atau password salah</div>
-                <button type="submit" class="btn btn-success">Masuk</button>
-                <button type="button" onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
-            </form>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- 3. LOGIN GURU -->
-        <!-- ============================================================ -->
-        <div id="view-guru-login" class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8 hidden">
-            <div class="text-center mb-6">
-                <span class="text-3xl">👨‍🏫</span>
-                <h2 class="text-xl font-bold text-slate-900 mt-1">Login Guru</h2>
-                <p class="text-xs text-slate-500">Masukkan NIP / Username dan password</p>
-            </div>
-            <form onsubmit="event.preventDefault(); loginGuru();" class="space-y-4">
-                <div>
-                    <label>NIP / Username</label>
-                    <input type="text" id="guru-username" placeholder="Contoh: G001" value="guru1">
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" id="guru-password" placeholder="Password" value="guru123">
-                </div>
-                <div id="guru-error" class="error-msg">⚠️ Username atau password salah</div>
-                <button type="submit" class="btn btn-primary">Masuk</button>
-                <button type="button" onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
-            </form>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- 4. LOGIN ADMIN -->
-        <!-- ============================================================ -->
-        <div id="view-admin-login" class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8 hidden">
-            <div class="text-center mb-6">
-                <span class="text-3xl">🛡️</span>
-                <h2 class="text-xl font-bold text-slate-900 mt-1">Login Admin</h2>
-                <p class="text-xs text-slate-500">Masukkan username dan password admin</p>
-            </div>
-            <form onsubmit="event.preventDefault(); loginAdmin();" class="space-y-4">
-                <div>
-                    <label>Username</label>
-                    <input type="text" id="admin-username" placeholder="Username" value="admin">
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" id="admin-password" placeholder="Password" value="admin123">
-                </div>
-                <div id="admin-error" class="error-msg">⚠️ Username atau password salah</div>
-                <button type="submit" class="btn btn-primary" style="background:#6d28d9;">Masuk</button>
-                <button type="button" onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
-            </form>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- 5. DASHBOARD SISWA (hanya setelah login) -->
+        <!-- 2. DASHBOARD SISWA -->
         <!-- ============================================================ -->
         <div id="view-siswa-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
@@ -486,15 +462,15 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                 <div class="stat-card"><span class="label">Nama</span><span class="value text-base" id="siswa-nama">-</span></div>
-                <div class="stat-card"><span class="label">Kelas</span><span class="value text-base">XII RPL 1</span></div>
-                <div class="stat-card"><span class="label">Rata-rata</span><span class="value">85</span></div>
+                <div class="stat-card"><span class="label">Kelas</span><span class="value text-base" id="siswa-kelas">-</span></div>
+                <div class="stat-card"><span class="label">Rata-rata</span><span class="value" id="siswa-rata">85</span></div>
             </div>
 
             <h3 class="font-bold text-sm mb-2">📋 Riwayat Ujian</h3>
             <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                 <table>
                     <thead><tr><th>No</th><th>Mapel</th><th class="text-center">Nilai</th><th class="text-center">Tanggal</th></tr></thead>
-                    <tbody>
+                    <tbody id="siswa-riwayat">
                         <tr><td>1</td><td>Matematika</td><td class="text-center">90</td><td class="text-center">12/04/2026</td></tr>
                         <tr><td>2</td><td>Bahasa Indonesia</td><td class="text-center">85</td><td class="text-center">10/04/2026</td></tr>
                         <tr><td>3</td><td>Bahasa Inggris</td><td class="text-center">78</td><td class="text-center">08/04/2026</td></tr>
@@ -505,7 +481,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 6. DASHBOARD GURU -->
+        <!-- 3. DASHBOARD GURU -->
         <!-- ============================================================ -->
         <div id="view-guru-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
@@ -541,7 +517,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 7. DASHBOARD ADMIN -->
+        <!-- 4. DASHBOARD ADMIN -->
         <!-- ============================================================ -->
         <div id="view-admin-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
@@ -596,7 +572,7 @@
     <!-- ============================================================ -->
     <script>
         // ================================================================
-        // DATA DUMMY USER (untuk demo)
+        // DATA USER (DEMO)
         // ================================================================
         const USERS = {
             siswa: [
@@ -613,9 +589,10 @@
         };
 
         // ================================================================
-        // SESSION MANAGEMENT
+        // SESSION
         // ================================================================
         let currentUser = null;
+        let selectedRole = 'siswa';
 
         function setSession(user) {
             currentUser = user;
@@ -630,7 +607,7 @@
                 try {
                     currentUser = JSON.parse(stored);
                     return currentUser;
-                } catch (e) { /* ignore */ }
+                } catch (e) {}
             }
             return null;
         }
@@ -652,8 +629,6 @@
                 nameEl.textContent = user.nama || user.username;
                 roleEl.textContent = user.role;
                 roleEl.className = 'role ' + user.role;
-                // Sembunyikan tombol home jika sudah login (tapi tetap tampilkan di dashboard)
-                // Kita biarkan tombol home tetap ada untuk navigasi
             } else {
                 badge.classList.add('hidden');
             }
@@ -663,124 +638,116 @@
         // NAVIGASI
         // ================================================================
         function gantiHalaman(id) {
-            // Cek apakah halaman yang dituju memerlukan login
             const protectedPages = ['view-siswa-dashboard', 'view-guru-dashboard', 'view-admin-dashboard'];
             const user = getSession();
 
             if (protectedPages.includes(id)) {
                 if (!user) {
                     alert('Silakan login terlebih dahulu!');
-                    kembaliKeMenuUtama();
+                    gantiHalaman('view-login');
                     return;
                 }
-                // Cek apakah role sesuai dengan halaman
                 if (id === 'view-siswa-dashboard' && user.role !== 'siswa') {
                     alert('Akses ditolak! Bukan siswa.');
-                    kembaliKeMenuUtama();
+                    gantiHalaman('view-login');
                     return;
                 }
                 if (id === 'view-guru-dashboard' && user.role !== 'guru') {
                     alert('Akses ditolak! Bukan guru.');
-                    kembaliKeMenuUtama();
+                    gantiHalaman('view-login');
                     return;
                 }
                 if (id === 'view-admin-dashboard' && user.role !== 'admin') {
                     alert('Akses ditolak! Bukan admin.');
-                    kembaliKeMenuUtama();
+                    gantiHalaman('view-login');
                     return;
                 }
             }
 
-            // Sembunyikan semua
             document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
             const target = document.getElementById(id);
             if (target) target.classList.remove('hidden');
 
-            // Sembunyikan tombol home di halaman login/dashboard? kita tetap tampilkan
-            // Tapi kita bisa sembunyikan di halaman ujian (tidak ada)
             const btnHome = document.getElementById('btn-home');
-            if (id === 'view-ujian') {
+            if (id === 'view-login') {
                 btnHome.classList.add('hidden');
             } else {
                 btnHome.classList.remove('hidden');
             }
 
-            // Update badge
             updateUI();
         }
 
         function kembaliKeMenuUtama() {
-            // Jika sedang login, tetap di dashboard? kita arahkan ke menu utama
-            // Tapi jika user login, lebih baik tetap di dashboard? Kita biarkan ke menu
-            gantiHalaman('view-menu');
+            gantiHalaman('view-login');
         }
 
         function logout() {
             if (confirm('Yakin ingin logout?')) {
                 clearSession();
-                gantiHalaman('view-menu');
+                gantiHalaman('view-login');
+                // Reset form
+                document.getElementById('login-username').value = '';
+                document.getElementById('login-password').value = '';
             }
         }
 
         // ================================================================
-        // FUNGSI LOGIN
+        // LOGIN
         // ================================================================
-        function loginSiswa() {
-            const username = document.getElementById('siswa-username').value.trim();
-            const password = document.getElementById('siswa-password').value.trim();
-            const errorEl = document.getElementById('siswa-error');
-
-            const found = USERS.siswa.find(u => u.username === username && u.password === password);
-            if (found) {
-                errorEl.style.display = 'none';
-                setSession({
-                    role: 'siswa',
-                    username: found.username,
-                    nama: found.nama,
-                    kelas: found.kelas
-                });
-                // Isi nama di dashboard
-                document.getElementById('siswa-nama').textContent = found.nama;
-                gantiHalaman('view-siswa-dashboard');
-            } else {
-                errorEl.style.display = 'block';
-            }
+        function pilihRole(role) {
+            selectedRole = role;
+            document.querySelectorAll('.role-selector button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.role === role);
+            });
+            // Set username default sesuai role
+            const defaults = {
+                siswa: 'siswa1',
+                guru: 'guru1',
+                admin: 'admin'
+            };
+            const passDefaults = {
+                siswa: 'siswa123',
+                guru: 'guru123',
+                admin: 'admin123'
+            };
+            document.getElementById('login-username').value = defaults[role] || '';
+            document.getElementById('login-password').value = passDefaults[role] || '';
+            document.getElementById('login-error').style.display = 'none';
         }
 
-        function loginGuru() {
-            const username = document.getElementById('guru-username').value.trim();
-            const password = document.getElementById('guru-password').value.trim();
-            const errorEl = document.getElementById('guru-error');
+        function login() {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            const errorEl = document.getElementById('login-error');
 
-            const found = USERS.guru.find(u => u.username === username && u.password === password);
+            // Cari user berdasarkan role yang dipilih
+            const users = USERS[selectedRole] || [];
+            const found = users.find(u => u.username === username && u.password === password);
+
             if (found) {
                 errorEl.style.display = 'none';
-                setSession({
-                    role: 'guru',
+                const userData = {
+                    role: selectedRole,
                     username: found.username,
                     nama: found.nama,
-                    nip: found.nip
-                });
-                gantiHalaman('view-guru-dashboard');
-            } else {
-                errorEl.style.display = 'block';
-            }
-        }
+                    kelas: found.kelas || '',
+                    nip: found.nip || ''
+                };
+                setSession(userData);
 
-        function loginAdmin() {
-            const username = document.getElementById('admin-username').value.trim();
-            const password = document.getElementById('admin-password').value.trim();
-            const errorEl = document.getElementById('admin-error');
-
-            const found = USERS.admin.find(u => u.username === username && u.password === password);
-            if (found) {
-                errorEl.style.display = 'none';
-                setSession({
-                    role: 'admin',
-                    username: found.username,
-                    nama: found.nama
-                });
-                gantiHalaman('view-admin-dashboard');
+                // Redirect ke dashboard sesuai role
+                const dashboardMap = {
+                    siswa: 'view-siswa-dashboard',
+                    guru: 'view-guru-dashboard',
+                    admin: 'view-admin-dashboard'
+                };
+                // Isi data siswa di dashboard
+                if (selectedRole === 'siswa') {
+                    document.getElementById('siswa-nama').textContent = found.nama;
+                    document.getElementById('siswa-kelas').textContent = found.kelas || 'XII RPL 1';
+                }
+                gantiHalaman(dashboardMap[selectedRole]);
             } else {
                 errorEl.style.display = 'block';
             }
@@ -790,27 +757,39 @@
         // INISIALISASI
         // ================================================================
         window.onload = function() {
-            // Cek session
             const user = getSession();
             if (user) {
                 // Redirect ke dashboard sesuai role
-                if (user.role === 'siswa') {
-                    // Isi nama
-                    const found = USERS.siswa.find(u => u.username === user.username);
-                    if (found) document.getElementById('siswa-nama').textContent = found.nama;
-                    gantiHalaman('view-siswa-dashboard');
-                    return;
-                } else if (user.role === 'guru') {
-                    gantiHalaman('view-guru-dashboard');
-                    return;
-                } else if (user.role === 'admin') {
-                    gantiHalaman('view-admin-dashboard');
+                const map = {
+                    siswa: 'view-siswa-dashboard',
+                    guru: 'view-guru-dashboard',
+                    admin: 'view-admin-dashboard'
+                };
+                if (user.role && map[user.role]) {
+                    // Cari data user untuk detail
+                    const users = USERS[user.role] || [];
+                    const found = users.find(u => u.username === user.username);
+                    if (user.role === 'siswa' && found) {
+                        document.getElementById('siswa-nama').textContent = found.nama;
+                        document.getElementById('siswa-kelas').textContent = found.kelas || 'XII RPL 1';
+                    }
+                    gantiHalaman(map[user.role]);
                     return;
                 }
             }
-            // Default ke menu
-            gantiHalaman('view-menu');
+            // Default ke login
+            gantiHalaman('view-login');
         };
+
+        // Enter key support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const loginForm = document.querySelector('#view-login form');
+                if (loginForm && !loginForm.classList.contains('hidden')) {
+                    login();
+                }
+            }
+        });
     </script>
 </body>
 </html>
