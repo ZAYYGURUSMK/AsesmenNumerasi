@@ -7,10 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * { -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
-        .hidden { display: none !important; }
-        .card-hover:active { transform: scale(0.97); }
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .card-hover:active {
+            transform: scale(0.97);
+        }
+
+        /* LOGO */
         .logo-artha {
             display: inline-flex;
             flex-direction: column;
@@ -37,8 +48,16 @@
             text-transform: uppercase;
             border-top: 1.5px solid #6d28d9;
         }
-        .school-name { font-weight: 800; font-size: 14px; color: #1e1b4b; }
-        .school-name span { color: #4f46e5; }
+        .school-name {
+            font-weight: 800;
+            font-size: 14px;
+            color: #1e1b4b;
+        }
+        .school-name span {
+            color: #4f46e5;
+        }
+
+        /* BUTTONS */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -53,15 +72,42 @@
             font-size: 13px;
             width: 100%;
         }
-        .btn:active { transform: scale(0.96); }
-        .btn-primary { background: #4f46e5; color: white; }
-        .btn-primary:hover { background: #4338ca; }
-        .btn-success { background: #10b981; color: white; }
-        .btn-success:hover { background: #059669; }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-danger:hover { background: #dc2626; }
-        .btn-outline { background: transparent; color: #4f46e5; border: 2px solid #4f46e5; }
-        .btn-sm { padding: 6px 12px; font-size: 11px; width: auto; }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #4338ca;
+        }
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #059669;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 11px;
+            width: auto;
+        }
+
+        /* STAT CARD */
         .stat-card {
             background: white;
             border-radius: 14px;
@@ -69,17 +115,72 @@
             border: 1px solid #e2e8f0;
             text-align: center;
         }
-        .stat-card .label { font-size: 9px; font-weight: 600; text-transform: uppercase; color: #94a3b8; display: block; }
-        .stat-card .value { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1.2; margin-top: 2px; }
-        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .table-wrap table { min-width: 480px; width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; }
-        .table-wrap th { background: #f8fafc; font-size: 9px; font-weight: 700; text-transform: uppercase; color: #64748b; padding: 8px 10px; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
-        .table-wrap td { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; color: #1e293b; vertical-align: middle; }
-        .badge-role { font-size: 9px; padding: 2px 10px; border-radius: 20px; font-weight: 600; display: inline-block; }
-        .badge-role.admin { background: #ede9fe; color: #6d28d9; }
-        .badge-role.guru { background: #dbeafe; color: #1d4ed8; }
-        .badge-role.siswa { background: #d1fae5; color: #065f46; }
-        .mapel-badge { background: #e0e7ff; color: #3730a3; font-size: 9px; padding: 1px 8px; border-radius: 12px; font-weight: 600; white-space: nowrap; display: inline-block; }
+        .stat-card .label {
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #94a3b8;
+            display: block;
+        }
+        .stat-card .value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+            margin-top: 2px;
+        }
+
+        /* TABLE */
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .table-wrap table {
+            min-width: 480px;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 12px;
+        }
+        .table-wrap th {
+            background: #f8fafc;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #64748b;
+            padding: 8px 10px;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+        .table-wrap td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+            vertical-align: middle;
+        }
+
+        /* BADGE */
+        .badge-role {
+            font-size: 9px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .badge-role.admin {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+        .badge-role.guru {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        .badge-role.siswa {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        /* NAVBAR */
         .navbar {
             background: white;
             border-bottom: 1px solid #e2e8f0;
@@ -92,24 +193,130 @@
             top: 0;
             z-index: 40;
         }
-        .navbar .left { display: flex; align-items: center; gap: 8px; min-width: 0; }
-        .navbar .right { flex-shrink: 0; }
+        .navbar .left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+        .navbar .right {
+            flex-shrink: 0;
+        }
+        .user-badge {
+            font-size: 10px;
+            font-weight: 600;
+            color: #1e293b;
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .user-badge .role {
+            text-transform: uppercase;
+            font-size: 8px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+        .user-badge .role.admin {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+        .user-badge .role.guru {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        .user-badge .role.siswa {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
         @media (min-width: 640px) {
-            .navbar { height: 64px; padding: 0 24px; }
-            .logo-artha .brand { font-size: 20px; }
-            .logo-artha .tagline { font-size: 8px; letter-spacing: 3px; }
-            .school-name { font-size: 18px; }
-            .stat-card .value { font-size: 28px; }
-            .btn { width: auto; padding: 12px 24px; font-size: 14px; }
+            .navbar {
+                height: 64px;
+                padding: 0 24px;
+            }
+            .logo-artha .brand {
+                font-size: 20px;
+            }
+            .logo-artha .tagline {
+                font-size: 8px;
+                letter-spacing: 3px;
+            }
+            .school-name {
+                font-size: 18px;
+            }
+            .stat-card .value {
+                font-size: 28px;
+            }
+            .btn {
+                width: auto;
+                padding: 12px 24px;
+                font-size: 14px;
+            }
         }
         @media (max-width: 480px) {
-            .logo-artha .brand { font-size: 12px; }
-            .school-name { font-size: 11px; }
-            .stat-card .value { font-size: 18px; }
-            .stat-card { padding: 8px 6px; }
-            .table-wrap table { font-size: 10px; min-width: 360px; }
-            .table-wrap th, .table-wrap td { padding: 5px 6px; }
-            .btn { font-size: 12px; padding: 8px 14px; }
+            .logo-artha .brand {
+                font-size: 12px;
+            }
+            .school-name {
+                font-size: 11px;
+            }
+            .stat-card .value {
+                font-size: 18px;
+            }
+            .stat-card {
+                padding: 8px 6px;
+            }
+            .table-wrap table {
+                font-size: 10px;
+                min-width: 360px;
+            }
+            .table-wrap th,
+            .table-wrap td {
+                padding: 5px 6px;
+            }
+            .btn {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+        }
+
+        /* FORM LOGIN */
+        .login-card {
+            max-width: 380px;
+            margin: 0 auto;
+        }
+        .login-card input {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+        .login-card input:focus {
+            outline: none;
+            ring: 2px solid #4f46e5;
+            border-color: transparent;
+        }
+        .login-card label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
+        }
+        .login-card .error-msg {
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
         }
     </style>
 </head>
@@ -126,6 +333,12 @@
             <span id="db-status" class="text-[8px] sm:text-[10px] px-1.5 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800 shrink-0">Online</span>
         </div>
         <div class="right">
+            <!-- User Badge (muncul saat login) -->
+            <div id="user-badge" class="user-badge hidden">
+                <span id="user-name">User</span>
+                <span id="user-role" class="role">role</span>
+                <button onclick="logout()" class="text-xs text-rose-500 hover:text-rose-700 ml-1">Logout</button>
+            </div>
             <button onclick="kembaliKeMenuUtama()" id="btn-home" class="flex items-center space-x-1 text-xs font-medium text-slate-600 hover:text-indigo-600 transition border border-slate-200 px-2.5 py-1.5 rounded-lg bg-slate-50 active:scale-95">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -139,7 +352,7 @@
     <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6 flex items-center justify-center">
 
         <!-- ============================================================ -->
-        <!-- 1. MENU UTAMA -->
+        <!-- 1. MENU UTAMA (Halaman Awal) -->
         <!-- ============================================================ -->
         <div id="view-menu" class="w-full max-w-3xl bg-white rounded-2xl shadow-lg border border-slate-100 p-5 sm:p-10 text-center">
             <div class="flex flex-col items-center gap-2 mb-3">
@@ -148,47 +361,119 @@
                     <span class="tagline text-xs sm:text-sm tracking-[4px] sm:tracking-[8px]">BERKARYA</span>
                 </div>
                 <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900">SMK <span class="text-indigo-600">Prama Artha</span></h2>
-                <p class="text-xs sm:text-sm text-slate-500 max-w-xs">Portal Asesmen Digital Multi-Mapel</p>
+                <p class="text-xs sm:text-sm text-slate-500 max-w-xs">Silakan pilih peran Anda untuk masuk ke sistem</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
                 <!-- SISWA -->
-                <button onclick="gantiHalaman('view-siswa-dashboard')" class="card-hover bg-white border-2 border-slate-100 hover:border-emerald-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
+                <button onclick="gantiHalaman('view-siswa-login')" class="card-hover bg-white border-2 border-slate-100 hover:border-emerald-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
                     <div class="bg-emerald-50 text-emerald-600 p-3 rounded-xl shrink-0">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
                     </div>
                     <div>
                         <h3 class="font-bold text-base sm:text-lg text-slate-800">Siswa</h3>
-                        <p class="text-slate-400 text-xs">Dashboard &amp; ujian</p>
+                        <p class="text-slate-400 text-xs">Login &amp; ujian</p>
                     </div>
                 </button>
 
                 <!-- GURU -->
-                <button onclick="gantiHalaman('view-guru-dashboard')" class="card-hover bg-white border-2 border-slate-100 hover:border-blue-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
+                <button onclick="gantiHalaman('view-guru-login')" class="card-hover bg-white border-2 border-slate-100 hover:border-blue-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
                     <div class="bg-blue-50 text-blue-600 p-3 rounded-xl shrink-0">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                     </div>
                     <div>
                         <h3 class="font-bold text-base sm:text-lg text-slate-800">Guru</h3>
-                        <p class="text-slate-400 text-xs">Kelola soal &amp; nilai</p>
+                        <p class="text-slate-400 text-xs">Login &amp; kelola</p>
                     </div>
                 </button>
 
                 <!-- ADMIN -->
-                <button onclick="gantiHalaman('view-admin-dashboard')" class="card-hover bg-white border-2 border-slate-100 hover:border-purple-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
+                <button onclick="gantiHalaman('view-admin-login')" class="card-hover bg-white border-2 border-slate-100 hover:border-purple-500 rounded-2xl p-4 flex items-center gap-3 sm:flex-col sm:items-center text-left sm:text-center active:bg-slate-50 transition">
                     <div class="bg-purple-50 text-purple-600 p-3 rounded-xl shrink-0">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
                     <div>
                         <h3 class="font-bold text-base sm:text-lg text-slate-800">Admin</h3>
-                        <p class="text-slate-400 text-xs">Kendali penuh</p>
+                        <p class="text-slate-400 text-xs">Login &amp; kendali</p>
                     </div>
                 </button>
             </div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 2. DASHBOARD SISWA -->
+        <!-- 2. LOGIN SISWA -->
+        <!-- ============================================================ -->
+        <div id="view-siswa-login" class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8 hidden">
+            <div class="text-center mb-6">
+                <span class="text-3xl">🧑‍🎓</span>
+                <h2 class="text-xl font-bold text-slate-900 mt-1">Login Siswa</h2>
+                <p class="text-xs text-slate-500">Masukkan NIS dan password</p>
+            </div>
+            <form onsubmit="event.preventDefault(); loginSiswa();" class="space-y-4">
+                <div>
+                    <label>NIS / Nama</label>
+                    <input type="text" id="siswa-username" placeholder="Contoh: 12345" value="siswa1">
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" id="siswa-password" placeholder="Password" value="siswa123">
+                </div>
+                <div id="siswa-error" class="error-msg">⚠️ Username atau password salah</div>
+                <button type="submit" class="btn btn-success">Masuk</button>
+                <button type="button" onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
+            </form>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. LOGIN GURU -->
+        <!-- ============================================================ -->
+        <div id="view-guru-login" class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8 hidden">
+            <div class="text-center mb-6">
+                <span class="text-3xl">👨‍🏫</span>
+                <h2 class="text-xl font-bold text-slate-900 mt-1">Login Guru</h2>
+                <p class="text-xs text-slate-500">Masukkan NIP / Username dan password</p>
+            </div>
+            <form onsubmit="event.preventDefault(); loginGuru();" class="space-y-4">
+                <div>
+                    <label>NIP / Username</label>
+                    <input type="text" id="guru-username" placeholder="Contoh: G001" value="guru1">
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" id="guru-password" placeholder="Password" value="guru123">
+                </div>
+                <div id="guru-error" class="error-msg">⚠️ Username atau password salah</div>
+                <button type="submit" class="btn btn-primary">Masuk</button>
+                <button type="button" onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
+            </form>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4. LOGIN ADMIN -->
+        <!-- ============================================================ -->
+        <div id="view-admin-login" class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8 hidden">
+            <div class="text-center mb-6">
+                <span class="text-3xl">🛡️</span>
+                <h2 class="text-xl font-bold text-slate-900 mt-1">Login Admin</h2>
+                <p class="text-xs text-slate-500">Masukkan username dan password admin</p>
+            </div>
+            <form onsubmit="event.preventDefault(); loginAdmin();" class="space-y-4">
+                <div>
+                    <label>Username</label>
+                    <input type="text" id="admin-username" placeholder="Username" value="admin">
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" id="admin-password" placeholder="Password" value="admin123">
+                </div>
+                <div id="admin-error" class="error-msg">⚠️ Username atau password salah</div>
+                <button type="submit" class="btn btn-primary" style="background:#6d28d9;">Masuk</button>
+                <button type="button" onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
+            </form>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 5. DASHBOARD SISWA (hanya setelah login) -->
         <!-- ============================================================ -->
         <div id="view-siswa-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
@@ -196,17 +481,15 @@
                     <span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full">SISWA</span>
                     Dashboard Peserta
                 </h2>
-                <button onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
+                <button onclick="logout()" class="btn btn-danger btn-sm">Logout</button>
             </div>
 
-            <!-- Info & Stat -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                <div class="stat-card"><span class="label">Nama</span><span class="value text-base">Andi Wijaya</span></div>
+                <div class="stat-card"><span class="label">Nama</span><span class="value text-base" id="siswa-nama">-</span></div>
                 <div class="stat-card"><span class="label">Kelas</span><span class="value text-base">XII RPL 1</span></div>
-                <div class="stat-card"><span class="label">Rata-rata Nilai</span><span class="value">85</span></div>
+                <div class="stat-card"><span class="label">Rata-rata</span><span class="value">85</span></div>
             </div>
 
-            <!-- Daftar Ujian -->
             <h3 class="font-bold text-sm mb-2">📋 Riwayat Ujian</h3>
             <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                 <table>
@@ -218,11 +501,11 @@
                     </tbody>
                 </table>
             </div>
-            <button onclick="alert('Fitur ujian aktif segera hadir')" class="btn btn-success mt-4">Mulai Ujian Baru</button>
+            <button onclick="alert('Fitur ujian akan segera hadir')" class="btn btn-success mt-4">Mulai Ujian Baru</button>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 3. DASHBOARD GURU -->
+        <!-- 6. DASHBOARD GURU -->
         <!-- ============================================================ -->
         <div id="view-guru-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
@@ -230,17 +513,15 @@
                     <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full">GURU</span>
                     Panel Pengajar
                 </h2>
-                <button onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
+                <button onclick="logout()" class="btn btn-danger btn-sm">Logout</button>
             </div>
 
-            <!-- Statistik -->
             <div class="grid grid-cols-3 gap-2 mb-4">
                 <div class="stat-card"><span class="label">Total Siswa</span><span class="value">32</span></div>
                 <div class="stat-card"><span class="label">Rata-rata</span><span class="value">78.5</span></div>
                 <div class="stat-card"><span class="label">Tertinggi</span><span class="value">95</span></div>
             </div>
 
-            <!-- Tabel Nilai per Mapel -->
             <h3 class="font-bold text-sm mb-2">📊 Hasil Ujian Siswa</h3>
             <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                 <table>
@@ -253,7 +534,6 @@
                     </tbody>
                 </table>
             </div>
-
             <div class="flex flex-wrap gap-2 mt-4">
                 <button onclick="alert('Buka form tambah soal')" class="btn btn-primary btn-sm">➕ Tambah Soal</button>
                 <button onclick="alert('Buka daftar soal')" class="btn btn-outline btn-sm">📝 Kelola Soal</button>
@@ -261,7 +541,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 4. DASHBOARD ADMIN -->
+        <!-- 7. DASHBOARD ADMIN -->
         <!-- ============================================================ -->
         <div id="view-admin-dashboard" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
@@ -269,10 +549,9 @@
                     <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full">ADMIN</span>
                     Pusat Kendali
                 </h2>
-                <button onclick="kembaliKeMenuUtama()" class="btn btn-outline btn-sm">Kembali ke Menu</button>
+                <button onclick="logout()" class="btn btn-danger btn-sm">Logout</button>
             </div>
 
-            <!-- Statistik -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
                 <div class="stat-card"><span class="label">User</span><span class="value">15</span></div>
                 <div class="stat-card"><span class="label">Mapel</span><span class="value">5</span></div>
@@ -280,7 +559,6 @@
                 <div class="stat-card"><span class="label">Ujian</span><span class="value">48</span></div>
             </div>
 
-            <!-- Tabel User -->
             <h3 class="font-bold text-sm mb-2">👥 Manajemen User</h3>
             <div class="table-wrap border border-slate-100 rounded-xl bg-white">
                 <table>
@@ -318,32 +596,219 @@
     <!-- ============================================================ -->
     <script>
         // ================================================================
+        // DATA DUMMY USER (untuk demo)
+        // ================================================================
+        const USERS = {
+            siswa: [
+                { username: 'siswa1', password: 'siswa123', nama: 'Andi Wijaya', kelas: 'XII RPL 1' },
+                { username: 'siswa2', password: 'siswa123', nama: 'Budi Santoso', kelas: 'XII RPL 2' },
+            ],
+            guru: [
+                { username: 'guru1', password: 'guru123', nama: 'Budi Santoso', nip: 'G001' },
+                { username: 'guru2', password: 'guru123', nama: 'Siti Rahayu', nip: 'G002' },
+            ],
+            admin: [
+                { username: 'admin', password: 'admin123', nama: 'Admin Utama' },
+            ]
+        };
+
+        // ================================================================
+        // SESSION MANAGEMENT
+        // ================================================================
+        let currentUser = null;
+
+        function setSession(user) {
+            currentUser = user;
+            localStorage.setItem('cbt_user', JSON.stringify(user));
+            updateUI();
+        }
+
+        function getSession() {
+            if (currentUser) return currentUser;
+            const stored = localStorage.getItem('cbt_user');
+            if (stored) {
+                try {
+                    currentUser = JSON.parse(stored);
+                    return currentUser;
+                } catch (e) { /* ignore */ }
+            }
+            return null;
+        }
+
+        function clearSession() {
+            currentUser = null;
+            localStorage.removeItem('cbt_user');
+            updateUI();
+        }
+
+        function updateUI() {
+            const user = getSession();
+            const badge = document.getElementById('user-badge');
+            const nameEl = document.getElementById('user-name');
+            const roleEl = document.getElementById('user-role');
+
+            if (user) {
+                badge.classList.remove('hidden');
+                nameEl.textContent = user.nama || user.username;
+                roleEl.textContent = user.role;
+                roleEl.className = 'role ' + user.role;
+                // Sembunyikan tombol home jika sudah login (tapi tetap tampilkan di dashboard)
+                // Kita biarkan tombol home tetap ada untuk navigasi
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // ================================================================
         // NAVIGASI
         // ================================================================
         function gantiHalaman(id) {
-            // Sembunyikan semua view
+            // Cek apakah halaman yang dituju memerlukan login
+            const protectedPages = ['view-siswa-dashboard', 'view-guru-dashboard', 'view-admin-dashboard'];
+            const user = getSession();
+
+            if (protectedPages.includes(id)) {
+                if (!user) {
+                    alert('Silakan login terlebih dahulu!');
+                    kembaliKeMenuUtama();
+                    return;
+                }
+                // Cek apakah role sesuai dengan halaman
+                if (id === 'view-siswa-dashboard' && user.role !== 'siswa') {
+                    alert('Akses ditolak! Bukan siswa.');
+                    kembaliKeMenuUtama();
+                    return;
+                }
+                if (id === 'view-guru-dashboard' && user.role !== 'guru') {
+                    alert('Akses ditolak! Bukan guru.');
+                    kembaliKeMenuUtama();
+                    return;
+                }
+                if (id === 'view-admin-dashboard' && user.role !== 'admin') {
+                    alert('Akses ditolak! Bukan admin.');
+                    kembaliKeMenuUtama();
+                    return;
+                }
+            }
+
+            // Sembunyikan semua
             document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
-            // Tampilkan yang dipilih
             const target = document.getElementById(id);
             if (target) target.classList.remove('hidden');
 
-            // Sembunyikan tombol home jika di halaman ujian (tidak ada di sini)
+            // Sembunyikan tombol home di halaman login/dashboard? kita tetap tampilkan
+            // Tapi kita bisa sembunyikan di halaman ujian (tidak ada)
             const btnHome = document.getElementById('btn-home');
             if (id === 'view-ujian') {
                 btnHome.classList.add('hidden');
             } else {
                 btnHome.classList.remove('hidden');
             }
+
+            // Update badge
+            updateUI();
         }
 
         function kembaliKeMenuUtama() {
+            // Jika sedang login, tetap di dashboard? kita arahkan ke menu utama
+            // Tapi jika user login, lebih baik tetap di dashboard? Kita biarkan ke menu
             gantiHalaman('view-menu');
         }
 
+        function logout() {
+            if (confirm('Yakin ingin logout?')) {
+                clearSession();
+                gantiHalaman('view-menu');
+            }
+        }
+
         // ================================================================
-        // INISIALISASI (tampilkan menu utama)
+        // FUNGSI LOGIN
+        // ================================================================
+        function loginSiswa() {
+            const username = document.getElementById('siswa-username').value.trim();
+            const password = document.getElementById('siswa-password').value.trim();
+            const errorEl = document.getElementById('siswa-error');
+
+            const found = USERS.siswa.find(u => u.username === username && u.password === password);
+            if (found) {
+                errorEl.style.display = 'none';
+                setSession({
+                    role: 'siswa',
+                    username: found.username,
+                    nama: found.nama,
+                    kelas: found.kelas
+                });
+                // Isi nama di dashboard
+                document.getElementById('siswa-nama').textContent = found.nama;
+                gantiHalaman('view-siswa-dashboard');
+            } else {
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function loginGuru() {
+            const username = document.getElementById('guru-username').value.trim();
+            const password = document.getElementById('guru-password').value.trim();
+            const errorEl = document.getElementById('guru-error');
+
+            const found = USERS.guru.find(u => u.username === username && u.password === password);
+            if (found) {
+                errorEl.style.display = 'none';
+                setSession({
+                    role: 'guru',
+                    username: found.username,
+                    nama: found.nama,
+                    nip: found.nip
+                });
+                gantiHalaman('view-guru-dashboard');
+            } else {
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function loginAdmin() {
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value.trim();
+            const errorEl = document.getElementById('admin-error');
+
+            const found = USERS.admin.find(u => u.username === username && u.password === password);
+            if (found) {
+                errorEl.style.display = 'none';
+                setSession({
+                    role: 'admin',
+                    username: found.username,
+                    nama: found.nama
+                });
+                gantiHalaman('view-admin-dashboard');
+            } else {
+                errorEl.style.display = 'block';
+            }
+        }
+
+        // ================================================================
+        // INISIALISASI
         // ================================================================
         window.onload = function() {
+            // Cek session
+            const user = getSession();
+            if (user) {
+                // Redirect ke dashboard sesuai role
+                if (user.role === 'siswa') {
+                    // Isi nama
+                    const found = USERS.siswa.find(u => u.username === user.username);
+                    if (found) document.getElementById('siswa-nama').textContent = found.nama;
+                    gantiHalaman('view-siswa-dashboard');
+                    return;
+                } else if (user.role === 'guru') {
+                    gantiHalaman('view-guru-dashboard');
+                    return;
+                } else if (user.role === 'admin') {
+                    gantiHalaman('view-admin-dashboard');
+                    return;
+                }
+            }
+            // Default ke menu
             gantiHalaman('view-menu');
         };
     </script>
