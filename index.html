@@ -1145,7 +1145,7 @@
             </form>
         </div>
 
-        <!-- ADMIN: KELOLA MAPEL -->
+        <!-- ADMIN: KELOLA MAPEL (DENGAN FITUR PENCARIAN) -->
         <div id="view-admin-kelola-mapel" class="w-full glass-card rounded-2xl p-4 sm:p-8 hidden">
             <div class="page-header">
                 <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
@@ -1156,10 +1156,18 @@
                     <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
                 </div>
             </div>
-            <div class="flex flex-wrap gap-2 mb-4">
-                <button onclick="bukaModalTambahMapel()" class="btn btn-success btn-sm">➕ Tambah Mapel</button>
-                <button onclick="renderKelolaMapel()" class="btn btn-primary btn-sm">↻ Refresh</button>
+            
+            <!-- 🔥 FITUR PENCARIAN MAPEL -->
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-mapel" class="search-input" placeholder="Cari nama mapel atau kode..." oninput="renderKelolaMapel()">
+                </div>
+                <button onclick="renderKelolaMapel()" class="btn btn-primary btn-sm" style="width:auto;">Filter</button>
+                <button onclick="document.getElementById('search-mapel').value=''; renderKelolaMapel();" class="btn btn-outline btn-sm" style="width:auto;">Reset</button>
+                <button onclick="bukaModalTambahMapel()" class="btn btn-success btn-sm" style="width:auto;">➕ Tambah Mapel</button>
             </div>
+            
             <div class="table-wrap border border-white/20 rounded-xl bg-white/20 backdrop-blur-sm">
                 <table>
                     <thead><tr><th>ID</th><th>Nama Mapel</th><th>Kode</th><th>Icon</th><th>Jumlah Soal</th><th class="text-center">Aksi</th></tr></thead>
@@ -1609,7 +1617,6 @@
             updateUI();
         }
 
-        // 🔥 PERUBAHAN: Header hanya menampilkan nama depan
         function updateUI() {
             const user = getSession();
             const badge = document.getElementById('user-badge');
@@ -1618,7 +1625,6 @@
             
             if (user) {
                 badge.classList.remove('hidden');
-                // HEADER: Hanya tampilkan nama depan (first name)
                 const firstName = getFirstName(user.nama);
                 nameEl.textContent = firstName || user.role;
                 roleEl.textContent = user.role;
@@ -1719,7 +1725,6 @@
             }
             
             setSession('siswa', user.nama, user.id, kelas);
-            // DASHBOARD SISWA: Tampilkan nama lengkap
             document.getElementById('siswa-nama-display').textContent = user.nama;
             document.getElementById('siswa-kelas-display').textContent = kelas;
             updateUI();
@@ -1734,7 +1739,6 @@
             if (user) {
                 errorEl.style.display = 'none';
                 setSession('guru', user.nama, user.id, '');
-                // DASHBOARD GURU: Tampilkan nama lengkap
                 document.getElementById('guru-nama-display').textContent = user.nama;
                 updateUI();
                 gantiHalaman('view-guru-dashboard');
@@ -1753,7 +1757,6 @@
             if (user) {
                 errorEl.style.display = 'none';
                 setSession('admin', user.nama, user.id, '');
-                // DASHBOARD ADMIN: Tampilkan nama lengkap
                 document.getElementById('admin-nama-display').textContent = user.nama;
                 updateUI();
                 gantiHalaman('view-admin-dashboard');
@@ -2723,19 +2726,33 @@
         }
 
         // ================================================================
-        // ADMIN: KELOLA MAPEL
+        // ADMIN: KELOLA MAPEL (DENGAN FITUR PENCARIAN)
         // ================================================================
         function renderKelolaMapel() {
             loadMapelFromStorage();
+            
+            // 🔥 Ambil keyword pencarian
+            const searchQuery = document.getElementById('search-mapel')?.value.toLowerCase().trim() || '';
+            
+            let mapelList = DATA_MAPEL;
+            
+            // 🔥 Filter berdasarkan nama atau kode
+            if (searchQuery) {
+                mapelList = mapelList.filter(m => 
+                    m.nama.toLowerCase().includes(searchQuery) || 
+                    (m.kode && m.kode.toLowerCase().includes(searchQuery))
+                );
+            }
+            
             const tbody = document.getElementById('admin-tabel-mapel');
             tbody.innerHTML = '';
 
-            if (DATA_MAPEL.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-slate-400 text-xs">Belum ada mapel.</td></tr>';
+            if (mapelList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-400 text-xs">${searchQuery ? 'Tidak ada mapel dengan nama/kode "' + searchQuery + '"' : 'Belum ada mapel.'}</td></tr>`;
                 return;
             }
 
-            DATA_MAPEL.forEach(m => {
+            mapelList.forEach(m => {
                 const jml = getSoalByMapel(m.id).length;
                 tbody.innerHTML += `
                     <tr>
@@ -2766,6 +2783,7 @@
             populateMapelDropdowns();
             populateGuruMapelDropdown();
             renderKelolaGuru();
+            renderDaftarMapel();
         }
 
         function bukaEditMapel(id) {
@@ -2787,6 +2805,7 @@
                 populateMapelDropdowns();
                 populateGuruMapelDropdown();
                 renderKelolaGuru();
+                renderDaftarMapel();
             } else {
                 alert('❌ Gagal memperbarui mapel.');
             }
@@ -3005,7 +3024,6 @@
                 session.nama = nama;
                 session.mapel = selectedMapel;
                 localStorage.setItem('cbt_user', JSON.stringify(session));
-                // DASHBOARD GURU: Tampilkan nama lengkap
                 document.getElementById('guru-nama-display').textContent = nama;
                 updateUI();
             }
@@ -3315,12 +3333,10 @@
                         gantiHalaman('view-siswa-dashboard');
                         return;
                     } else if (user.role === 'guru') {
-                        // DASHBOARD GURU: Tampilkan nama lengkap
                         document.getElementById('guru-nama-display').textContent = user.nama || 'Budi Santoso';
                         gantiHalaman('view-guru-dashboard');
                         return;
                     } else if (user.role === 'admin') {
-                        // DASHBOARD ADMIN: Tampilkan nama lengkap
                         document.getElementById('admin-nama-display').textContent = user.nama || 'Prama Artha';
                         gantiHalaman('view-admin-dashboard');
                         return;
