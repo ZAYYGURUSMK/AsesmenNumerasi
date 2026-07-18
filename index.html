@@ -661,6 +661,39 @@
         .theme-toggle {
             display: none;
         }
+
+        /* Search input style */
+        .search-input {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: 13px;
+            color: #0f172a;
+            width: 100%;
+            max-width: 280px;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(79, 70, 229, 0.4);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.08);
+        }
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .search-wrapper .search-icon {
+            color: #94a3b8;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -1248,7 +1281,7 @@
             <p class="text-xs text-slate-400 mt-2">⚠️ Menghapus mapel akan menghapus semua soal yang terkait dengan mapel tersebut.</p>
         </div>
 
-        <!-- ADMIN: KELOLA GURU -->
+        <!-- ADMIN: KELOLA GURU (DENGAN FITUR PENCARIAN) -->
         <div id="view-admin-kelola-guru" class="w-full glass-card rounded-2xl p-4 sm:p-8 hidden">
             <div class="page-header">
                 <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
@@ -1261,6 +1294,17 @@
                 </div>
             </div>
             <p class="text-sm text-slate-500 mb-4">Kelola data guru dan mata pelajaran yang diajarkan oleh masing-masing guru.</p>
+            
+            <!-- 🔥 FITUR PENCARIAN -->
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-guru" class="search-input" placeholder="Cari nama guru..." oninput="renderKelolaGuru()">
+                </div>
+                <button onclick="renderKelolaGuru()" class="btn btn-primary btn-sm" style="width:auto;">Filter</button>
+                <button onclick="document.getElementById('search-guru').value=''; renderKelolaGuru();" class="btn btn-outline btn-sm" style="width:auto;">Reset</button>
+            </div>
+            
             <div class="table-wrap border border-white/20 rounded-xl bg-white/20 backdrop-blur-sm">
                 <table>
                     <thead>
@@ -1279,7 +1323,7 @@
             </div>
         </div>
 
-        <!-- ADMIN: KELOLA SISWA -->
+        <!-- ADMIN: KELOLA SISWA (DENGAN FITUR PENCARIAN) -->
         <div id="view-admin-kelola-siswa" class="w-full glass-card rounded-2xl p-4 sm:p-8 hidden">
             <div class="page-header">
                 <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
@@ -1292,6 +1336,17 @@
                 </div>
             </div>
             <p class="text-sm text-slate-500 mb-4">Kelola data siswa dan reset riwayat ujian mereka agar dapat mengulang asesmen.</p>
+            
+            <!-- 🔥 FITUR PENCARIAN -->
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-siswa" class="search-input" placeholder="Cari nama siswa..." oninput="renderKelolaSiswa()">
+                </div>
+                <button onclick="renderKelolaSiswa()" class="btn btn-primary btn-sm" style="width:auto;">Filter</button>
+                <button onclick="document.getElementById('search-siswa').value=''; renderKelolaSiswa();" class="btn btn-outline btn-sm" style="width:auto;">Reset</button>
+            </div>
+            
             <div class="table-wrap border border-white/20 rounded-xl bg-white/20 backdrop-blur-sm">
                 <table>
                     <thead>
@@ -1338,7 +1393,6 @@
             return parts[0];
         }
 
-        // 🔥 PERUBAHAN: Buat key unik untuk hasil ujian (nama + kelas)
         function getHasilKey(nama, kelas) {
             return (nama + '_' + kelas).toLowerCase().replace(/\s+/g, '_');
         }
@@ -1507,7 +1561,7 @@
         }
 
         // ================================================================
-        // DATA SOAL (dengan kelas)
+        // DATA SOAL
         // ================================================================
         const DEFAULT_SOAL = {
             1: [
@@ -1763,7 +1817,6 @@
             }
             errorEl.style.display = 'none';
             
-            // 🔥 PERUBAHAN: Cek user berdasarkan nama dan kelas (case insensitive)
             const user = users.find(u => 
                 u.role === 'siswa' && 
                 u.nama.toLowerCase() === nama.toLowerCase() && 
@@ -1819,7 +1872,7 @@
         }
 
         // ================================================================
-        // SISWA: HASIL UJIAN (dengan key unik nama + kelas)
+        // SISWA: HASIL UJIAN
         // ================================================================
         function getHasilSiswa(nama, kelas) {
             const key = 'cbt_hasil_' + getHasilKey(nama, kelas);
@@ -2938,17 +2991,29 @@
         });
 
         // ================================================================
-        // ADMIN: KELOLA GURU
+        // ADMIN: KELOLA GURU (DENGAN FITUR PENCARIAN)
         // ================================================================
         function renderKelolaGuru() {
             loadUsersFromStorage();
             loadMapelFromStorage();
-            const guruList = getGuruList();
+            
+            // 🔥 Ambil keyword pencarian
+            const searchQuery = document.getElementById('search-guru')?.value.toLowerCase().trim() || '';
+            
+            let guruList = getGuruList();
+            
+            // 🔥 Filter berdasarkan nama
+            if (searchQuery) {
+                guruList = guruList.filter(guru => 
+                    guru.nama.toLowerCase().includes(searchQuery)
+                );
+            }
+            
             const tbody = document.getElementById('admin-tabel-guru');
             tbody.innerHTML = '';
 
             if (guruList.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs">Belum ada guru terdaftar.</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs">${searchQuery ? 'Tidak ada guru dengan nama "' + searchQuery + '"' : 'Belum ada guru terdaftar.'}</td></tr>`;
                 return;
             }
 
@@ -3075,16 +3140,28 @@
         }
 
         // ================================================================
-        // ADMIN: KELOLA SISWA
+        // ADMIN: KELOLA SISWA (DENGAN FITUR PENCARIAN)
         // ================================================================
         function renderKelolaSiswa() {
             loadUsersFromStorage();
-            const siswa = getSiswa();
+            
+            // 🔥 Ambil keyword pencarian
+            const searchQuery = document.getElementById('search-siswa')?.value.toLowerCase().trim() || '';
+            
+            let siswa = getSiswa();
+            
+            // 🔥 Filter berdasarkan nama
+            if (searchQuery) {
+                siswa = siswa.filter(s => 
+                    s.nama.toLowerCase().includes(searchQuery)
+                );
+            }
+            
             const tbody = document.getElementById('admin-tabel-siswa');
             tbody.innerHTML = '';
 
             if (siswa.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs">Belum ada siswa terdaftar.</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs">${searchQuery ? 'Tidak ada siswa dengan nama "' + searchQuery + '"' : 'Belum ada siswa terdaftar.'}</td></tr>`;
                 return;
             }
 
@@ -3180,7 +3257,7 @@
             
             if (!nama) { alert('Nama tidak boleh kosong!'); return; }
             
-            if (users.some(u => u.nama.toLowerCase() === nama.toLowerCase() && u.kelas === kelas)) {
+            if (users.some(u => u.nama.toLowerCase() === nama.toLowerCase() && u.kelas === kelas && u.role === 'siswa')) {
                 alert('Nama sudah terdaftar di kelas ini!');
                 return;
             }
