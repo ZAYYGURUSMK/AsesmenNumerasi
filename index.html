@@ -386,6 +386,7 @@
         }
         #toast-warning.warning { background: rgba(245, 158, 11, 0.9); border-color: rgba(252, 211, 77, 0.3); }
         #toast-warning.danger { background: rgba(220, 38, 38, 0.9); border-color: rgba(252, 165, 165, 0.3); }
+        #toast-warning.success { background: rgba(16, 185, 129, 0.9); border-color: rgba(52, 211, 153, 0.3); }
         @keyframes slideDown {
             from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -694,7 +695,20 @@
             font-size: 16px;
         }
 
-        /* LOADING STYLES */
+        .loading-mini {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(79, 70, 229, 0.15);
+            border-radius: 50%;
+            border-top-color: #4f46e5;
+            animation: spin 0.8s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* LOADING OVERLAY */
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -754,13 +768,31 @@
             animation: progressAnim 2s ease-in-out infinite;
             width: 30%;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
         @keyframes progressAnim {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(400%); }
         }
+        .data-info {
+            font-size: 10px;
+            color: #94a3b8;
+            text-align: center;
+            padding: 4px;
+            margin-top: 8px;
+        }
+        .data-info strong { color: #475569; }
+
+        .btn-reset-data {
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-reset-data:hover { background: #dc2626; }
+        .btn-reset-data:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -789,7 +821,7 @@
                 <span class="tagline">BERKARYA</span>
             </div>
             <span class="school-name hidden sm:inline">SMK <span>Prama Artha</span></span>
-            <span id="db-status" class="text-[8px] sm:text-[10px] px-1.5 py-0.5 rounded-full font-semibold shrink-0">✅ Offline</span>
+            <span id="db-status" class="text-[8px] sm:text-[10px] px-1.5 py-0.5 rounded-full font-semibold shrink-0">💾 Lokal</span>
         </div>
         <div class="right">
             <div id="user-badge" class="user-badge hidden">
@@ -818,6 +850,7 @@
                 </div>
                 <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900">SMK <span class="text-indigo-600">Prama Artha</span></h2>
                 <p class="text-xs sm:text-sm text-slate-500 max-w-xs">Silakan pilih peran Anda</p>
+                <div class="data-info">💾 Data disimpan di <strong>localStorage</strong> perangkat Anda</div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
@@ -850,6 +883,12 @@
                         <p class="text-slate-400 text-xs">Password</p>
                     </div>
                 </button>
+            </div>
+
+            <div class="mt-4 text-xs text-slate-400 flex flex-wrap justify-center gap-2">
+                <span>🔑 Default Admin: Admin123</span>
+                <span>|</span>
+                <span>🔑 Default Guru: Guru123</span>
             </div>
         </div>
 
@@ -999,7 +1038,7 @@
                         <option value="all">Semua Mapel</option>
                     </select>
                     <button onclick="exportHasilGuru()" class="btn btn-export btn-sm">
-                        📥 Export Excel
+                        📥 Export CSV
                     </button>
                 </div>
             </div>
@@ -1044,12 +1083,16 @@
                 <button onclick="gantiHalaman('view-admin-kelola-mapel')" class="btn btn-primary btn-sm">📚 Kelola Mapel</button>
                 <button onclick="gantiHalaman('view-admin-kelola-guru')" class="btn btn-guru btn-sm">👨‍🏫 Kelola Guru</button>
                 <button onclick="gantiHalaman('view-admin-kelola-siswa')" class="btn btn-warning btn-sm">👥 Kelola Siswa</button>
+                <button onclick="resetSemuaData()" class="btn btn-danger btn-sm">🗑️ Reset Data</button>
             </div>
 
             <div class="mt-4 border-t border-white/20 pt-4">
                 <h3 class="font-bold text-sm text-slate-900 mb-2">📚 Daftar Mata Pelajaran</h3>
                 <div id="admin-daftar-mapel" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                 </div>
+            </div>
+            <div class="mt-2 text-xs text-slate-400 text-center">
+                💾 Semua data disimpan di localStorage perangkat Anda
             </div>
         </div>
 
@@ -1461,15 +1504,17 @@
             <span>SMK Prama Artha · CBT</span>
             <span class="text-slate-300">|</span>
             <span>Anti-Tab: -3 Menit | Anti-Reload: Harus Tunggu 5 Menit</span>
+            <span class="text-slate-300">|</span>
+            <span class="text-blue-600">💾 100% Local Storage</span>
         </div>
     </footer>
 
     <!-- ============================================================ -->
-    <!-- JAVASCRIPT - OFFLINE VERSION (Tanpa Supabase) -->
+    <!-- JAVASCRIPT - 100% LOCAL STORAGE (Tanpa Database) -->
     <!-- ============================================================ -->
     <script>
         // ================================================================
-        // DATA DEFAULT / SEED
+        // DATA DEFAULT
         // ================================================================
         const DEFAULT_DATA = {
             users: [
@@ -1564,7 +1609,6 @@
                     DATA_HASIL = data.hasil || [];
                     nextId = data.nextId || 100;
                     
-                    // Rebuild DATA_SOAL from soal array
                     DATA_SOAL = {};
                     (data.soal || []).forEach(s => {
                         if (!DATA_SOAL[s.mapel_id]) DATA_SOAL[s.mapel_id] = [];
@@ -1591,6 +1635,29 @@
             saveToLocalStorage();
         }
 
+        function resetSemuaData() {
+            if (!confirm('⚠️ Yakin ingin mereset SEMUA DATA? Ini akan menghapus semua user, mapel, soal, dan hasil ujian!')) return;
+            if (!confirm('⚠️ PERINGATAN TERAKHIR: Semua data akan hilang! Lanjutkan?')) return;
+            
+            localStorage.removeItem('cbt_data_offline');
+            localStorage.removeItem('cbt_user');
+            localStorage.removeItem('cbt_ujian_aktif');
+            localStorage.removeItem('cbt_reload_lock');
+            
+            resetToDefaultData();
+            currentUser = null;
+            updateUI();
+            
+            alert('✅ Semua data telah direset ke default!');
+            gantiHalaman('view-menu');
+            adminMuatStats();
+            renderKelolaMapel();
+            renderKelolaGuru();
+            renderKelolaSiswa();
+            renderAdminMapelPreview();
+            renderDaftarMapel();
+        }
+
         // ================================================================
         // INIT DATA
         // ================================================================
@@ -1599,11 +1666,10 @@
             if (!hasData) {
                 resetToDefaultData();
             }
-            // Fix: pastikan soal dengan id unik
+            // Pastikan soal tidak kosong
             let allSoal = [];
             Object.values(DATA_SOAL).forEach(arr => allSoal.push(...arr));
             if (allSoal.length === 0) {
-                // Jika soal kosong, isi dengan default
                 DATA_SOAL = {};
                 DEFAULT_DATA.soal.forEach(s => {
                     if (!DATA_SOAL[s.mapel_id]) DATA_SOAL[s.mapel_id] = [];
@@ -1923,10 +1989,8 @@
             const user = users.find(u => u.nama === nama && u.kelas === kelas);
             if (!user) return;
             
-            // Hapus hasil lama jika ada
             DATA_HASIL = DATA_HASIL.filter(h => !(h.user_id === user.id && h.mapel_id === mapelId));
             
-            // Tambah hasil baru
             DATA_HASIL.push({
                 user_id: user.id,
                 mapel_id: mapelId,
@@ -2133,10 +2197,10 @@
                     
                     if (ujianSiswa.timer > PENALTY_SECONDS) {
                         ujianSiswa.timer -= PENALTY_SECONDS;
-                        showToast(`🚨 Pelanggaran! Anda membuka tab lain. Sisa waktu dikurangi 3 menit!`, 'danger');
+                        showToast(`🚨 Pelanggaran! Sisa waktu dikurangi 3 menit!`, 'danger');
                     } else {
                         ujianSiswa.timer = 0;
-                        showToast(`🚨 Pelanggaran! Waktu Anda habis karena dikurangi akibat membuka tab lain!`, 'danger');
+                        showToast(`🚨 Waktu habis karena pelanggaran!`, 'danger');
                     }
                 } else {
                     isTabVisible = true;
@@ -2372,7 +2436,7 @@
 
             const soal = getSoalByMapelAndKelas(mapelId, user.kelas || 'all');
             if (soal.length === 0) {
-                alert('❌ Belum ada soal untuk mapel ini di kelas Anda. Silakan pilih mapel lain.');
+                alert('❌ Belum ada soal untuk mapel ini di kelas Anda.');
                 return;
             }
 
@@ -2480,7 +2544,7 @@
                 if (sisaWaktu <= 0) {
                     simpanHasilSiswa(state.nama, state.mapelId, 0, state.kelas);
                     localStorage.removeItem('cbt_ujian_aktif');
-                    alert('⏰ Waktu ujian telah habis selama masa tunggu. Ujian dianggap selesai dengan nilai 0.');
+                    alert('⏰ Waktu ujian telah habis selama masa tunggu.');
                     gantiHalaman('view-siswa-dashboard');
                     return;
                 }
@@ -2511,7 +2575,7 @@
                 startTimer();
                 gantiHalaman('view-ujian');
 
-                alert(`⏳ Masa tunggu selesai! Ujian dilanjutkan. Sisa waktu: ${Math.floor(sisaWaktu/60)} menit ${sisaWaktu%60} detik.`);
+                alert(`⏳ Masa tunggu selesai! Sisa waktu: ${Math.floor(sisaWaktu/60)} menit ${sisaWaktu%60} detik.`);
             } catch(e) {
                 localStorage.removeItem('cbt_ujian_aktif');
                 gantiHalaman('view-siswa-dashboard');
@@ -2803,7 +2867,6 @@
                 return;
             }
 
-            // Update soal
             const index = DATA_SOAL[mapelId].findIndex(s => s.id === id);
             if (index !== -1) {
                 DATA_SOAL[mapelId][index] = {
@@ -3388,7 +3451,39 @@
             showLoading();
             initData();
             hideLoading();
-            gantiHalaman('view-menu');
+            
+            // Cek session
+            const session = localStorage.getItem('cbt_user');
+            if (session) {
+                try {
+                    const user = JSON.parse(session);
+                    const userData = users.find(u => u.id === user.id);
+                    if (userData) {
+                        currentUser = userData;
+                        updateUI();
+                        if (userData.role === 'siswa') {
+                            document.getElementById('siswa-nama-display').textContent = userData.nama;
+                            document.getElementById('siswa-kelas-display').textContent = userData.kelas || '-';
+                            gantiHalaman('view-siswa-dashboard');
+                        } else if (userData.role === 'guru') {
+                            document.getElementById('guru-nama-display').textContent = userData.nama;
+                            gantiHalaman('view-guru-dashboard');
+                        } else if (userData.role === 'admin') {
+                            document.getElementById('admin-nama-display').textContent = userData.nama;
+                            gantiHalaman('view-admin-dashboard');
+                        }
+                    } else {
+                        localStorage.removeItem('cbt_user');
+                        gantiHalaman('view-menu');
+                    }
+                } catch (e) {
+                    localStorage.removeItem('cbt_user');
+                    gantiHalaman('view-menu');
+                }
+            } else {
+                gantiHalaman('view-menu');
+            }
+            
             updateUI();
         };
     </script>
