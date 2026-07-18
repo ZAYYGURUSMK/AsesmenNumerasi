@@ -414,7 +414,7 @@
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
             border-radius: 24px;
-            max-width: 480px;
+            max-width: 460px;
             width: 100%;
             padding: 32px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.08);
@@ -423,28 +423,28 @@
             border: 1px solid rgba(255, 255, 255, 0.35);
         }
         .modal-edit .modal-box .modal-icon {
-            font-size: 56px;
+            font-size: 48px;
             display: block;
             text-align: center;
             margin-bottom: 8px;
         }
         .modal-edit .modal-box h3 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             color: #0f172a;
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             letter-spacing: -0.5px;
         }
         .modal-edit .modal-box .modal-subtitle {
             font-size: 14px;
             color: #64748b;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             line-height: 1.5;
         }
         .modal-edit .modal-box .modal-body {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .modal-edit .modal-box .modal-body .result-item {
             display: flex;
@@ -478,7 +478,7 @@
         }
         .modal-edit .modal-box .modal-actions .btn {
             width: auto;
-            min-width: 120px;
+            min-width: 100px;
         }
 
         .modal-edit .modal-box label { 
@@ -666,33 +666,6 @@
 
         .theme-toggle {
             display: none;
-        }
-
-        /* Alert popup glass */
-        .alert-glass {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            border-radius: 16px;
-            padding: 20px 24px;
-            color: #0f172a;
-        }
-        .alert-glass .alert-title {
-            font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-        .alert-glass .alert-message {
-            font-size: 14px;
-            color: #475569;
-            margin-bottom: 16px;
-        }
-        .alert-glass .alert-actions {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
         }
     </style>
 </head>
@@ -981,8 +954,33 @@
         </div>
 
         <!-- ================================================================
-             MODAL KUMPULKAN UJIAN (GLASS THEME - TANPA NILAI SEMENTARA)
-             ================================================================ -->
+           GLASS MODAL - ALERT (Custom Replacement)
+           ================================================================ -->
+        <div id="modal-alert" class="modal-edit hidden">
+            <div class="modal-box">
+                <span class="modal-icon" id="alert-icon">ℹ️</span>
+                <h3 id="alert-title">Informasi</h3>
+                <div class="modal-subtitle" id="alert-message">Pesan</div>
+                <div class="modal-actions">
+                    <button onclick="tutupAlert()" class="btn btn-primary btn-sm" id="alert-btn-ok">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GLASS MODAL - CONFIRM (Custom Replacement) -->
+        <div id="modal-confirm" class="modal-edit hidden">
+            <div class="modal-box">
+                <span class="modal-icon" id="confirm-icon">❓</span>
+                <h3 id="confirm-title">Konfirmasi</h3>
+                <div class="modal-subtitle" id="confirm-message">Apakah Anda yakin?</div>
+                <div class="modal-actions">
+                    <button onclick="tutupConfirm(false)" class="btn btn-outline btn-sm" id="confirm-btn-cancel">Batal</button>
+                    <button onclick="tutupConfirm(true)" class="btn btn-danger btn-sm" id="confirm-btn-ok">Ya</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL KUMPULKAN UJIAN -->
         <div id="modal-kumpul" class="modal-edit hidden">
             <div class="modal-box">
                 <span class="modal-icon">📝</span>
@@ -990,7 +988,6 @@
                 <p class="modal-subtitle">Periksa kembali jawaban Anda sebelum mengumpulkan. Ujian yang sudah dikumpulkan tidak dapat diubah.</p>
                 
                 <div class="modal-body" id="modal-kumpul-body">
-                    <!-- Akan diisi oleh JS -->
                 </div>
                 
                 <div class="modal-actions">
@@ -1184,6 +1181,57 @@
     <!-- JAVASCRIPT -->
     <!-- ============================================================ -->
     <script>
+        // ================================================================
+        // GLASS ALERT & CONFIRM - REPLACEMENT FOR NATIVE alert() & confirm()
+        // ================================================================
+        let alertResolve = null;
+        let confirmResolve = null;
+
+        function glassAlert(title, message, icon = 'ℹ️') {
+            return new Promise((resolve) => {
+                document.getElementById('alert-icon').textContent = icon;
+                document.getElementById('alert-title').textContent = title;
+                document.getElementById('alert-message').textContent = message;
+                document.getElementById('modal-alert').classList.remove('hidden');
+                alertResolve = resolve;
+            });
+        }
+
+        function glassConfirm(title, message, icon = '❓') {
+            return new Promise((resolve) => {
+                document.getElementById('confirm-icon').textContent = icon;
+                document.getElementById('confirm-title').textContent = title;
+                document.getElementById('confirm-message').textContent = message;
+                document.getElementById('modal-confirm').classList.remove('hidden');
+                confirmResolve = resolve;
+            });
+        }
+
+        function tutupAlert() {
+            document.getElementById('modal-alert').classList.add('hidden');
+            if (alertResolve) {
+                alertResolve();
+                alertResolve = null;
+            }
+        }
+
+        function tutupConfirm(result) {
+            document.getElementById('modal-confirm').classList.add('hidden');
+            if (confirmResolve) {
+                confirmResolve(result);
+                confirmResolve = null;
+            }
+        }
+
+        // Override native alert dan confirm
+        window.alert = function(message) {
+            return glassAlert('Informasi', message, 'ℹ️');
+        };
+
+        window.confirm = function(message) {
+            return glassConfirm('Konfirmasi', message, '❓');
+        };
+
         // ================================================================
         // KONFIGURASI
         // ================================================================
@@ -1849,7 +1897,7 @@
         }
 
         // ================================================================
-        // MODAL KUMPULKAN UJIAN (TANPA NILAI SEMENTARA)
+        // MODAL KUMPULKAN UJIAN
         // ================================================================
         function tampilkanModalKumpul() {
             const modal = document.getElementById('modal-kumpul');
@@ -1896,7 +1944,7 @@
         // ================================================================
         // KUMPULKAN UJIAN
         // ================================================================
-        function kumpulkanUjian(redirectTo = 'view-siswa-dashboard', showAlert = true) {
+        async function kumpulkanUjian(redirectTo = 'view-siswa-dashboard', showAlert = true) {
             tutupModalKumpul();
             
             if (ujianTimerInterval) {
@@ -1943,8 +1991,7 @@
             };
 
             // Tampilkan hasil dengan modal glass
-            const hasilMessage = `📊 Ujian Selesai!\n\n📚 Mapel: ${mapelNama}\n✅ Benar: ${benar}/${total}\n🎯 Nilai: ${nilai}\n\n✅ Hasil telah disimpan.`;
-            alert(hasilMessage);
+            await alert(`📊 Ujian Selesai!\n\n📚 Mapel: ${mapelNama}\n✅ Benar: ${benar}/${total}\n🎯 Nilai: ${nilai}\n\n✅ Hasil telah disimpan.`);
 
             gantiHalaman(redirectTo);
         }
@@ -2922,9 +2969,9 @@
         // ================================================================
         // FUNGSI KHUSUS UNTUK KEMBALI KE MENU / DASHBOARD
         // ================================================================
-        function kembaliKeMenuUtama() {
+        async function kembaliKeMenuUtama() {
             if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
-                if (confirm('Anda akan keluar dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
+                if (await confirm('Anda akan keluar dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
                     tampilkanModalKumpul();
                     window._redirectAfterSubmit = 'view-menu';
                 }
@@ -2938,9 +2985,9 @@
             gantiHalaman('view-menu');
         }
 
-        function kembaliKeDashboardSiswa() {
+        async function kembaliKeDashboardSiswa() {
             if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
-                if (confirm('Anda akan keluar dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
+                if (await confirm('Anda akan keluar dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
                     tampilkanModalKumpul();
                     window._redirectAfterSubmit = 'view-siswa-dashboard';
                 }
@@ -2949,9 +2996,9 @@
             gantiHalaman('view-siswa-dashboard');
         }
 
-        function logout() {
+        async function logout() {
             if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
-                if (confirm('Anda akan logout dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
+                if (await confirm('Anda akan logout dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
                     tampilkanModalKumpul();
                     window._redirectAfterSubmit = 'view-menu';
                     window._logoutAfterSubmit = true;
@@ -2999,6 +3046,8 @@
                 tutupModalDetailSiswa();
                 tutupModalEditGuru();
                 tutupModalKumpul();
+                tutupAlert();
+                tutupConfirm(false);
             }
             if (e.key === 'ArrowLeft') slidePrev();
             if (e.key === 'ArrowRight') slideNext();
