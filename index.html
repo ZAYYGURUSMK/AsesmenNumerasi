@@ -708,7 +708,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* LOADING OVERLAY */
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -1038,7 +1037,7 @@
                         <option value="all">Semua Mapel</option>
                     </select>
                     <button onclick="exportHasilGuru()" class="btn btn-export btn-sm">
-                        📥 Export CSV
+                        📥 Export Excel
                     </button>
                 </div>
             </div>
@@ -1510,7 +1509,7 @@
     </footer>
 
     <!-- ============================================================ -->
-    <!-- JAVASCRIPT - 100% LOCAL STORAGE (Tanpa Database) -->
+    <!-- JAVASCRIPT - 100% LOCAL STORAGE + EXPORT EXCEL MINIMALIS -->
     <!-- ============================================================ -->
     <script>
         // ================================================================
@@ -1666,7 +1665,6 @@
             if (!hasData) {
                 resetToDefaultData();
             }
-            // Pastikan soal tidak kosong
             let allSoal = [];
             Object.values(DATA_SOAL).forEach(arr => allSoal.push(...arr));
             if (allSoal.length === 0) {
@@ -1690,6 +1688,191 @@
 
         function generateId() {
             return nextId++;
+        }
+
+        // ================================================================
+        // EXPORT EXCEL MINIMALIS
+        // ================================================================
+        function exportToExcel(data, filename = 'hasil_ujian') {
+            if (!data || data.length === 0) {
+                alert('Tidak ada data untuk diekspor!');
+                return;
+            }
+
+            // Buat header dengan gaya minimalis
+            let html = `
+            <html xmlns:o="urn:schemas-microsoft-com:office:office" 
+                  xmlns:x="urn:schemas-microsoft-com:office:excel" 
+                  xmlns="http://www.w3.org/TR/REC-html40">
+            <head>
+                <meta charset="UTF-8">
+                <!--[if gte mso 9]>
+                <xml>
+                    <x:ExcelWorkbook>
+                        <x:ExcelWorksheets>
+                            <x:ExcelWorksheet>
+                                <x:Name>Hasil Ujian</x:Name>
+                                <x:WorksheetOptions>
+                                    <x:DisplayGridlines/>
+                                </x:WorksheetOptions>
+                            </x:ExcelWorksheet>
+                        </x:ExcelWorksheets>
+                    </x:ExcelWorkbook>
+                </xml>
+                <![endif]-->
+                <style>
+                    /* Gaya Minimalis */
+                    body { font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; }
+                    .header {
+                        text-align: center;
+                        margin-bottom: 20px;
+                        padding-bottom: 10px;
+                        border-bottom: 2px solid #4f46e5;
+                    }
+                    .header h1 {
+                        font-size: 18px;
+                        font-weight: 700;
+                        color: #1e1b4b;
+                        margin: 0;
+                        letter-spacing: 1px;
+                    }
+                    .header h2 {
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: #64748b;
+                        margin: 4px 0 0 0;
+                    }
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                        font-size: 12px;
+                        margin-top: 10px;
+                    }
+                    table th {
+                        background-color: #4f46e5;
+                        color: #ffffff;
+                        font-weight: 600;
+                        padding: 8px 12px;
+                        text-align: left;
+                        border: 1px solid #4f46e5;
+                        text-transform: uppercase;
+                        font-size: 10px;
+                        letter-spacing: 0.5px;
+                    }
+                    table td {
+                        padding: 6px 12px;
+                        border: 1px solid #e2e8f0;
+                        color: #1e293b;
+                    }
+                    table tr:nth-child(even) {
+                        background-color: #f8fafc;
+                    }
+                    table tr:hover {
+                        background-color: #eef2ff;
+                    }
+                    .footer {
+                        margin-top: 15px;
+                        font-size: 10px;
+                        color: #94a3b8;
+                        text-align: center;
+                        border-top: 1px solid #e2e8f0;
+                        padding-top: 10px;
+                    }
+                    .nilai-badge {
+                        font-weight: 700;
+                        color: #4f46e5;
+                    }
+                    .nilai-tinggi {
+                        color: #10b981;
+                    }
+                    .nilai-sedang {
+                        color: #f59e0b;
+                    }
+                    .nilai-rendah {
+                        color: #ef4444;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <h1>📊 LAPORAN HASIL UJIAN</h1>
+                    <h2>SMK Prama Artha</h2>
+                    <p style="font-size:11px;color:#94a3b8;margin:2px 0 0 0;">
+                        Dicetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} 
+                        ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Siswa</th>
+                            <th>Kelas</th>
+                            <th>Mata Pelajaran</th>
+                            <th style="text-align:center;">Nilai</th>
+                            <th>Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            // Isi data
+            data.forEach((item, idx) => {
+                let nilaiClass = 'nilai-badge';
+                if (item.nilai >= 80) nilaiClass += ' nilai-tinggi';
+                else if (item.nilai >= 60) nilaiClass += ' nilai-sedang';
+                else nilaiClass += ' nilai-rendah';
+
+                const tgl = item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', { 
+                    day: '2-digit', month: 'short', year: 'numeric' 
+                }) : '-';
+
+                html += `
+                    <tr>
+                        <td style="text-align:center;">${idx + 1}</td>
+                        <td>${item.nama}</td>
+                        <td>${item.kelas}</td>
+                        <td>${item.mapelNama}</td>
+                        <td style="text-align:center;font-weight:700;">${item.nilai}</td>
+                        <td style="text-align:center;font-size:10px;color:#94a3b8;">${tgl}</td>
+                    </tr>
+                `;
+            });
+
+            // Hitung statistik
+            const nilaiList = data.map(d => d.nilai);
+            const total = nilaiList.length;
+            const rataRata = total > 0 ? Math.round(nilaiList.reduce((a,b) => a + b, 0) / total) : 0;
+            const tertinggi = total > 0 ? Math.max(...nilaiList) : 0;
+            const terendah = total > 0 ? Math.min(...nilaiList) : 0;
+
+            html += `
+                    </tbody>
+                </table>
+                <div style="margin-top:12px;display:flex;gap:20px;font-size:11px;color:#475569;flex-wrap:wrap;">
+                    <span><strong>📊 Total Data:</strong> ${total} siswa</span>
+                    <span><strong>📈 Rata-rata:</strong> ${rataRata}</span>
+                    <span><strong>🏆 Tertinggi:</strong> ${tertinggi}</span>
+                    <span><strong>📉 Terendah:</strong> ${terendah}</span>
+                </div>
+                <div class="footer">
+                    &copy; ${new Date().getFullYear()} SMK Prama Artha · CBT System · Data dari localStorage
+                </div>
+            </body>
+            </html>
+            `;
+
+            // Buat blob dan download
+            const blob = new Blob([html], { 
+                type: 'application/vnd.ms-excel;charset=utf-8' 
+            });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${filename}_${new Date().toISOString().slice(0,10)}.xls`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
         }
 
         // ================================================================
@@ -2701,6 +2884,9 @@
             });
         }
 
+        // ================================================================
+        // EXPORT HASIL GURU - MINIMALIS EXCEL
+        // ================================================================
         function exportHasilGuru() {
             const user = getSession();
             if (!user || user.role !== 'guru') {
@@ -2720,37 +2906,11 @@
                 return;
             }
 
-            let csvContent = '\uFEFF';
-            csvContent += 'No,Nama Siswa,Kelas,Mata Pelajaran,Nilai,Tanggal\n';
-            
-            dataToExport.forEach((item, idx) => {
-                const row = [
-                    idx + 1,
-                    `"${item.nama}"`,
-                    `"${item.kelas}"`,
-                    `"${item.mapelNama}"`,
-                    item.nilai,
-                    `"${item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID') : '-'}"`
-                ];
-                csvContent += row.join(',') + '\n';
-            });
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            
             const mapelName = filterMapel !== 'all' ? DATA_MAPEL.find(m => m.id == parseInt(filterMapel))?.nama || 'selected' : 'semua';
-            const filename = `Rekap_Nilai_${user.nama}_${mapelName}_${new Date().toISOString().slice(0,10)}.csv`;
+            const filename = `Rekap_Nilai_${user.nama}_${mapelName}`;
             
-            link.setAttribute('href', url);
-            link.setAttribute('download', filename);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-
-            alert('✅ Data berhasil diekspor!');
+            exportToExcel(dataToExport, filename);
+            showToast('✅ Data berhasil diekspor!', 'success');
         }
 
         // ================================================================
@@ -3452,7 +3612,6 @@
             initData();
             hideLoading();
             
-            // Cek session
             const session = localStorage.getItem('cbt_user');
             if (session) {
                 try {
