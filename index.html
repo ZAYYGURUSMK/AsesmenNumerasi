@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* [STYLE TIDAK BERUBAH - SAMA SEPERTI SEBELUMNYA] */
+        /* [STYLE TIDAK BERUBAH] */
         * { -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
         .hidden { display: none !important; }
@@ -295,7 +295,6 @@
             margin: 1px 2px;
         }
 
-        /* Export options */
         .export-options {
             display: flex;
             flex-wrap: wrap;
@@ -308,6 +307,60 @@
             padding: 6px 12px;
             font-size: 12px;
             background: white;
+        }
+
+        /* Slide navigation untuk mapel siswa */
+        .slide-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding: 8px;
+        }
+        .slide-nav button {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: #475569;
+        }
+        .slide-nav button:hover:not(:disabled) {
+            background: #f1f5f9;
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+        .slide-nav button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .slide-nav .page-info {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+            min-width: 60px;
+            text-align: center;
+        }
+        .slide-nav .dots {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .slide-nav .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.2s;
+        }
+        .slide-nav .dot.active {
+            background: #4f46e5;
+            width: 24px;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -463,8 +516,19 @@
 
             <p class="text-sm text-slate-500 mb-4">Silakan pilih mata pelajaran yang akan Anda ujikan. Mapel yang sudah selesai tidak dapat diulang.</p>
 
-            <div id="siswa-daftar-mapel" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Akan di-render oleh JS -->
+            <!-- SLIDE CONTAINER -->
+            <div id="siswa-slide-container">
+                <div id="siswa-daftar-mapel" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Akan di-render oleh JS -->
+                </div>
+                
+                <!-- Navigasi Slide -->
+                <div id="siswa-slide-nav" class="slide-nav">
+                    <button id="slide-prev" onclick="slidePrev()" disabled>◀ Sebelumnya</button>
+                    <div class="dots" id="slide-dots"></div>
+                    <span class="page-info" id="slide-page-info">1 / 1</span>
+                    <button id="slide-next" onclick="slideNext()">Berikutnya ▶</button>
+                </div>
             </div>
 
             <div class="mt-6 border-t border-slate-100 pt-4">
@@ -1137,268 +1201,156 @@
         }
 
         // ================================================================
-        // FUNGSI KHUSUS UNTUK KEMBALI KE MENU / DASHBOARD DENGAN AKHIR UJIAN
+        // SISWA: SLIDE NAVIGATION
         // ================================================================
-        function kembaliKeMenuUtama() {
-            if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
-                if (confirm('Anda akan keluar dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
-                    kumpulkanUjian('view-menu', true);
-                }
-                return;
-            }
-            if (ujianTimerInterval) { clearInterval(ujianTimerInterval); ujianTimerInterval = null; }
-            if (stateSaveInterval) { clearInterval(stateSaveInterval); stateSaveInterval = null; }
-            clearAntiTab();
-            localStorage.removeItem('cbt_ujian_aktif');
-            localStorage.removeItem('cbt_reload_lock');
-            gantiHalaman('view-menu');
-        }
+        let slideCurrentPage = 0;
+        const ITEMS_PER_PAGE = 3;
 
-        function kembaliKeDashboardSiswa() {
-            if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
-                if (confirm('Anda akan keluar dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
-                    kumpulkanUjian('view-siswa-dashboard', true);
-                }
-                return;
-            }
-            gantiHalaman('view-siswa-dashboard');
-        }
-
-        function logout() {
-            if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
-                if (confirm('Anda akan logout dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
-                    kumpulkanUjian('view-menu', true);
-                    clearSession();
-                }
-                return;
-            }
-            if (ujianTimerInterval) { clearInterval(ujianTimerInterval); ujianTimerInterval = null; }
-            if (stateSaveInterval) { clearInterval(stateSaveInterval); stateSaveInterval = null; }
-            clearAntiTab();
-            localStorage.removeItem('cbt_ujian_aktif');
-            localStorage.removeItem('cbt_reload_lock');
-            clearSession();
-            gantiHalaman('view-menu');
-        }
-
-        // ================================================================
-        // LOGIN
-        // ================================================================
-        function loginSiswa() {
-            const nama = document.getElementById('siswa-nama-input').value.trim();
-            const errorEl = document.getElementById('siswa-error');
-            if (nama === '') { errorEl.style.display = 'block';
-                document.getElementById('siswa-nama-input').focus(); return; }
-            errorEl.style.display = 'none';
+        function renderDaftarMapel() {
+            const user = getSession();
+            if (!user) return;
             
-            const user = users.find(u => u.nama.toLowerCase() === nama.toLowerCase() && u.role === 'siswa');
-            if (!user) {
-                alert('Nama siswa tidak terdaftar. Silahkan hubungi admin.');
-                return;
-            }
-            
-            setSession('siswa', nama, user.id);
-            document.getElementById('siswa-nama-display').textContent = nama;
-            gantiHalaman('view-siswa-dashboard');
-        }
+            const container = document.getElementById('siswa-daftar-mapel');
+            container.innerHTML = '';
 
-        function loginGuru() {
-            const pass = document.getElementById('guru-password').value.trim();
-            const errorEl = document.getElementById('guru-error');
-            const user = users.find(u => u.role === 'guru' && u.password === pass);
-            if (user) {
-                errorEl.style.display = 'none';
-                setSession('guru', user.nama, user.id);
-                document.getElementById('guru-nama').textContent = user.nama;
-                gantiHalaman('view-guru-dashboard');
-            } else {
-                errorEl.style.display = 'block';
-                document.getElementById('guru-password').value = '';
-                document.getElementById('guru-password').focus();
-            }
-        }
-
-        function loginAdmin() {
-            const pass = document.getElementById('admin-password').value.trim();
-            const errorEl = document.getElementById('admin-error');
-            const user = users.find(u => u.role === 'admin' && u.password === pass);
-            if (user || pass === PASSWORDS.admin) {
-                errorEl.style.display = 'none';
-                setSession('admin', user ? user.nama : 'Admin Utama', user ? user.id : 1);
-                document.getElementById('admin-nama').textContent = user ? user.nama : 'Admin Utama';
-                gantiHalaman('view-admin-dashboard');
-            } else {
-                errorEl.style.display = 'block';
-                document.getElementById('admin-password').value = '';
-                document.getElementById('admin-password').focus();
-            }
-        }
-
-        // ================================================================
-        // ADMIN: TAMBAH USER
-        // ================================================================
-        function adminTambahUser() {
-            const nama = document.getElementById('admin-user-nama').value.trim();
-            const role = document.getElementById('admin-user-role').value;
-            const pass = document.getElementById('admin-user-pass').value.trim();
-            const mapelSelect = document.getElementById('admin-user-guru-mapel');
-            const selectedMapel = Array.from(mapelSelect.selectedOptions).map(opt => parseInt(opt.value));
-            
-            if (!nama) { alert('Nama tidak boleh kosong!'); return; }
-            
-            if (users.some(u => u.nama.toLowerCase() === nama.toLowerCase())) {
-                alert('Nama sudah terdaftar!');
-                return;
-            }
-            
-            const newId = getNextUserId();
-            users.push({ 
-                id: newId, 
-                nama, 
-                role, 
-                password: pass || '',
-                mapel: role === 'guru' ? selectedMapel : []
-            });
-            saveUsersToStorage();
-            alert('✅ User berhasil ditambahkan!');
-            document.getElementById('admin-user-nama').value = '';
-            document.getElementById('admin-user-pass').value = '';
-            adminMuatStats();
-            renderKelolaSiswa();
-            renderKelolaGuru();
-        }
-
-        // ================================================================
-        // ADMIN: KELOLA GURU
-        // ================================================================
-        function renderKelolaGuru() {
-            loadUsersFromStorage();
             loadMapelFromStorage();
-            const guruList = getGuruList();
-            const tbody = document.getElementById('admin-tabel-guru');
-            tbody.innerHTML = '';
+            loadSoalFromStorage();
 
-            if (guruList.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs">Belum ada guru terdaftar.</td></tr>';
-                return;
-            }
+            let mapelItems = [];
+            DATA_MAPEL.forEach(mapel => {
+                const soal = getSoalByMapel(mapel.id);
+                const jumlah = soal.length;
+                const selesai = isMapelSelesai(user.nama, mapel.id);
+                const nilai = getNilaiMapel(user.nama, mapel.id);
 
-            guruList.forEach((guru) => {
-                const mapelNames = guru.mapel.map(id => {
-                    const m = getMapelById(id);
-                    return m ? m.nama : 'Mapel ' + id;
-                }).join(', ') || '-';
-                
-                const mapelTags = guru.mapel.map(id => {
-                    const m = getMapelById(id);
-                    return m ? `<span class="mapel-tag">${m.nama}</span>` : '';
-                }).join(' ');
+                let statusText, statusClass, disabledClass = '',
+                    onClick = `pilihMapel(${mapel.id})`;
 
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${guru.id}</td>
-                        <td class="font-semibold">${guru.nama}</td>
-                        <td><span class="text-xs font-mono bg-slate-100 px-2 py-0.5 rounded">${guru.password || '-'}</span></td>
-                        <td>
-                            <div class="flex flex-wrap gap-1">
-                                ${mapelTags || '<span class="text-slate-400 text-xs">Belum ada mapel</span>'}
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <button onclick="bukaEditGuru(${guru.id})" class="text-blue-500 hover:text-blue-700 text-xs font-medium px-2 py-1 rounded border border-blue-100 hover:bg-blue-50 transition">✏️ Edit</button>
-                            <button onclick="hapusGuru(${guru.id})" class="text-rose-500 hover:text-rose-700 text-xs font-medium px-2 py-1 rounded border border-rose-100 hover:bg-rose-50 transition">🗑️ Hapus</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function bukaEditGuru(guruId) {
-            const guru = users.find(u => u.id === guruId && u.role === 'guru');
-            if (!guru) {
-                alert('Guru tidak ditemukan!');
-                return;
-            }
-
-            document.getElementById('edit-guru-id').value = guruId;
-            document.getElementById('edit-guru-nama').value = guru.nama;
-            document.getElementById('edit-guru-password').value = '';
-
-            const select = document.getElementById('edit-guru-mapel');
-            select.innerHTML = '';
-            DATA_MAPEL.forEach(m => {
-                const option = document.createElement('option');
-                option.value = m.id;
-                option.textContent = m.nama;
-                if (guru.mapel && guru.mapel.includes(m.id)) {
-                    option.selected = true;
+                if (selesai) {
+                    statusText = `✅ Selesai (${nilai})`;
+                    statusClass = 'selesai';
+                    disabledClass = 'disabled';
+                    onClick = `alert('Anda sudah menyelesaikan ujian ${mapel.nama} dengan nilai ${nilai}. Tidak dapat mengulang.');`;
+                } else if (jumlah === 0) {
+                    statusText = '❌ Kosong';
+                    statusClass = 'kosong';
+                    disabledClass = 'disabled';
+                    onClick = `alert('Belum ada soal untuk mapel ini.');`;
+                } else {
+                    statusText = `${jumlah} soal tersedia`;
+                    statusClass = 'tersedia';
                 }
-                select.appendChild(option);
+
+                mapelItems.push({
+                    id: mapel.id,
+                    html: `
+                        <div class="mapel-card ${disabledClass}" onclick="${onClick}">
+                            ${selesai ? `<div class="nilai-badge skor">${nilai}</div>` : ''}
+                            <span class="icon">${mapel.icon || '📚'}</span>
+                            <div class="nama">${mapel.nama}</div>
+                            <div class="kode">${mapel.kode || ''}</div>
+                            <div class="soal-count">${selesai ? 'Sudah dikerjakan' : `${jumlah} soal`}</div>
+                            <span class="status ${statusClass}">${statusText}</span>
+                        </div>
+                    `
+                });
             });
 
-            document.getElementById('modal-guru-title').textContent = `✏️ Edit Guru - ${guru.nama}`;
-            document.getElementById('modal-edit-guru').classList.remove('hidden');
+            // Store items for slide navigation
+            window._mapelItems = mapelItems;
+            
+            // Reset to first page
+            slideCurrentPage = 0;
+            renderSlide();
         }
 
-        function tutupModalEditGuru() {
-            document.getElementById('modal-edit-guru').classList.add('hidden');
+        function renderSlide() {
+            const container = document.getElementById('siswa-daftar-mapel');
+            const items = window._mapelItems || [];
+            const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+            
+            if (totalPages === 0) {
+                container.innerHTML = '<div class="col-span-full text-center text-slate-400 py-8">Belum ada mata pelajaran tersedia.</div>';
+                updateSlideNav(0, 0);
+                return;
+            }
+
+            // Ensure current page is valid
+            if (slideCurrentPage >= totalPages) slideCurrentPage = totalPages - 1;
+            if (slideCurrentPage < 0) slideCurrentPage = 0;
+
+            const startIdx = slideCurrentPage * ITEMS_PER_PAGE;
+            const endIdx = Math.min(startIdx + ITEMS_PER_PAGE, items.length);
+            const pageItems = items.slice(startIdx, endIdx);
+
+            container.innerHTML = pageItems.map(item => item.html).join('');
+            
+            updateSlideNav(slideCurrentPage, totalPages);
         }
 
-        function simpanEditGuru() {
-            const guruId = parseInt(document.getElementById('edit-guru-id').value);
-            const nama = document.getElementById('edit-guru-nama').value.trim();
-            const password = document.getElementById('edit-guru-password').value.trim();
-            const select = document.getElementById('edit-guru-mapel');
-            const selectedMapel = Array.from(select.selectedOptions).map(opt => parseInt(opt.value));
+        function updateSlideNav(currentPage, totalPages) {
+            const prevBtn = document.getElementById('slide-prev');
+            const nextBtn = document.getElementById('slide-next');
+            const pageInfo = document.getElementById('slide-page-info');
+            const dotsContainer = document.getElementById('slide-dots');
 
-            if (!nama) {
-                alert('Nama guru tidak boleh kosong!');
-                return;
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage >= totalPages - 1;
+
+            pageInfo.textContent = `${currentPage + 1} / ${totalPages}`;
+
+            // Update dots
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('span');
+                dot.className = `dot ${i === currentPage ? 'active' : ''}`;
+                dot.onclick = () => {
+                    slideCurrentPage = i;
+                    renderSlide();
+                };
+                dot.style.cursor = 'pointer';
+                dotsContainer.appendChild(dot);
             }
-
-            const guru = users.find(u => u.id === guruId && u.role === 'guru');
-            if (!guru) {
-                alert('Guru tidak ditemukan!');
-                return;
-            }
-
-            if (users.some(u => u.id !== guruId && u.nama.toLowerCase() === nama.toLowerCase())) {
-                alert('Nama sudah digunakan oleh user lain!');
-                return;
-            }
-
-            guru.nama = nama;
-            if (password) {
-                guru.password = password;
-            }
-            guru.mapel = selectedMapel;
-
-            saveUsersToStorage();
-            alert('✅ Data guru berhasil diperbarui!');
-            tutupModalEditGuru();
-            renderKelolaGuru();
-            renderHasilGuru();
-            populateMapelDropdowns();
         }
 
-        function hapusGuru(guruId) {
-            const guru = users.find(u => u.id === guruId && u.role === 'guru');
-            if (!guru) return;
+        function slidePrev() {
+            if (slideCurrentPage > 0) {
+                slideCurrentPage--;
+                renderSlide();
+            }
+        }
 
-            if (!confirm(`Yakin ingin menghapus guru "${guru.nama}"?`)) return;
+        function slideNext() {
+            const items = window._mapelItems || [];
+            const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+            if (slideCurrentPage < totalPages - 1) {
+                slideCurrentPage++;
+                renderSlide();
+            }
+        }
 
-            const session = getSession();
-            if (session && session.id === guruId && session.role === 'guru') {
-                alert('Anda tidak dapat menghapus akun yang sedang aktif!');
+        // ================================================================
+        // SISWA: RIWAYAT
+        // ================================================================
+        function renderRiwayat() {
+            const user = getSession();
+            if (!user) return;
+            const data = getHasilSiswa(user.nama);
+            const container = document.getElementById('siswa-riwayat');
+            const keys = Object.keys(data);
+            if (keys.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-xs">Belum ada ujian yang diselesaikan.</p>';
                 return;
             }
-
-            users = users.filter(u => u.id !== guruId);
-            saveUsersToStorage();
-            alert('✅ Guru berhasil dihapus!');
-            adminMuatStats();
-            renderKelolaGuru();
-            renderKelolaSiswa();
+            let html = '<ul class="list-disc list-inside text-xs space-y-1">';
+            keys.forEach(mapelId => {
+                const mapel = DATA_MAPEL.find(m => m.id == mapelId);
+                const namaMapel = mapel ? mapel.nama : 'Mapel ' + mapelId;
+                const entry = data[mapelId];
+                html += `<li>${namaMapel} — Nilai: <strong>${entry.nilai}</strong> (${entry.tanggal})</li>`;
+            });
+            html += '</ul>';
+            container.innerHTML = html;
         }
 
         // ================================================================
@@ -1440,76 +1392,6 @@
         function resetSiswaAll(nama) {
             const key = 'cbt_hasil_' + nama;
             localStorage.removeItem(key);
-        }
-
-        // ================================================================
-        // SISWA: RENDER MAPEL & RIWAYAT
-        // ================================================================
-        function renderDaftarMapel() {
-            const user = getSession();
-            if (!user) return;
-            const container = document.getElementById('siswa-daftar-mapel');
-            container.innerHTML = '';
-
-            loadMapelFromStorage();
-            loadSoalFromStorage();
-
-            DATA_MAPEL.forEach(mapel => {
-                const soal = getSoalByMapel(mapel.id);
-                const jumlah = soal.length;
-                const selesai = isMapelSelesai(user.nama, mapel.id);
-                const nilai = getNilaiMapel(user.nama, mapel.id);
-
-                let statusText, statusClass, disabledClass = '',
-                    onClick = `pilihMapel(${mapel.id})`;
-
-                if (selesai) {
-                    statusText = `✅ Selesai (${nilai})`;
-                    statusClass = 'selesai';
-                    disabledClass = 'disabled';
-                    onClick = `alert('Anda sudah menyelesaikan ujian ${mapel.nama} dengan nilai ${nilai}. Tidak dapat mengulang.');`;
-                } else if (jumlah === 0) {
-                    statusText = '❌ Kosong';
-                    statusClass = 'kosong';
-                    disabledClass = 'disabled';
-                    onClick = `alert('Belum ada soal untuk mapel ini.');`;
-                } else {
-                    statusText = `${jumlah} soal tersedia`;
-                    statusClass = 'tersedia';
-                }
-
-                container.innerHTML += `
-                    <div class="mapel-card ${disabledClass}" onclick="${onClick}">
-                        ${selesai ? `<div class="nilai-badge skor">${nilai}</div>` : ''}
-                        <span class="icon">${mapel.icon || '📚'}</span>
-                        <div class="nama">${mapel.nama}</div>
-                        <div class="kode">${mapel.kode || ''}</div>
-                        <div class="soal-count">${selesai ? 'Sudah dikerjakan' : `${jumlah} soal`}</div>
-                        <span class="status ${statusClass}">${statusText}</span>
-                    </div>
-                `;
-            });
-        }
-
-        function renderRiwayat() {
-            const user = getSession();
-            if (!user) return;
-            const data = getHasilSiswa(user.nama);
-            const container = document.getElementById('siswa-riwayat');
-            const keys = Object.keys(data);
-            if (keys.length === 0) {
-                container.innerHTML = '<p class="text-slate-400 text-xs">Belum ada ujian yang diselesaikan.</p>';
-                return;
-            }
-            let html = '<ul class="list-disc list-inside text-xs space-y-1">';
-            keys.forEach(mapelId => {
-                const mapel = DATA_MAPEL.find(m => m.id == mapelId);
-                const namaMapel = mapel ? mapel.nama : 'Mapel ' + mapelId;
-                const entry = data[mapelId];
-                html += `<li>${namaMapel} — Nilai: <strong>${entry.nilai}</strong> (${entry.tanggal})</li>`;
-            });
-            html += '</ul>';
-            container.innerHTML = html;
         }
 
         // ================================================================
@@ -1836,10 +1718,10 @@
         function tampilkanLockCountdown(sisaDetik) {
             const lockContainer = document.getElementById('lock-container');
             const countdownEl = document.getElementById('lock-countdown');
-            const mapelContainer = document.getElementById('siswa-daftar-mapel');
+            const slideContainer = document.getElementById('siswa-slide-container');
 
             lockContainer.classList.remove('hidden');
-            mapelContainer.style.display = 'none';
+            slideContainer.style.display = 'none';
 
             if (lockCheckInterval) clearInterval(lockCheckInterval);
 
@@ -1850,7 +1732,7 @@
                     clearInterval(lockCheckInterval);
                     lockCheckInterval = null;
                     lockContainer.classList.add('hidden');
-                    mapelContainer.style.display = 'grid';
+                    slideContainer.style.display = 'block';
                     localStorage.removeItem('cbt_reload_lock');
                     lanjutkanUjianSetelahLock();
                     return;
@@ -1992,7 +1874,6 @@
             document.getElementById('guru-stat-rata').textContent = rataRata;
             document.getElementById('guru-stat-tertinggi').textContent = tertinggi;
 
-            // Populate export mapel dropdown
             const exportSelect = document.getElementById('guru-export-mapel');
             exportSelect.innerHTML = '<option value="all">Semua Mapel</option>';
             const uniqueMapel = [...new Set(semuaHasil.map(h => h.mapelId))];
@@ -2040,8 +1921,7 @@
                 return;
             }
 
-            // Create CSV content
-            let csvContent = '\uFEFF'; // BOM for Excel
+            let csvContent = '\uFEFF';
             csvContent += 'No,Nama Siswa,Mata Pelajaran,Nilai,Tanggal\n';
             
             dataToExport.forEach((item, idx) => {
@@ -2055,7 +1935,6 @@
                 csvContent += row.join(',') + '\n';
             });
 
-            // Create download
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
@@ -2481,6 +2360,51 @@
         }
 
         // ================================================================
+        // FUNGSI KHUSUS UNTUK KEMBALI KE MENU / DASHBOARD DENGAN AKHIR UJIAN
+        // ================================================================
+        function kembaliKeMenuUtama() {
+            if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
+                if (confirm('Anda akan keluar dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
+                    kumpulkanUjian('view-menu', true);
+                }
+                return;
+            }
+            if (ujianTimerInterval) { clearInterval(ujianTimerInterval); ujianTimerInterval = null; }
+            if (stateSaveInterval) { clearInterval(stateSaveInterval); stateSaveInterval = null; }
+            clearAntiTab();
+            localStorage.removeItem('cbt_ujian_aktif');
+            localStorage.removeItem('cbt_reload_lock');
+            gantiHalaman('view-menu');
+        }
+
+        function kembaliKeDashboardSiswa() {
+            if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
+                if (confirm('Anda akan keluar dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
+                    kumpulkanUjian('view-siswa-dashboard', true);
+                }
+                return;
+            }
+            gantiHalaman('view-siswa-dashboard');
+        }
+
+        function logout() {
+            if (ujianSiswa.mapelId !== null && document.getElementById('view-ujian') && !document.getElementById('view-ujian').classList.contains('hidden')) {
+                if (confirm('Anda akan logout dari ujian. Jawaban yang sudah diisi akan dikumpulkan. Lanjutkan?')) {
+                    kumpulkanUjian('view-menu', true);
+                    clearSession();
+                }
+                return;
+            }
+            if (ujianTimerInterval) { clearInterval(ujianTimerInterval); ujianTimerInterval = null; }
+            if (stateSaveInterval) { clearInterval(stateSaveInterval); stateSaveInterval = null; }
+            clearAntiTab();
+            localStorage.removeItem('cbt_ujian_aktif');
+            localStorage.removeItem('cbt_reload_lock');
+            clearSession();
+            gantiHalaman('view-menu');
+        }
+
+        // ================================================================
         // KEYBOARD SUPPORT
         // ================================================================
         document.addEventListener('keydown', function(e) {
@@ -2494,6 +2418,9 @@
                 tutupModalDetailSiswa();
                 tutupModalEditGuru();
             }
+            // Keyboard navigation for slides
+            if (e.key === 'ArrowLeft') slidePrev();
+            if (e.key === 'ArrowRight') slideNext();
         });
 
         // ================================================================
