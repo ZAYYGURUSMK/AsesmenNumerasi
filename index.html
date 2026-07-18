@@ -1106,7 +1106,6 @@
                     <select id="admin-user-role" class="border border-white/30 rounded-lg p-2 w-full bg-white/40 backdrop-blur-sm">
                         <option value="siswa">Siswa</option>
                         <option value="guru">Guru</option>
-                        <!-- 🔥 ROLE ADMIN DIHAPUS -->
                     </select>
                 </div>
                 <div id="siswa-kelas-field" class="hidden">
@@ -1342,7 +1341,7 @@
         const PASSWORDS = { guru: 'Guru123', admin: 'Admin123' };
 
         // ================================================================
-        // DEFAULT USERS - 🔥 ADMIN DIGANTI MENJADI Prama Artha
+        // DEFAULT USERS
         // ================================================================
         const DEFAULT_USERS = [
             { id: 1, nama: 'Prama Artha', role: 'admin', password: 'Admin123', mapel: [], kelas: '' },
@@ -1610,6 +1609,7 @@
             updateUI();
         }
 
+        // 🔥 PERUBAHAN: Header hanya menampilkan nama depan
         function updateUI() {
             const user = getSession();
             const badge = document.getElementById('user-badge');
@@ -1618,7 +1618,9 @@
             
             if (user) {
                 badge.classList.remove('hidden');
-                nameEl.textContent = user.nama || user.role;
+                // HEADER: Hanya tampilkan nama depan (first name)
+                const firstName = getFirstName(user.nama);
+                nameEl.textContent = firstName || user.role;
                 roleEl.textContent = user.role;
                 roleEl.className = 'role ' + user.role;
             } else {
@@ -1717,6 +1719,7 @@
             }
             
             setSession('siswa', user.nama, user.id, kelas);
+            // DASHBOARD SISWA: Tampilkan nama lengkap
             document.getElementById('siswa-nama-display').textContent = user.nama;
             document.getElementById('siswa-kelas-display').textContent = kelas;
             updateUI();
@@ -1731,6 +1734,7 @@
             if (user) {
                 errorEl.style.display = 'none';
                 setSession('guru', user.nama, user.id, '');
+                // DASHBOARD GURU: Tampilkan nama lengkap
                 document.getElementById('guru-nama-display').textContent = user.nama;
                 updateUI();
                 gantiHalaman('view-guru-dashboard');
@@ -1749,6 +1753,7 @@
             if (user) {
                 errorEl.style.display = 'none';
                 setSession('admin', user.nama, user.id, '');
+                // DASHBOARD ADMIN: Tampilkan nama lengkap
                 document.getElementById('admin-nama-display').textContent = user.nama;
                 updateUI();
                 gantiHalaman('view-admin-dashboard');
@@ -3000,6 +3005,7 @@
                 session.nama = nama;
                 session.mapel = selectedMapel;
                 localStorage.setItem('cbt_user', JSON.stringify(session));
+                // DASHBOARD GURU: Tampilkan nama lengkap
                 document.getElementById('guru-nama-display').textContent = nama;
                 updateUI();
             }
@@ -3141,7 +3147,6 @@
             
             if (!nama) { alert('Nama tidak boleh kosong!'); return; }
             
-            // 🔥 CEK DUPLIKAT HANYA UNTUK SISWA DAN GURU (ADMIN TIDAK BISA DITAMBAH)
             if (role === 'siswa' && users.some(u => u.nama.toLowerCase() === nama.toLowerCase() && u.kelas === kelas && u.role === 'siswa')) {
                 alert('Nama sudah terdaftar di kelas ini!');
                 return;
@@ -3310,10 +3315,12 @@
                         gantiHalaman('view-siswa-dashboard');
                         return;
                     } else if (user.role === 'guru') {
+                        // DASHBOARD GURU: Tampilkan nama lengkap
                         document.getElementById('guru-nama-display').textContent = user.nama || 'Budi Santoso';
                         gantiHalaman('view-guru-dashboard');
                         return;
                     } else if (user.role === 'admin') {
+                        // DASHBOARD ADMIN: Tampilkan nama lengkap
                         document.getElementById('admin-nama-display').textContent = user.nama || 'Prama Artha';
                         gantiHalaman('view-admin-dashboard');
                         return;
