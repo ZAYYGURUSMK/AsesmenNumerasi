@@ -281,6 +281,17 @@
         .modal-edit .modal-box .history-item .info .nilai { font-weight: 700; color: #4f46e5; }
         .modal-edit .modal-box .history-item .info .tgl { font-size: 10px; color: #94a3b8; }
         .modal-edit .modal-box .empty-state { text-align: center; color: #94a3b8; padding: 20px 0; }
+
+        .mapel-tag {
+            display: inline-block;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-size: 9px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin: 1px 2px;
+        }
     </style>
 </head>
 <body>
@@ -503,8 +514,8 @@
             <div class="flex flex-wrap gap-2 mt-4">
                 <button onclick="gantiHalaman('view-admin-tambah-user')" class="btn btn-success btn-sm">➕ Tambah User</button>
                 <button onclick="gantiHalaman('view-admin-kelola-mapel')" class="btn btn-primary btn-sm">📚 Kelola Mapel</button>
+                <button onclick="gantiHalaman('view-admin-kelola-guru')" class="btn btn-guru btn-sm">👨‍🏫 Kelola Guru</button>
                 <button onclick="gantiHalaman('view-admin-kelola-siswa')" class="btn btn-warning btn-sm">👥 Kelola Siswa</button>
-                <!-- TOMBOL RESET SEMUA TELAH DIHAPUS -->
             </div>
 
             <div class="mt-4 border-t border-slate-100 pt-4">
@@ -638,6 +649,37 @@
             <p class="text-xs text-slate-400 mt-2">⚠️ Menghapus mapel akan menghapus semua soal yang terkait dengan mapel tersebut.</p>
         </div>
 
+        <!-- ADMIN: KELOLA GURU -->
+        <div id="view-admin-kelola-guru" class="w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
+            <div class="page-header">
+                <h2 class="text-lg sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full">ADMIN</span>
+                    Kelola Guru & Mapel Pengajaran
+                </h2>
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="gantiHalaman('view-admin-dashboard')" class="btn btn-outline btn-sm">← Kembali</button>
+                    <button onclick="renderKelolaGuru()" class="btn btn-primary btn-sm">↻ Refresh</button>
+                </div>
+            </div>
+            <p class="text-sm text-slate-500 mb-4">Kelola data guru dan mata pelajaran yang diajarkan oleh masing-masing guru.</p>
+            <div class="table-wrap border border-slate-100 rounded-xl bg-white">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama Guru</th>
+                            <th>Password</th>
+                            <th>Mata Pelajaran Diajarkan</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-tabel-guru">
+                        <tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs">Memuat data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- ADMIN: TAMBAH USER -->
         <div id="view-admin-tambah-user" class="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg border border-slate-100 p-4 sm:p-8 hidden">
             <div class="page-header">
@@ -717,6 +759,35 @@
             </div>
         </div>
 
+        <!-- MODAL EDIT GURU -->
+        <div id="modal-edit-guru" class="modal-edit hidden">
+            <div class="modal-box">
+                <h3 id="modal-guru-title">✏️ Edit Guru</h3>
+                <form onsubmit="event.preventDefault(); simpanEditGuru();">
+                    <input type="hidden" id="edit-guru-id">
+                    <div>
+                        <label>Nama Guru</label>
+                        <input type="text" id="edit-guru-nama" class="border border-slate-200 rounded-lg p-2 w-full" required>
+                    </div>
+                    <div>
+                        <label>Password Baru (kosongkan jika tidak diubah)</label>
+                        <input type="text" id="edit-guru-password" class="border border-slate-200 rounded-lg p-2 w-full" placeholder="Kosongkan untuk tetap menggunakan password lama">
+                    </div>
+                    <div>
+                        <label>Mata Pelajaran yang Diajarkan</label>
+                        <select id="edit-guru-mapel" class="border border-slate-200 rounded-lg p-2 w-full" multiple>
+                            <!-- Akan diisi oleh JS -->
+                        </select>
+                        <p class="text-xs text-slate-400 mt-1">Tahan Ctrl untuk memilih lebih dari satu mapel</p>
+                    </div>
+                    <div class="btn-group mt-4 border-t border-slate-100 pt-4">
+                        <button type="button" onclick="tutupModalEditGuru()" class="btn btn-outline btn-sm">Batal</button>
+                        <button type="submit" class="btn btn-primary btn-sm">💾 Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </main>
 
     <!-- FOOTER -->
@@ -771,34 +842,8 @@
             return Math.max(...users.map(u => u.id)) + 1;
         }
 
-        function adminTambahUser() {
-            const nama = document.getElementById('admin-user-nama').value.trim();
-            const role = document.getElementById('admin-user-role').value;
-            const pass = document.getElementById('admin-user-pass').value.trim();
-            const mapelSelect = document.getElementById('admin-user-guru-mapel');
-            const selectedMapel = Array.from(mapelSelect.selectedOptions).map(opt => parseInt(opt.value));
-            
-            if (!nama) { alert('Nama tidak boleh kosong!'); return; }
-            
-            if (users.some(u => u.nama.toLowerCase() === nama.toLowerCase())) {
-                alert('Nama sudah terdaftar!');
-                return;
-            }
-            
-            const newId = getNextUserId();
-            users.push({ 
-                id: newId, 
-                nama, 
-                role, 
-                password: pass || '',
-                mapel: role === 'guru' ? selectedMapel : []
-            });
-            saveUsersToStorage();
-            alert('✅ User berhasil ditambahkan!');
-            document.getElementById('admin-user-nama').value = '';
-            document.getElementById('admin-user-pass').value = '';
-            adminMuatStats();
-            renderKelolaSiswa();
+        function getGuruList() {
+            return users.filter(u => u.role === 'guru');
         }
 
         function getSiswa() {
@@ -1020,7 +1065,8 @@
             const protectedPages = [
                 'view-siswa-dashboard', 'view-guru-dashboard', 'view-admin-dashboard',
                 'view-ujian', 'view-guru-tambah-soal', 'view-guru-kelola-soal',
-                'view-admin-kelola-mapel', 'view-admin-tambah-user', 'view-admin-kelola-siswa'
+                'view-admin-kelola-mapel', 'view-admin-tambah-user', 'view-admin-kelola-siswa',
+                'view-admin-kelola-guru'
             ];
             const user = getSession();
 
@@ -1053,6 +1099,7 @@
                 renderAdminMapelPreview();
             }
             if (id === 'view-admin-kelola-mapel') { renderKelolaMapel(); }
+            if (id === 'view-admin-kelola-guru') { renderKelolaGuru(); }
             if (id === 'view-admin-kelola-siswa') { renderKelolaSiswa(); }
             if (id === 'view-admin-tambah-user') { populateGuruMapelDropdown(); }
             if (id === 'view-ujian') { initAntiTab(); } else { clearAntiTab(); }
@@ -1156,6 +1203,176 @@
                 document.getElementById('admin-password').value = '';
                 document.getElementById('admin-password').focus();
             }
+        }
+
+        // ================================================================
+        // ADMIN: TAMBAH USER
+        // ================================================================
+        function adminTambahUser() {
+            const nama = document.getElementById('admin-user-nama').value.trim();
+            const role = document.getElementById('admin-user-role').value;
+            const pass = document.getElementById('admin-user-pass').value.trim();
+            const mapelSelect = document.getElementById('admin-user-guru-mapel');
+            const selectedMapel = Array.from(mapelSelect.selectedOptions).map(opt => parseInt(opt.value));
+            
+            if (!nama) { alert('Nama tidak boleh kosong!'); return; }
+            
+            if (users.some(u => u.nama.toLowerCase() === nama.toLowerCase())) {
+                alert('Nama sudah terdaftar!');
+                return;
+            }
+            
+            const newId = getNextUserId();
+            users.push({ 
+                id: newId, 
+                nama, 
+                role, 
+                password: pass || '',
+                mapel: role === 'guru' ? selectedMapel : []
+            });
+            saveUsersToStorage();
+            alert('✅ User berhasil ditambahkan!');
+            document.getElementById('admin-user-nama').value = '';
+            document.getElementById('admin-user-pass').value = '';
+            adminMuatStats();
+            renderKelolaSiswa();
+            renderKelolaGuru();
+        }
+
+        // ================================================================
+        // ADMIN: KELOLA GURU
+        // ================================================================
+        function renderKelolaGuru() {
+            loadUsersFromStorage();
+            loadMapelFromStorage();
+            const guruList = getGuruList();
+            const tbody = document.getElementById('admin-tabel-guru');
+            tbody.innerHTML = '';
+
+            if (guruList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs">Belum ada guru terdaftar.</td></tr>';
+                return;
+            }
+
+            guruList.forEach((guru) => {
+                const mapelNames = guru.mapel.map(id => {
+                    const m = getMapelById(id);
+                    return m ? m.nama : 'Mapel ' + id;
+                }).join(', ') || '-';
+                
+                const mapelTags = guru.mapel.map(id => {
+                    const m = getMapelById(id);
+                    return m ? `<span class="mapel-tag">${m.nama}</span>` : '';
+                }).join(' ');
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${guru.id}</td>
+                        <td class="font-semibold">${guru.nama}</td>
+                        <td><span class="text-xs font-mono bg-slate-100 px-2 py-0.5 rounded">${guru.password || '-'}</span></td>
+                        <td>
+                            <div class="flex flex-wrap gap-1">
+                                ${mapelTags || '<span class="text-slate-400 text-xs">Belum ada mapel</span>'}
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <button onclick="bukaEditGuru(${guru.id})" class="text-blue-500 hover:text-blue-700 text-xs font-medium px-2 py-1 rounded border border-blue-100 hover:bg-blue-50 transition">✏️ Edit</button>
+                            <button onclick="hapusGuru(${guru.id})" class="text-rose-500 hover:text-rose-700 text-xs font-medium px-2 py-1 rounded border border-rose-100 hover:bg-rose-50 transition">🗑️ Hapus</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function bukaEditGuru(guruId) {
+            const guru = users.find(u => u.id === guruId && u.role === 'guru');
+            if (!guru) {
+                alert('Guru tidak ditemukan!');
+                return;
+            }
+
+            document.getElementById('edit-guru-id').value = guruId;
+            document.getElementById('edit-guru-nama').value = guru.nama;
+            document.getElementById('edit-guru-password').value = '';
+
+            // Isi dropdown mapel
+            const select = document.getElementById('edit-guru-mapel');
+            select.innerHTML = '';
+            DATA_MAPEL.forEach(m => {
+                const option = document.createElement('option');
+                option.value = m.id;
+                option.textContent = m.nama;
+                if (guru.mapel && guru.mapel.includes(m.id)) {
+                    option.selected = true;
+                }
+                select.appendChild(option);
+            });
+
+            document.getElementById('modal-guru-title').textContent = `✏️ Edit Guru - ${guru.nama}`;
+            document.getElementById('modal-edit-guru').classList.remove('hidden');
+        }
+
+        function tutupModalEditGuru() {
+            document.getElementById('modal-edit-guru').classList.add('hidden');
+        }
+
+        function simpanEditGuru() {
+            const guruId = parseInt(document.getElementById('edit-guru-id').value);
+            const nama = document.getElementById('edit-guru-nama').value.trim();
+            const password = document.getElementById('edit-guru-password').value.trim();
+            const select = document.getElementById('edit-guru-mapel');
+            const selectedMapel = Array.from(select.selectedOptions).map(opt => parseInt(opt.value));
+
+            if (!nama) {
+                alert('Nama guru tidak boleh kosong!');
+                return;
+            }
+
+            const guru = users.find(u => u.id === guruId && u.role === 'guru');
+            if (!guru) {
+                alert('Guru tidak ditemukan!');
+                return;
+            }
+
+            // Cek duplikat nama (kecuali dirinya sendiri)
+            if (users.some(u => u.id !== guruId && u.nama.toLowerCase() === nama.toLowerCase())) {
+                alert('Nama sudah digunakan oleh user lain!');
+                return;
+            }
+
+            guru.nama = nama;
+            if (password) {
+                guru.password = password;
+            }
+            guru.mapel = selectedMapel;
+
+            saveUsersToStorage();
+            alert('✅ Data guru berhasil diperbarui!');
+            tutupModalEditGuru();
+            renderKelolaGuru();
+            renderHasilGuru();
+            populateMapelDropdowns();
+        }
+
+        function hapusGuru(guruId) {
+            const guru = users.find(u => u.id === guruId && u.role === 'guru');
+            if (!guru) return;
+
+            if (!confirm(`Yakin ingin menghapus guru "${guru.nama}"?`)) return;
+
+            // Cek apakah ada session yang sedang menggunakan guru ini
+            const session = getSession();
+            if (session && session.id === guruId && session.role === 'guru') {
+                alert('Anda tidak dapat menghapus akun yang sedang aktif!');
+                return;
+            }
+
+            users = users.filter(u => u.id !== guruId);
+            saveUsersToStorage();
+            alert('✅ Guru berhasil dihapus!');
+            adminMuatStats();
+            renderKelolaGuru();
+            renderKelolaSiswa();
         }
 
         // ================================================================
@@ -1967,6 +2184,7 @@
             adminMuatStats();
             populateMapelDropdowns();
             populateGuruMapelDropdown();
+            renderKelolaGuru();
         }
 
         function bukaEditMapel(id) {
@@ -1987,6 +2205,7 @@
                 adminMuatStats();
                 populateMapelDropdowns();
                 populateGuruMapelDropdown();
+                renderKelolaGuru();
             } else {
                 alert('❌ Gagal memperbarui mapel.');
             }
@@ -2013,6 +2232,7 @@
                 populateMapelDropdowns();
                 populateGuruMapelDropdown();
                 renderDaftarMapel();
+                renderKelolaGuru();
             } else {
                 alert('❌ Gagal menghapus mapel.');
             }
@@ -2173,6 +2393,7 @@
             }
             if (e.key === 'Escape') {
                 tutupModalDetailSiswa();
+                tutupModalEditGuru();
             }
         });
 
