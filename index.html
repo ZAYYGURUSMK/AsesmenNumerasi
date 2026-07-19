@@ -1691,8 +1691,8 @@
         }
 
         // ================================================================
-        // EXPORT EXCEL - CUSTOM WIDTH KOLOM
-        // A=55px, B=300px, E=65px, F=90px
+        // EXPORT EXCEL - CUSTOM FONT SIZE
+        // Header Judul: 25px, Sub: 15px, Header Tabel: 13px, Isi: 13px, Nilai: 14px, Footer: 15px
         // ================================================================
         function exportToExcel(data, filename = 'hasil_ujian') {
             if (!data || data.length === 0) {
@@ -1728,16 +1728,15 @@
                 </xml>
                 <![endif]-->
                 <style>
-                    /* ===== CUSTOM WIDTH ===== */
+                    /* ===== CUSTOM FONT SIZE ===== */
                     body {
                         font-family: 'Calibri', 'Arial', sans-serif;
                         padding: 20px 25px;
                         background: #ffffff;
                         color: #222222;
-                        font-size: 12px;
                     }
                     
-                    /* HEADER */
+                    /* HEADER - 25px */
                     .header {
                         text-align: center;
                         margin-bottom: 18px;
@@ -1745,36 +1744,36 @@
                         border-bottom: 2px solid #2c3e50;
                     }
                     .header .school {
-                        font-size: 11px;
+                        font-size: 13px;
                         color: #7f8c8d;
                         letter-spacing: 2px;
                         font-weight: 600;
                         text-transform: uppercase;
                     }
                     .header h1 {
-                        font-size: 20px;
+                        font-size: 25px;
                         font-weight: 700;
                         color: #2c3e50;
                         margin: 3px 0 2px 0;
                     }
                     .header .sub {
-                        font-size: 12px;
+                        font-size: 15px;
                         color: #7f8c8d;
                     }
                     .header .date {
-                        font-size: 10px;
+                        font-size: 12px;
                         color: #95a5a6;
                         margin-top: 2px;
                     }
                     
-                    /* TABLE - LEBAR KOLOM CUSTOM */
+                    /* TABLE */
                     table {
                         border-collapse: collapse;
                         width: 100%;
-                        font-size: 12px;
                         margin-top: 10px;
                         table-layout: fixed;
                     }
+                    /* HEADER TABEL - 13px */
                     table th {
                         background-color: #2c3e50;
                         color: #ffffff;
@@ -1782,15 +1781,16 @@
                         padding: 8px 10px;
                         text-align: left;
                         border: 1px solid #2c3e50;
-                        font-size: 11px;
+                        font-size: 13px;
                         text-transform: uppercase;
                         letter-spacing: 0.3px;
                     }
+                    /* ISI TABEL - 13px */
                     table td {
                         padding: 7px 10px;
                         border: 1px solid #d5d8dc;
                         color: #1c2833;
-                        font-size: 11px;
+                        font-size: 13px;
                         word-wrap: break-word;
                     }
                     table tr:nth-child(even) td {
@@ -1806,19 +1806,19 @@
                     .col-kelas { width: 100px; }
                     .col-mapel { width: 160px; }
                     .col-nilai { width: 65px; text-align: center; }
-                    .col-tgl { width: 90px; text-align: center; color: #95a5a6; font-size: 10px; }
+                    .col-tgl { width: 90px; text-align: center; color: #95a5a6; font-size: 12px; }
                     
-                    /* NILAI */
+                    /* NILAI - 14px */
                     .nilai {
                         font-weight: 700;
                         text-align: center;
-                        font-size: 12px;
+                        font-size: 14px;
                     }
                     .nilai.tinggi { color: #27ae60; }
                     .nilai.sedang { color: #f39c12; }
                     .nilai.rendah { color: #e74c3c; }
                     
-                    /* FOOTER */
+                    /* FOOTER - 15px */
                     .footer {
                         margin-top: 14px;
                         padding-top: 10px;
@@ -1832,16 +1832,16 @@
                     .footer .stats {
                         display: flex;
                         gap: 18px;
-                        font-size: 12px;
+                        font-size: 15px;
                         color: #5d6d7e;
                     }
                     .footer .stats strong {
                         color: #2c3e50;
                         font-weight: 700;
-                        font-size: 13px;
+                        font-size: 15px;
                     }
                     .footer .copyright {
-                        font-size: 10px;
+                        font-size: 11px;
                         color: #95a5a6;
                     }
                 </style>
